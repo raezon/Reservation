@@ -1,0 +1,20 @@
+<?php 
+
+use Yii;
+use yii\helpers\Html;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\models\User;
+use app\models\Plat;
+use app\models\Product;
+use app\models\ProductOption;
+use app\models\ProductType;
+use app\models\Partner;
+use app\models\Other;
+use app\models\PartnerCategory;
+use app\models\base\QuestionsList;
+use app\models\base\Questions;
+use app\models\base\QuestionsPartner;
+use yii\db\Expression;
+use app\models\base\Event;
+?>

@@ -1,0 +1,11 @@
+- [ ] Add listing Country/Cities
+- [ ] Uploads pictures to web/uploads
+- [X] Check foriegn keys constraints for deletion
+- [X] Use dropdown list for foriegn keys
+- [ ] Add: Geolocation
+- [ ] Add: Geolocation for reservation
+- [ ] Check Roles/Rules/Access
+- [ ] Validation des reservations (per partner)
+- [ ] Add calendar availability per date
+- [ ] Add listing partner in home page
+- [ ] Questions: what infos is required? workflow/site-map? type & amount of commissions (=> par type)?
