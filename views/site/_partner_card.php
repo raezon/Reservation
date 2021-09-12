@@ -5,7 +5,7 @@ use yii\helpers\HtmlPurifier;
 /**
  * model: Partner object
  */
-Yii::setAlias('@productImgUrl','img/products');
+Yii::setAlias('@productImgUrl','uploads/bien');
 
 ?>
 
@@ -13,46 +13,38 @@ Yii::setAlias('@productImgUrl','img/products');
     <div class="card mb-2">
          
     	<?php 
-            if($model1->partner_category==4){
-                
-                $images=json_decode($model1->picture,true);
-                if(is_array($images))
-                    $path=Yii::getAlias('@productImgUrl').'/'.$images[0];
+      switch ($model1->partner_category) {
+        case '1':
+          $path=Yii::getAlias('@productImgUrl').'/'.'hotel.jpg';
+          break;
+        case '2':
+          $path=Yii::getAlias('@productImgUrl').'/'.'vitrine.jpg';
+          break;
+        case '3':
+          $path=Yii::getAlias('@productImgUrl').'/'.'restaurant.jpg';
+          break;
+        case '8':
+          $path=Yii::getAlias('@productImgUrl').'/'.'transport.jpg';
+          break;
 
-                 else
-                     $path=Yii::getAlias('@productImgUrl').'/'.$model1->picture;
-                            }else{
-                $path=Yii::getAlias('@productImgUrl').'/'.$model1->picture;
-            }
+        default:
+          # code...
+          break;
+      }
+
      
       
-    	if($model1->picture!="") {
+
         echo  Html::img($path,['width'=>'auto','height'=>150]);
-    	}
+    	
     	 ?>
         <div class="card-body">
 
-          <h4 class="card-title"><?= Html::encode($model1->name) ?></h4>
-          <?php
-          if($model1->partner_category==7||$model1->partner_category==8||$model1->partner_category==5){?>
-           
-            <p class="card-text"><?= $model1->price_day.''.$model1->currencies_symbol ?></p>
-            <p class="card-text"><?= $model1->price_night.''.$model1->currencies_symbol ?></p>
-            <a class="btn btn-info shadow" href="<?=Url::to(['site/product', 'id' => $model1->id])?>">Details</a>
+        <h4 class="card-title"><?= Html::encode('Vitrine') ?></h4>
+
+          <a class="btn btn-info shadow" href="<?=Url::to(['site/product', 'id' => $model1->id])?>">Voir Produit</a>
              
-
-
-
-          
-            <?php
-            // Url::to(['site/product', 'id' => $model1->id])
-          }else{
-            ?>
-            <p class="card-text"><?= $model1->price.''.$model1->currencies_symbol ?></p>
-            <a class="btn btn-info shadow" href="<?=Url::to(['site/product', 'id' => $model1->id])?>">Details</a>
-            <?php
-          }
-             ?>
+             
 
 
         </div>

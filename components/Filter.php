@@ -85,21 +85,22 @@ class Filter extends Component
     public function filtrer()
     {
 
+        $addressTo = $_SESSION['place'];
+        
         $array_partner_filtered_by_address = array();
         $partner_getting_address = (new \yii\db\Query())
-            ->select(['id', 'address', 'city', 'country', 'latitude', 'longitude', 'DeliveryAndDeplacement'])
+            ->select(['id', 'address', 'city','state', 'country', 'latitude', 'longitude', 'DeliveryAndDeplacement'])
             ->from('partner')
+            ->where(['state'=>$addressTo])
             ->limit(100)
             ->all();
 
+
         $addressFrom = $partner_getting_address;
 
-        $addressTo = $_SESSION['place'];
-      //  $addressTo=implode($addressTo);
         $array_partner_filtered_by_address = array();
 
         $distance = new Distance();
-        //here i need to change my conditions
 
         if (($this->value_category_serached == 1 && empty($this->filteraf)) || ($this->filteraf == 1)) {
 
@@ -119,7 +120,7 @@ class Filter extends Component
             $this->array_partner_filtered_by_address2 = $array_partner_filtered_by_address;
             foreach ($array_partner_filtered_by_address  as $array_partner_filtered_by_address) {
                 $this->array_partner_filtered_by_address1[] = $array_partner_filtered_by_address['partner_id'];
-                // $array_partner_filtered_by_address = $array_partner_filtered_by_address['partner_id'];
+
             }
         }
         //partie de correction pour la date

@@ -61,7 +61,9 @@
         "freesoftwarefactory/yii2-select3": "1.0007",
         "2amigos/yii2-multi-select-widget": "*",
         "imagine/imagine": "^1.2",
-        "vova07/yii2-fileapi-widget": "*"
+        "vova07/yii2-fileapi-widget": "*",
+        "kartik-v/yii2-widget-rating": "*",
+        "yii2mod/yii2-star-rating": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

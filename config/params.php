@@ -5,7 +5,7 @@ if (!empty($session['currencies'])) {
         'adminEmail' => $_ENV['PARAMS_ADMIN_EMAIL'],
         'senderEmail' => $_ENV['PARAMS_SENDER_EMAIL'],
         'senderName' => $_ENV['PARAMS_SENDER_NAME'],
-        'POWERED_BY' => 'ClicandgoEvent',
+        'POWERED_BY' => '',
         'bsVersion' => '3.x', // for kartik extensions
         'maskMoneyOptions' => [
             'prefix' => $session['currencies'],
@@ -30,7 +30,7 @@ return [
     'adminEmail' => $_ENV['PARAMS_ADMIN_EMAIL'],
     'senderEmail' => $_ENV['PARAMS_SENDER_EMAIL'],
     'senderName' => $_ENV['PARAMS_SENDER_NAME'],
-    'POWERED_BY' => 'ClicandgoEvent',
+    'POWERED_BY' => '',
     'bsVersion' => '3.x', // for kartik extensions
     'maskMoneyOptions' => [
         'prefix' => $currencies,

@@ -11,7 +11,7 @@ Yii::setAlias('@productImgUrl', 'img/products');
 //Getting Detail of the products
 $detail = $model1->detail($model1->product_id, $model1->partner_category);
 $totalPrice= $model1->totalPrice($model1->description, $model1->partner_category, $model1->price, $model1->quantity, $qte_search, $model1->people_number,$model1->checkbox, $_SESSION['subcategory']);
-if($totalPrice>0){?>
+?>
 
 
 
@@ -36,7 +36,7 @@ if($totalPrice>0){?>
       <!--Partie Company Name-->
       <div id="photo" class="col-sm-12 float-left" style="text-align: left">
         <span style="vertical-align:left;font-size:40px;text-decoration:underline;"><?= '<b>' . $detail[0]->name . '</b>' ?></span>
-        <span class="float-sm-right"><?= $model1->distance . 'km' ?></span>
+
       </div>
       <!--Partie Address                                                 -->
       <div id="photo" class="col-sm-12 float-left" style="text-align: left">
@@ -87,7 +87,6 @@ if($totalPrice>0){?>
             <!--Affichage detail of product if fulfy a condition of partner_category == 2-->
             <?php if ($model1->partner_category == 2) : ?>
               <p class="card-text"><?= '<b>Number equipement</b><b class="triangle-right"></b>' . $model1->quantity  ?></p>
-              <p class="card-text"><?= '<b>Duration</b> <b class="triangle-right"></b>' . $model1->periode . 'hour' ?></p>
             <?php endif ?>
             <!--Affichage detail of product if fulfy a condition of partner_category == 2-->
             <?php if ($model1->partner_category == 3) : ?>
@@ -139,14 +138,14 @@ if($totalPrice>0){?>
 
             <?php 
             //set session
-            $minPrice=$model1->min_price;
-            $peopleMin=($minPrice*$model1->people_number)/$model1->price;
-            $peopleMin=$peopleMin;
+            $minPrice=$model1->price;
+            $peopleMin=$model1->people_number;
+
             $_SESSION['peopleMin']=$peopleMin;
             
             ?>
             <p class="card-text"><?= '<h5 style="font-size:24px"><b>' . 
-            $totalPrice. ' ' . $model1->currencies_symbol  .  '</b></h5>' ?></p>
+            $totalPrice.'Dzd</b></h5>' ?></p>
             <p class="card-text" style="text-decoration:underline">
               Tax included</p>
             <a class="btn  shadow  bg-purple" href="<?= Url::to(['site/detail', 'amount' => $model1->price, 'product_id' => $model1->product_id, 'id' => $model1->id, 'deliveryPrice' => $deliveryPrice]) ?>"><span style="color:cornsilk">Detail</span></a>
@@ -156,7 +155,3 @@ if($totalPrice>0){?>
   </div>
 </div>
 <div class="cold-sm-12">&#8199 </div>
-<?php
-
-}
-?>

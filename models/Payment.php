@@ -3,7 +3,6 @@
 namespace app\models;
 
 use \app\models\base\Payment as BasePayment;
-use Yii;
 
 /**
  * This is the model class for table "payment".
@@ -17,25 +16,14 @@ class Payment extends BasePayment
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['payment_date', 'amount', 'status', 'reservation_id'], 'required'],
+            [['id', 'payment_date', 'amount', 'status', 'reservation_id'], 'required'],
+            [['id', 'status', 'reservation_id', 'created_at', 'updated_at'], 'integer'],
             [['payment_date'], 'safe'],
             [['amount'], 'number'],
-            [['status', 'reservation_id', 'created_at', 'updated_at'], 'integer']
+            [['piece_jointe'], 'string'],
+            [['lock'], 'default', 'value' => '0'],
+            [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
     }
-    
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('app', 'ID'),
-            'payment_date' => Yii::t('app', 'Payment Date'),
-            'amount' => Yii::t('app', 'Amount'),
-            'status' => Yii::t('app', 'Status'),
-            'reservation_id' => Yii::t('app', 'Reservation'),
-        ];
-    }
-
+	
 }

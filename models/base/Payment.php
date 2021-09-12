@@ -4,6 +4,8 @@ namespace app\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use mootensai\behaviors\UUIDBehavior;
 
 /**
  * This is the base model class for table "payment".
@@ -12,11 +14,10 @@ use yii\behaviors\TimestampBehavior;
  * @property string $payment_date
  * @property string $amount
  * @property integer $status
+ * @property string $piece_jointe
  * @property integer $reservation_id
  * @property integer $created_at
  * @property integer $updated_at
- *
- * @property \app\models\Reservation $reservation
  */
 class Payment extends \yii\db\ActiveRecord
 {
@@ -28,10 +29,13 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['payment_date', 'amount', 'status', 'reservation_id'], 'required'],
+            [['id', 'payment_date', 'amount', 'status', 'reservation_id'], 'required'],
+            [['id', 'status', 'reservation_id', 'created_at', 'updated_at'], 'integer'],
             [['payment_date'], 'safe'],
             [['amount'], 'number'],
-            [['status', 'reservation_id', 'created_at', 'updated_at'], 'integer']
+            [['piece_jointe'], 'string'],
+            [['lock'], 'default', 'value' => '0'],
+            [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
     }
     
@@ -44,27 +48,31 @@ class Payment extends \yii\db\ActiveRecord
     }
 
     /**
+     * 
+     * @return string
+     * overwrite function optimisticLock
+     * return string name of field are used to stored optimistic lock 
+     * 
+     */
+    public function optimisticLock() {
+        return 'lock';
+    }
+
+    /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'payment_date' => Yii::t('app', 'Payment Date'),
-            'amount' => Yii::t('app', 'Amount'),
-            'status' => Yii::t('app', 'Status'),
-            'reservation_id' => Yii::t('app', 'Reservation ID'),
+            'id' => 'ID',
+            'payment_date' => 'Payment Date',
+            'amount' => 'Amount',
+            'status' => 'Status',
+            'piece_jointe' => 'Piece Jointe',
+            'reservation_id' => 'Reservation ID',
         ];
     }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getReservation()
-    {
-        return $this->hasOne(\app\models\Reservation::className(), ['id' => 'reservation_id']);
-    }
-    
+
 /**
      * @inheritdoc
      * @return array mixed
@@ -78,9 +86,24 @@ class Payment extends \yii\db\ActiveRecord
                 'updatedAtAttribute' => 'updated_at',
                 'value' => new \yii\db\Expression('NOW()'),
             ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            'uuid' => [
+                'class' => UUIDBehavior::className(),
+                'column' => 'id',
+            ],
         ];
     }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReservation()
+    {
+        return $this->hasOne(\app\models\Reservation::className(), ['id' => 'reservation_id']);
+    }
     /**
      * @inheritdoc
      * @return \app\models\PaymentQuery the active query used by this AR class.

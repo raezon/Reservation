@@ -19,57 +19,23 @@ use unclead\multipleinput\MultipleInput;
 use yii\bootstrap\Modal;
 use app\models\User;
 use app\models\Partner;
-
-$geoip = new \lysenkobv\GeoIP\GeoIP();
-$ip = $geoip->ip(Yii::$app->request->getUserIP()); // current user ip
-$currencies = json_decode(file_get_contents('data.json'), true);
-foreach ($currencies as $currency) {
-    if (strtoupper($currency['country']) == strtoupper($ip->isoCode)) {
-        $currencies_symbol = $currency['currency'];
-    }
-}
-if (empty($currencies_symbol))
-    $currencies_symbol = "$";
+use  app\views\welcome\widgets\NavStep;
+$currencies_symbol = "Dzd";
 \Yii::$app->params['maskMoneyOptions']['prefix'] =  $currencies_symbol;
-//$this->title = 'General Information';
-/* @var $this yii\web\View */
-//1 drop down for the lunch
-$id_user = User::getCurrentUser()->id;
 
+$id_user = User::getCurrentUser()->id;
 $partner = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
 $partner_id = $partner->id;
 include  'produit.php';
-
-
-
-
 ?>
+<?php $NavStep = new NavStep('step3'); ?>
+<?php $NavStep->displayNav(); ?>
+<?php $NavStep->displayProgress(60); ?>
+
+
+
 <div class="row">
-    <div class="col-sm-3">
-        <h4>General Information</h4>
-    </div>
-    <div class=" col-md-3">
-        <h4>Availability and Displacement</h4>
-    </div>
-    <div class="col-md-2">
-        <h4 style="color:green;font-size:12;"><b>Service and Prices</b></h4>
-    </div>
-    <div class=" col-md-1">
-        <h4>Conditions</h4>
-    </div>
-    <div class="col-md-1">
-        <h4>Payments</h4>
-    </div>
-    <div class="col-md-2">
-        <h4>Messages</h4>
-    </div>
-</div>
-<?php
-echo Progress::widget([
-    'percent' => 60,
-    'barOptions' => ['class' => 'progress-bar-success'],
-    'options' => ['class' => 'active progress-striped']
-]); ?>
+
 <style>
     label:not([for="productparent-extra"]):not([for="productitem-0-vegan"]):not([for="productitem-0-vegetarian"]):not([for="productitem-0-organic"]):not([for="productitem-0-gluten_free"]):not([for="productitem-0-halal"]):not([for="productitem-0-cacher"]):not([for="productitem-0-without_porc"]):not([for="productitem-1-vegan"]):not([for="productitem-1-vegetarian"]):not([for="productitem-1-organic"]):not([for="productitem-1-gluten_free"]):not([for="productitem-1-halal"]):not([for="productitem-1-cacher"]):not([for="productitem-1-without_porc"]):not([for="productitem-2-vegan"]):not([for="productitem-2-vegetarian"]):not([for="productitem-2-organic"]):not([for="productitem-2-gluten_free"]):not([for="productitem-2-halal"]):not([for="productitem-2-cacher"]):not([for="productitem-2-without_porc"]):not([for="productitem-3-vegan"]):not([for="productitem-3-vegetarian"]):not([for="productitem-3-organic"]):not([for="productitem-3-gluten_free"]):not([for="productitem-3-halal"]):not([for="productitem-3-cacher"]):not([for="productitem-3-without_porc"]):after {
         font-size: 15px;
@@ -105,33 +71,11 @@ echo Progress::widget([
             <?php
 
             echo "<div class='col-md-6'>";
-            echo     $form->field($model3, 'name')->textInput(['placeholder' => 'Name under which you want to appear'])->label("Name");
+            echo     $form->field($model3, 'name')->textInput(['placeholder' => 'Name under which you want to appear'])->label("Nom du bien");
             echo "</div>";
-            //
-            echo "<div class='col-md-6'>";
-            echo  $form->field($model3, "kind_of_food")->dropDownList(
-                $Kind_of_food,
-                [
-                    'prompt' => 'Choose type of food'
 
-                ]
-            )->label('Kind of food');
-            echo "</div>";
-            //
             echo "<div class='col-md-6'>";
-            echo $form->field($model3, "min")->widget(MaskMoney::classname(), [
-                'name' => 'amount_ph_1',
-                'value' => null,
-                'options' => [
-                    'placeholder' => 'Enter a valid amount...',
-                    'style' => 'width:300 px'
-                ],
-
-            ])->label("Minimum price to place this order");
-            echo "</div>";
-            //
-            echo "<div class='col-md-6'>";
-            echo     $form->field($model3, 'description')->textArea(['placeholder' => 'Describe your company/Service (specialty, expertise, number of years of experience ... etc) this will attract more customers'])->label("Discription");
+            echo     $form->field($model3, 'description')->textArea(['placeholder' => "Décrivez votre entreprise/service (spécialité, expertise, nombre d'années d'expérience ... etc) cela attirera plus de clients"])->label("Discription");
             echo "</div>";
 
 
@@ -194,11 +138,11 @@ echo Progress::widget([
                                         $form->field($ProductItem, "[{$i}]name[]")->widget(Select2::class, [
                                             'data' => $mealData,
                                             'language' => 'de',
-                                            'options' => ['placeholder' => 'Choose your Meal', 'Multiple' => true],
+                                            'options' => ['placeholder' => 'Choisir le repat', 'Multiple' => true],
                                             'pluginOptions' => [
                                                 'allowClear' => true
                                             ],
-                                        ])->label("Meal");
+                                        ])->label("Repat");
                                         ?>
                                     </div>
                                     <div class="col-sm-6">
@@ -206,10 +150,10 @@ echo Progress::widget([
                                             $temperatureData,
                                             [
                                                 'style' => ' !important',
-                                                'prompt' => 'Choose temperature of dish'
+                                                'prompt' => 'Choisir la temperature'
 
                                             ]
-                                        )->label('Cold/Hot Dish')
+                                        )->label('Chaud/Froid')
                                         ?>
                                     </div>
                                 </div>
@@ -217,7 +161,7 @@ echo Progress::widget([
                                 <!--Deuxieme ligne -->
                                 <div class="col-sm-12">
                                     <div class="col-sm-6">
-                                        <?= $form->field($ProductItem, "[{$i}]description")->textInput(['maxlength' => true]) ?>
+                                        <?= $form->field($ProductItem, "[{$i}]description")->textInput(['maxlength' => true])->label('Nom du produit') ?>
                                     </div>
 
                                     <div class="col-sm-6">
@@ -229,7 +173,7 @@ echo Progress::widget([
                                         ])->textInput([
                                             'min' => '1',
                                             'type' => 'number'
-                                        ])->label('For how many people ?') ?>
+                                        ])->label('Nombre perssone?') ?>
                                     </div>
                                 </div>
                                 <!--3 eme ligne -->
@@ -248,30 +192,31 @@ echo Progress::widget([
                                             if :a quantity is sufficient for 2 people ,write 1' data-toggle='popover' data-trigger='hover' data-content='This is the quantity needed to serve the number of people indicated Example if :a quantity is sufficient for 2 people ,write 1'>
                                            <img width='15px' height='px' src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPgo8cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Ik0yNTYsMEMxMTQuNjEzLDAsMCwxMTQuNjE3LDAsMjU2YzAsMTQxLjM5MSwxMTQuNjEzLDI1NiwyNTYsMjU2czI1Ni0xMTQuNjA5LDI1Ni0yNTZDNTEyLDExNC42MTcsMzk3LjM4NywwLDI1NiwweiAgIE0yNTYsMTI4YzE3LjY3NCwwLDMyLDE0LjMyOCwzMiwzMmMwLDE3LjY4LTE0LjMyNiwzMi0zMiwzMnMtMzItMTQuMzItMzItMzJDMjI0LDE0Mi4zMjgsMjM4LjMyNiwxMjgsMjU2LDEyOHogTTMwNCwzODRoLTk2ICBjLTguODM2LDAtMTYtNy4xNTYtMTYtMTZjMC04LjgzNiw3LjE2NC0xNiwxNi0xNmgxNnYtOTZoLTE2Yy04LjgzNiwwLTE2LTcuMTU2LTE2LTE2YzAtOC44MzYsNy4xNjQtMTYsMTYtMTZoNjQgIGM4LjgzNiwwLDE2LDcuMTY0LDE2LDE2djExMmgxNmM4LjgzNiwwLDE2LDcuMTY0LDE2LDE2QzMyMCwzNzYuODQ0LDMxMi44MzYsMzg0LDMwNCwzODR6IiBmaWxsPSIjMjk2YWNmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIiBjbGFzcz0iIj48L3BhdGg+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjwvZz48L3N2Zz4=' /></a>") ?>
                                     </div>
-                                    <div class="col-sm-6">
+
+                                    <div class='col-md-6'>
+                                        <?= $form->field($ProductItem, "[{$i}]picture[]")->fileInput(['multiple' => true])->label('photo') ?>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12">
+                                <div class="col-sm-6">
                                         <?php
                                         echo $form->field($ProductItem, "[{$i}]price")->widget(MaskMoney::classname(), [
                                             'name' => 'amount_ph_1',
                                             'value' => null,
                                             'options' => [
                                                 'placeholder' => 'Enter a valid amount...',
-                                                'style' => 'width:300 px'
+
                                             ],
-
-                                        ])->label("<span>Unit price</span>
-                                            <a href='#' title='The price must correspond to the total number of people you have just informed' data-trigger='hover' data-content='This is the quantity needed to serve the number of people indicated Example if :a quantity is sufficient for 2 people ,write 1'>
-                                           <img width='15px' height='px' src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPgo8cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Ik0yNTYsMEMxMTQuNjEzLDAsMCwxMTQuNjE3LDAsMjU2YzAsMTQxLjM5MSwxMTQuNjEzLDI1NiwyNTYsMjU2czI1Ni0xMTQuNjA5LDI1Ni0yNTZDNTEyLDExNC42MTcsMzk3LjM4NywwLDI1NiwweiAgIE0yNTYsMTI4YzE3LjY3NCwwLDMyLDE0LjMyOCwzMiwzMmMwLDE3LjY4LTE0LjMyNiwzMi0zMiwzMnMtMzItMTQuMzItMzItMzJDMjI0LDE0Mi4zMjgsMjM4LjMyNiwxMjgsMjU2LDEyOHogTTMwNCwzODRoLTk2ICBjLTguODM2LDAtMTYtNy4xNTYtMTYtMTZjMC04LjgzNiw3LjE2NC0xNiwxNi0xNmgxNnYtOTZoLTE2Yy04LjgzNiwwLTE2LTcuMTU2LTE2LTE2YzAtOC44MzYsNy4xNjQtMTYsMTYtMTZoNjQgIGM4LjgzNiwwLDE2LDcuMTY0LDE2LDE2djExMmgxNmM4LjgzNiwwLDE2LDcuMTY0LDE2LDE2QzMyMCwzNzYuODQ0LDMxMi44MzYsMzg0LDMwNCwzODR6IiBmaWxsPSIjMjk2YWNmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIiBjbGFzcz0iIj48L3BhdGg+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjwvZz48L3N2Zz4=' /></a>") ?>
+                                            'pluginOptions' => [
+                                                'prefix' =>  $currencies_symbol,
+                                                'suffix' => '',
+                                                'allowNegative' => false
+                                            ]
+                                        ])->label('Prix'); ?>
                                     </div>
                                 </div>
-                                <!--quatrieme Ligne -->
-                                <div class="col-sm-12">
-                                    <div class='col-md-6'>
-                                        <?= $form->field($ProductItem, "[{$i}]picture[]")->fileInput(['multiple' => true]) ?>
-
-                                    </div>
-
-                                </div>
-
                                 <!-- 5 ligne -->
                                 <div class="grid-container">
                                     <?php
@@ -325,6 +270,7 @@ echo Progress::widget([
                                     ]])->checkbox([], false)->label("");
                                     echo "</div>"; ?>
                                 </div>
+                             
 
                             </div>
                         </div><!-- .row -->
@@ -335,29 +281,7 @@ echo Progress::widget([
         </hr>
 
         <?php DynamicFormWidget::end(); ?>
-        <?php include  '_Modal_partial_RoomRental.php'; ?>
-        <?php
-        echo "<div class='col-md-12' >";
-        echo $form->field($model3, 'extra')->widget(MultipleInput::className(), [
-            'max' => 4,
-            'columns' => [
-                [
-                    'name'  => 'Description',
-                    'title' => 'Description',
-                    'enableError' => true,
-                    'options' => [
-                        'class' => 'input-priority'
-                    ]
-                ],
-                [
-                    'name'  => 'Price',
-                    'title' => 'Price',
-                    'type' => MaskMoney::class
-                ]
-            ]
-        ])->label('Additonnal services');
-        echo "</div >";
-        ?>
+
     </div>
 
 

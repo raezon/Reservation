@@ -18,7 +18,7 @@ use app\models\Partner;
 use app\models\Product;
 use kartik\form\ActiveForm;
 use kartik\daterange\DateRangePicker;
-$this->title = 'ClicangoEvent';
+$this->title = 'Reservation';
 use yii\widgets\LinkPager ;
 
 $categoriesNames = [];

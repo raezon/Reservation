@@ -18,9 +18,9 @@ use kartik\money\MaskMoney;
 use unclead\multipleinput\MultipleInput;
 use app\models\User;
 use app\models\Partner;
+use  app\views\welcome\widgets\NavStep;
 
 $id_user = User::getCurrentUser()->id;
-
 $partner = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
 $partner_id = $partner->id;
 
@@ -28,52 +28,14 @@ $partner_id = $partner->id;
 /* @var $this yii\web\View */
 //1 drop down for the lunch
 include  'produit.php';
-$geoip = new \lysenkobv\GeoIP\GeoIP();
-$ip = $geoip->ip(Yii::$app->request->getUserIP()); // current user ip
-$currencies = json_decode(file_get_contents('data.json'), true);
-foreach ($currencies as $currency) {
-    if (strtoupper($currency['country']) == strtoupper($ip->isoCode)) {
-        $currencies_symbol = $currency['currency'];
-    }
-}
-if (empty($currencies_symbol))
-    $currencies_symbol = "$";
+$currencies_symbol = "Dzd";
 \Yii::$app->params['maskMoneyOptions']['prefix'] =  $currencies_symbol;
-//$this->title = 'General Information';
-
 
 ?>
-<div class="row">
-    <div class="col-sm-3">
-        <h4 style="color:green;font-size:12;"><b>General Information</b></h4>
-    </div>
-    <div class="col-md-3">
-        <h4>Availability and Displacement</h4>
-    </div>
-    <div class="col-md-2">
-        <h4>Service and Prices</h4>
-    </div>
-    <div class="col-md-1">
-        <h4>Conditions</h4>
-    </div>
-    <div class="col-md-1">
-        <h4>Payments</h4>
-    </div>
-    <div class="col-md-2">
-        <h4>Messages</h4>
-    </div>
-</div>
-<?= Progress::widget([
-    'percent' => 10,
-    'barOptions' => ['class' => 'progress-bar-success'],
-    'options' => ['class' => 'active progress-striped']
-]); ?>
-<style>
-    label:not([for="productparent-extra"]):after {
-        font-size: 15px;
-        content: " *";
-        color: red;
-    }
+<?php $NavStep = new NavStep('step3'); ?>
+<?php $NavStep->displayNav(); ?>
+<?php $NavStep->displayProgress(60); ?>
+
 </style>
 
 <div class="row">
@@ -101,11 +63,11 @@ if (empty($currencies_symbol))
             <?= $form->field($model3, 'partner_category')->hiddenInput(['value' => 8])->label(false); ?>
             <?php
             echo "<div class='col-md-6'>";
-            echo     $form->field($model3, 'name')->textInput(['style' => 'width:500px', 'placeholder' => 'Name under which you want to appear'])->label("Name");
+            echo     $form->field($model3, 'name')->textInput(['placeholder' => 'Name under which you want to appear'])->label("Name");
             echo "</div>";
             //
             echo "<div class='col-md-6'>";
-            echo     $form->field($model3, 'description')->textInput(['style' => 'width:500px', 'placeholder' => 'Choose type of camera'])->label("Description");
+            echo     $form->field($model3, 'description')->textInput(['placeholder' => 'Choose type of camera'])->label("Description");
             echo "</div>";
             //
 
@@ -177,11 +139,11 @@ if (empty($currencies_symbol))
                                                     $("select#servicesandpriceform-produit_option").html(data);
                                                 });'
                                             ]
-                                        )->label('Name of Transport')
+                                        )->label('Nom du transport')
                                         ?>
                                     </div>
                                     <div class='col-md-6'>
-                                        <?= $form->field($ProductItem, "[{$i}]picture[]")->fileInput(['multiple' => true]) ?>
+                                        <?= $form->field($ProductItem, "[{$i}]picture[]")->fileInput(['multiple' => true])->label('Photo') ?>
 
                                     </div>
                                 </div>
@@ -196,7 +158,7 @@ if (empty($currencies_symbol))
                                         ])->textInput([
                                             'min' => '1',
                                             'type' => 'number'
-                                        ]) ?>
+                                        ])->label('Nombre de perssone') ?>
                                     </div>
                                     <div class="col-sm-6">
                                         <?= $form->field($ProductItem, "[{$i}]periode", [
@@ -227,24 +189,9 @@ if (empty($currencies_symbol))
                                                 'suffix' => '',
                                                 'allowNegative' => false
                                             ]
-                                        ])->label('Price day'); ?>
+                                        ])->label('Prix'); ?>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <?php
-                                        echo $form->field($ProductItem, "[{$i}]price_night")->widget(MaskMoney::classname(), [
-                                            'name' => 'amount_ph_1',
-                                            'value' => null,
-                                            'options' => [
-                                                'placeholder' => 'Enter a valid amount...',
 
-                                            ],
-                                            'pluginOptions' => [
-                                                'prefix' =>  $currencies_symbol,
-                                                'suffix' => '',
-                                                'allowNegative' => false
-                                            ]
-                                        ])->label('Price night'); ?>
-                                    </div>
 
                                 </div>
 
@@ -259,29 +206,7 @@ if (empty($currencies_symbol))
         </hr>
 
         <?php DynamicFormWidget::end(); ?>
-        <?php include  '_Modal.php'; ?>
-        <?php
-        echo "<div class='col-md-12' >";
-        echo $form->field($model3, 'extra')->widget(MultipleInput::className(), [
-            'max' => 4,
-            'columns' => [
-                [
-                    'name'  => 'Description',
-                    'title' => 'Description',
-                    'enableError' => true,
-                    'options' => [
-                        'class' => 'input-priority'
-                    ]
-                ],
-                [
-                    'name'  => 'Price',
-                    'title' => 'Price',
-                    'type' => MaskMoney::class
-                ]
-            ]
-        ])->label('Additonnal services');
-        echo "</div >";
-        ?>
+       
 
     </div>
 

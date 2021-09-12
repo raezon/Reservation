@@ -76,6 +76,22 @@ class saveNext extends Component
 
                         $category_id = $model->partner_category;
 
+                        if ($modelCustomer->partner_category == 1) {
+                            $model->caution = 0.0;
+                            $model->price = 0.0;
+                        }
+
+                        if ($modelCustomer->partner_category == 2) {
+                            $model->name = (string)$model->name;
+                            $model->temp = "empty";
+                            $model->periode = 0.0;;
+                            $model->people_number = 0.0;
+                            $model->description = "empty";
+                            $model->checkbox = "empty";
+                            $model->number_of_agent = 0;
+                            $model->languages = "empty";
+                            $model->price = $model->price;
+                        }
                         if ($modelCustomer->partner_category == 3) {
                             $model->checkbox = $jsonData;
                             $splitedMealCategory = array();
@@ -94,7 +110,7 @@ class saveNext extends Component
 
                             $model->temp = $model->temp;
                             $model->number_of_agent = 0;
-                            $model->min_price = $modelCustomer->min;
+                            $model->price = $model->price;
                             $model->periode = 0;
                             $model->languages = (string) json_encode($splitedMealType, true);
                         }
@@ -106,83 +122,13 @@ class saveNext extends Component
                             $model->description = "empty";
                             $model->people_number = 0;
                             $model->number_of_agent = 0;
-                            $model->min_price = 0.0;
-                        }
-                        if ($modelCustomer->partner_category == 7) {
-                            $model->languages = $jsonLData;
-                            $model->checkbox = "empty";
-                            $model->temp = "empty";
-                            $model->description = "empty";
-                            $model->people_number = 0;
-                            $model->number_of_agent = 0;
-                            $model->min_price = 0.0;
-                        }
-
-                        if ($modelCustomer->partner_category == 6) {
-                            $model->name = json_encode($model->name, true);
-                            $model->description = "empty";
-                            $model->temp = json_encode($model->temp, true);
-                            $model->people_number = 0;
-                            $model->quantity = 0;
-                            $model->languages = "empty";
-                            $model->checkbox = "empty";
-
-                            $model->min_price = 0.0;
-                            $model->number_of_agent = $model->number_of_agent;
-                        }
-                        if ($modelCustomer->partner_category == 4) {
-
-                            $model->price = $model->price;
-
-                            if (empty($model->name))
-                                break;
-                            $model->temp = "empty";
-                            $model->people_number = 0;
-                            $model->number_of_agent = 0;
-                            $model->quantity = 0;
-                            $jsonLData = array();
-                            $jsonLData['photo1'] = $model->photo1;
-                            $jsonLData['video1'] = $model->video1;
-                            $jsonLData['photo1andvideo'] = $model->photo1andvideo;
-                            $jsonLData['photo2'] = $model->photo2;
-                            $jsonLData['video2'] = $model->video2;
-                            $jsonLData['photo2andvideo'] = $model->photo2andvideo;
-                            $jsonLData = json_encode($jsonLData, true);
-                            $model->checkbox = $jsonLData;
-                            $model->languages = "empty";
-                            $model->min_price = 0.0;
-                            $model->description =$model->name;
-                            $model->periode = 0.0;
-                        }
-                        if ($modelCustomer->partner_category == 5) {
-                            $model->temp = "empty";
-                            $model->description = "empty";
-                            $model->people_number = 0;
-                            $model->number_of_agent = 0;
-                            $model->quantity = 0;
-                            $model->languages = "empty";
-                            $model->checkbox = "empty";
-                            $model->min_price = $modelCustomer->min;
-                        }
-
-                        if ($modelCustomer->partner_category == 2) {
-                            $model->name = (string)$model->name;
-                            $model->temp = "empty";
-                            $model->description = "empty";
-                            $model->checkbox = "empty";
-                            $model->number_of_agent = 0;
-                            $model->languages = "empty";
-                            $model->min_price = 0.0;
-                        }
-                        if ($modelCustomer->partner_category == 1) {
-                            $model->caution = 0.0;
-                            $model->min_price = 0.0;
+                            $model->price = 0.0;
                         }
 
                         $model->status = "0";
                         /**/
                         if ($modelCustomer->partner_category == 4) {
-                            $model->min_price = 0.0;
+                            $model->price = 0.0;
                             $model->periode = 0.0;
                             $length = sizeof($_FILES['ProductParent']["tmp_name"]["picutre"]);
                             $array_image = array();

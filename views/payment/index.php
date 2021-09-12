@@ -19,9 +19,6 @@ $this->registerJs($search);
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Payment'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
@@ -38,22 +35,56 @@ $this->registerJs($search);
             'expandOneOnly' => true
         ],
         ['attribute' => 'id', 'visible' => false],
-        'payment_date',
-        'amount',
-        'status',
         [
-                'attribute' => 'reservation_id',
-                'label' => Yii::t('app', 'Reservation'),
-                'value' => function($model){
-                    return $model->reservation->id;
-                },
-                'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Reservation::find()->asArray()->all(), 'id', 'id'),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => ['allowClear' => true],
-                ],
-                'filterInputOptions' => ['placeholder' => 'Reservation', 'id' => 'grid--reservation_id']
-            ],
+            'attribute' => 'reservation_id',
+            'label' => Yii::t('app', 'Nom client'),
+            'value' => function($model){
+                return 'mohamed';
+            },
+        ],
+        'amount',
+        'payment_date',
+        [
+            'attribute' => 'reservation_id',
+            'format' => 'html',
+            'label' => 'Ccp ',
+            'value' => function ($model) {
+                if ($model->reservation_id != 'vide' && $model->reservation_id != '0') {
+                    return  Html::a(
+                        'Pièce jointe',
+                        ['decaissement/view-piece', 'id' => $model->id],
+                        [
+                            'id' =>  'Imprimer',
+                            'class' => 'btn btn-primary',
+                            'target' => '_blank'
+                        ]
+                    );
+                } else {
+                    return '';
+                }
+            },
+        ],
+        [
+            'attribute' => 'reservation_id',
+            'format' => 'html',
+            'label' => 'Accepter ',
+            'value' => function ($model) {
+                if ($model->reservation_id != 'vide' && $model->reservation_id != '0') {
+                    return  Html::a(
+                        'Accepter',
+                        ['decaissement/view-piece', 'id' => $model->id],
+                        [
+                            'id' =>  'Accepter',
+                            'class' => 'btn btn-success',
+                            'target' => '_blank'
+                        ]
+                    );
+                } else {
+                    return '';
+                }
+            },
+        ],
+
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{save-as-new} {view} {update} {delete}',

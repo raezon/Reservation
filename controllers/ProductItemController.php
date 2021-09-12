@@ -51,7 +51,7 @@ class ProductItemController extends Controller
             'dataProvider' => $dataProvider,
          ]);
       } else {
-         $this->layout = 'main2';
+         $this->layout = 'main';
          $partner = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
          if (!empty($partner)) {
             $product_parent = ProductParent::find()->andwhere(['partner_id' => $partner->id])->all();
@@ -102,7 +102,7 @@ class ProductItemController extends Controller
    {
 
       if (User::getCurrentUser()->id != 180) {
-         $this->layout = 'main2';
+         $this->layout = 'main';
       }
       $product = ProductItem::find()->andwhere(['id' => $id])->one();
 
@@ -121,7 +121,7 @@ class ProductItemController extends Controller
    public function actionCreate()
    {
       if (User::getCurrentUser()->id != 180) {
-         $this->layout = 'main2';
+         $this->layout = 'main';
       }
       $model = new ProductItem();
 
@@ -147,7 +147,7 @@ class ProductItemController extends Controller
       $now = (new \yii\db\Query)->select($expression)->scalar();  // SELECT NOW()
       $timestamp = strtotime($now);;
       if (User::getCurrentUser()->id != 180) {
-         $this->layout = 'main2';
+         $this->layout = 'main';
       }
       $model = ProductItem::find()->andwhere(['id' => $id])->one();
       $product = ProductItem::find()->andwhere(['id' => $id])->one();
@@ -510,7 +510,7 @@ class ProductItemController extends Controller
    public function actionConfirm($id)
    {
       if (User::getCurrentUser()->id == 180) {
-         $this->layout = 'main2';
+         $this->layout = 'main';
          $product = ProductItem::find()->andwhere(['id' => $id])->one();
          if ($product->status == 0)
             $product->status = 1;
@@ -538,7 +538,7 @@ class ProductItemController extends Controller
    public function actionDelete($id)
    {
       if (User::getCurrentUser()->id != 180) {
-         $this->layout = 'main2';
+         $this->layout = 'main';
       }
       $parent = $this->findModel($id);
       $this->findModel($id)->deleteWithRelated();

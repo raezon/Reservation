@@ -7,13 +7,13 @@ use yii\bootstrap4\Html;
 use kartik\widgets\ActiveForm;
 //use yii\bootstrap4\ActiveForm;
 
-$this->title = 'Become a Partner';
+$this->title = 'Devenir Modérateur';
 ?>
 
 <section class="pt-5 pb-5">
     <div class="row">
         <div class="col mt-10 pt-5">
-            <h3 class="text-center"><?= Yii::t('app', 'Sign up for free') ?></h3>
+            <h3 class="text-center"><?= Yii::t('app', 'Inscription Modérateur') ?></h3>
             <div class="row">
                 <!-- class="row justify-content-center" -->
                 <div class="col-md-6 offset-md-3">
@@ -28,13 +28,15 @@ $this->title = 'Become a Partner';
                         <?= $form->errorSummary($user); ?>
                     <?php endif; ?>
 
-                    <?= $form->field($user, 'username', ['labelOptions' => ['style' => 'color:#fff']])->textInput(['maxlength' => true, 'style' => 'color:#fff']) ?>
+                    <?= $form->field($user, 'username', ['labelOptions' => []])->textInput(['maxlength' => true]) ?>
 
-                    <?= $form->field($user, 'email', ['labelOptions' => ['style' => 'color:#fff']]) ?>
+                    <?= $form->field($user, 'email', ['labelOptions' => []]) ?>
 
-                    <?= $form->field($user, 'password', ['labelOptions' => ['style' => 'color:#fff']])->passwordInput() ?>
+                    <?= $form->field($user, 'password', ['labelOptions' => []])->passwordInput() ?>
 
-                    <?= $form->field($user, 'repeat_password', ['labelOptions' => ['style' => 'color:#fff']])->passwordInput() ?>
+                    <?= $form->field($user, 'repeat_password', ['labelOptions' => []])->passwordInput() ?>
+
+                    <?= $form->field($user, 'password', ['labelOptions' => []])->fileInput()->label('Registre Comerce') ?>
 
                     <?= $form->field($user, 'accept')->checkbox([
                         //                                'template' => "<div class=\"form-check mt-2\">{input} {label}\n{error}</div>",
@@ -46,7 +48,7 @@ $this->title = 'Become a Partner';
                     <div class="form-group">
                         <div class="float-right">
                             <?= Html::submitButton(
-                                Yii::t('app', 'Create My Account'),
+                                Yii::t('app', 'Créer mon compte'),
                                 ['class' => 'btn btn-success']
                             ) ?>
                         </div>

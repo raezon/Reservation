@@ -30,9 +30,9 @@ class PaymentController extends Controller
                     [
                         'allow' => true,
 //                        Omitting the actions means all actions.
-//                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-product', 'add-subscription'],
-//                        'roles' => ['@']
-                        'roles' => [\app\models\User::ROLE_ADMIN]
+                       'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-product', 'add-subscription'],
+                        'roles' => ['@'],
+                        'roles' => [\app\models\User::ROLE_ADMIN,\app\models\User::ROLE_PARTNER]
                     ],
 //                    [
 //                        'allow' => false

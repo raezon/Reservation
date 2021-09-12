@@ -36,7 +36,7 @@ class ProductParent extends \yii\db\ActiveRecord
             [['partner_id', 'partner_category', 'name', 'kind_of_food', 'min', 'extra', 'currencies_symbol', 'description'], 'required'],
             [['IBAN', 'BIC_SWIFT', 'Bank_name', 'Bank_country', 'File'], 'safe'],
             [['partner_id', 'partner_category'], 'integer'],
-            [['name', 'kind_of_food', 'min', 'extra', 'currencies_symbol'], 'string', 'max' => 255]
+            [['name', 'kind_of_food', 'min', 'extra', 'currencies_symbol'], 'string', 'max' => 255],
         ];
     }
 
@@ -66,6 +66,13 @@ class ProductParent extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPartnerCategory()
+    {
+        return $this->hasOne(\app\models\PartnerCategory::className(), ['id' => 'partner_category']);
+    }
     /**
      * @inheritdoc
      * @return \app\models\ProductParentQuery the active query used by this AR class.

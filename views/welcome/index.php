@@ -29,7 +29,7 @@ if ($session['refresh'] == 1) {
   <div class="col-md-12">
 
     <div class="page-header">
-      <h4><?= Yii::t('app', 'What type of business would you like to register?') ?></h4>
+      <h4><?= Yii::t('app', 'Quel type d\'entreprise souhaitez-vous enregistrer ?') ?></h4>
     </div>
 
     <div class="row">
@@ -37,7 +37,7 @@ if ($session['refresh'] == 1) {
 
       ?>
       <?php foreach ($categories as $category) : ?>
-        <?php if ($category->id != 8) { ?>
+        
 
           <div class="col-xs-18 col-sm-6 col-md-3">
             <div class="thumbnail text-center">
@@ -62,11 +62,11 @@ if ($session['refresh'] == 1) {
                   if ($allez_directement_a_letape3 == 1) {
                     $id = 3; ?>
 
-                    <a href="<?= Url::to(['welcome/step', 'id' => '3', 'category_id' => $category->id]) ?>" class="btn btn-primary"><?= Yii::t('app', 'Register your business') ?></a>
+                    <a href="<?= Url::to(['welcome/step', 'id' => '3', 'category_id' => $category->id]) ?>" class="btn btn-primary"><?= Yii::t('app', 'Enregistrer votre entreprise') ?></a>
                   <?php
                   } else {
                   ?>
-                    <a href="<?= Url::to(['welcome/category', 'id' => $category->id]) ?>" class="btn btn-primary"><?= Yii::t('app', 'Register your business') ?></a>
+                    <a href="<?= Url::to(['welcome/category', 'id' => $category->id]) ?>" class="btn btn-primary"><?= Yii::t('app', 'Enregistrer votre entreprise') ?></a>
                   <?php
                   }
                   ?>
@@ -88,7 +88,7 @@ if ($session['refresh'] == 1) {
             </div>
           </div>
         <?php
-        }
+
        
         ?>
       <?php endforeach; ?>

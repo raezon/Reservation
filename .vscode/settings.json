@@ -1,5 +1,8 @@
 {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.fromatOnSave": true
+    "editor.fromatOnSave": true,
+    "[php]": {
+        "editor.defaultFormatter": "kokororin.vscode-phpfmt"
+    }
     
 }

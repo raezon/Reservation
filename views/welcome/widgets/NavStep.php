@@ -39,19 +39,16 @@ class NavStep extends \yii\web\Controller
     {
         echo '<div class="row" id="Parent">
                     <div class="col-sm-3">
-                        <h4 id="step1" >General Information</h4>
+                        <h4 id="step1" >Informations générales</h4>
                     </div>
                     <div class="col-md-3">
-                        <h4 id="step2">Availability and Displacement</h4>
+                        <h4 id="step2">Address</h4>
                     </div>
                     <div class="col-md-2">
-                        <h4 id="step3">Service and Prices</h4>
+                        <h4 id="step3">Service et prix</h4>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <h4 id="step4">Conditions</h4>
-                    </div>
-                    <div class="col-md-1">
-                        <h4 id="step5">Payments</h4>
                     </div>
                     <div class="col-md-2">
                         <h4 id="step6">Messages</h4>

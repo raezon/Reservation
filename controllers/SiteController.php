@@ -50,11 +50,12 @@ use app\models\modelMap;
 use app\components\FiltreOther;
 
 
+
+
 class SiteController extends Controller
 {
 
     //    public $defaultAction = 'login';
-
     /**
      * {@inheritdoc}
      */
@@ -271,7 +272,7 @@ class SiteController extends Controller
         }
         $this->layout = 'home_send';
         return $this->renderAjax('_send', [
-            'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
+            'model1' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
             'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
             'deliveryPrice' => $result[7]
         ]);
@@ -693,17 +694,7 @@ class SiteController extends Controller
                     $addressFrom = $address->address . "," . $address->city . "," . $address->country;
 
                 $addressTo = $_SESSION['place'];
-                //$addressTo=implode($addressTo);
-
-
-
-                /* if($address->address!="xxxx"){
-                $distance = $this->getDistance($addressFrom, $addressTo, "K");
-            $distance=explode("km",$distance);
-            $distance=(float)$distance;
-            if($distance<30)
-                $array_partner_filtered_by_address[]=$address->id;
-            }*/
+   
             }
 
             //verifying in the product  people who have the category id
@@ -720,8 +711,8 @@ class SiteController extends Controller
                 $array_partner[] = $partner->partner_id;
             }
             $result = array_intersect($array_partner, $array_partner_filtered_by_address);
-            //$pertner=Partner::find()->where(['partner_category'=>$model->category+1,'number_people'=>$model->nbr_persson])->all();
-            $products = Product::find()->andwhere(['partner_category' => $model->category + 1, 'number_people' => $model->nbr_persson, 'partner_id' => $result])->all();
+        
+     
             $value_category_serached = $model->category + 1;
             $value_category_serached = $value_category_serached . "";
             if (empty($products))
@@ -784,17 +775,7 @@ class SiteController extends Controller
                     $addressFrom = $address->address . "," . $address->city . "," . $address->country;
 
                 $addressTo = $_SESSION['place'];
-                //$addressTo=implode($addressTo);
-
-
-
-                /* if($address->address!="xxxx"){
-                $distance = $this->getDistance($addressFrom, $addressTo, "K");
-            $distance=explode("km",$distance);
-            $distance=(float)$distance;
-            if($distance<30)
-                $array_partner_filtered_by_address[]=$address->id;
-            }*/
+  
             }
 
             //verifying in the product  people who have the category id
@@ -899,25 +880,18 @@ class SiteController extends Controller
 
         $this->setBsVersion('4');
         $this->layout = 'detail';
-        //partie traitement
-        //dans le cas de room rentall 
-        //dans le cas de caméra 
-        //dans le cas des autre categories
+     
         $model =  new \app\models\forms\SearchForm();
         $model_Partner = ProductParent::find()->where(['id' => $product_id])->all();
-      //  $partner_id = $model_Partner[0]->partner_id;
-        $partner_id = 109;
+        $partner_id = $model_Partner[0]->partner_id;
+       
         $partner = Partner::find()->where(['id' => $partner_id])->all();
-        //
-       // echo '<pre>';
         $model = ProductItem::find()->where(['id'=>$id])->all();
-      //  print_r($model);
-      //  die();
         $image = json_decode($model[0]->picture, true);
 
         $count = count($image);
         $extra = json_decode($model_Partner[0]->extra, true);
-        $count_extra = count($extra);
+      
         //récuperer la quantité
         $qte = 0;
         if ($model_Partner[0]->partner_category == 3) {
@@ -926,18 +900,14 @@ class SiteController extends Controller
             $qte = $model[0]->people_number;
         }
         //Get Cordinates
-        if ($model_Partner[0]->partner_category != 1) {
+
             $partner = Partner::find()->where(['id' => $partner_id])->one();
+;
+            //die();
             $latitude = $partner->latitude;
             $longitude = $partner->longitude;
             $modelmap = new modelMap();
-        } else {
-            $partner = Partner::find()->where(['id' => $partner_id])->one();
-            $cordinates = json_decode($model[0]->languages, true);
-            $latitude = $cordinates['latitude'];
-            $longitude = $cordinates['lantitude'];
-            $modelmap = new modelMap();
-        }
+       
         //Address
         $apiKey = 'AIzaSyCTGpqrJDrULNO0PNch-b8vlmcwwGt7D2c';
         $counter = 0;
@@ -953,7 +923,7 @@ class SiteController extends Controller
         $latitudeTo        = $outputTo->results[0]->geometry->location->lng;
         $longitudeTo    = $outputTo->results[0]->geometry->location->lat;
 
-        return $this->render('detail', ['model' => $image, 'cancelation' => $partner->picture, 'latFrom' => $latitudeTo, 'lngFrom' => $longitudeTo, 'qte' => $qte, 'category' => $model_Partner[0]->partner_category, 'id' => $id, 'count' => $count, 'product' => $model[0], 'Languages' => $model[0]->languages, 'product_parent' => $model_Partner[0], 'partner' => $partner, 'count_extra' => $count_extra, 'extra' => $extra, 'search' => $model, 'modelmap' => $modelmap, 'latitude' => $latitude, 'longitude' => $longitude, 'deliveryPrice' => $deliveryPrice]);
+        return $this->render('detail', ['model' => $image, 'cancelation' => $partner->picture, 'latFrom' => $latitudeTo, 'lngFrom' => $longitudeTo, 'qte' => $qte, 'category' => $model_Partner[0]->partner_category, 'id' => $id, 'count' => $count, 'product' => $model[0], 'Languages' => $model[0]->languages, 'product_parent' => $model_Partner[0], 'partner' => $partner, 'count_extra' => 0, 'extra' => $extra, 'search' => $model, 'modelmap' => $modelmap, 'latitude' => $latitude, 'longitude' => $longitude, 'deliveryPrice' => $deliveryPrice]);
     }
     public function actionMap($id, $category, $product_id)
     {
@@ -1014,7 +984,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $this->layout = 'main2';
+        $this->layout = 'main';
 
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
@@ -1033,14 +1003,25 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionPayement(){
+        $this->setBsVersion('3');
+        $this->layout = 'main';
+        $model = new \app\models\Payment();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                // form inputs are valid, do something here
+                return;
+            }
+        }
+    
+        return $this->render('payement', [
+            'model' => $model,
+        ]);
+    }
     public function actionTerms()
     {
-        //        if (Partner::findOne(['user_id' => User::getCurrentUser()->id])){
-        //            echo 'exists';
-        //        } else {
-        //            echo 'not found';
-        //        }
-        //        
+        
         return $this->render('terms');
     }
 
@@ -1055,10 +1036,8 @@ class SiteController extends Controller
         return $this->render('features');
     }
 
-
-    public function actionBecomePartner()
-    {
-
+    public function actionBecomeClient(){
+        $this->layout = 'home';
         $model =  new \app\models\forms\SearchForm();
         $this->setBsVersion(4);
         $user = new RegistrationForm();
@@ -1070,82 +1049,52 @@ class SiteController extends Controller
                 if ($user) {
                     $user->refresh();
                     $user->addRole(User::ROLE_PARTNER);
-                    //                    $partner->user_id = $user->id; // will do that later
-                    //                    if (!$partner->validate() || !$partner->save()){
-                    //                        if ($transaction->isActive){
-                    //                            $transaction->rollBack();
-                    //                        }                            
-                    //                        Yii::$app->session->setFlash('warning', Yii::t('app',$partner->errors));
-                    //                    }
-                    /* Yii::$app->session->setFlash('info',Yii::t('user',
-                        'Your account has been created and a message with further instructions has been sent to your email')
-                    );*/
-                    //                    if ($transaction->isActive){
-                    //                        $transaction->commit();
-                    //                    }
+                }
                     $user = User::find()->where(['id' => 1])->one();
 
-                    /*AccountNotification::create(AccountNotification::KEY_NEW_ACCOUNT,
-                        AccountNotification::KEY_NEW_ACCOUNT,
-                     ['user' =>$user])->send();*/
                     Yii::$app->session->setFlash('success', "Dear Partner thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
                     return $this->redirect(['/user/security/login']);
                 } else {
-                    //               else {
-                    //                    if ($transaction->isActive){
-                    //                        $transaction->rollBack();
-                    //                    }
+
+                } 
+
+            } 
+
+
+        return $this->render('client', [
+            'user' => $user
+        ]);
+    }
+    public function actionBecomePartner()
+    {
+        $this->layout = 'home';
+        $model =  new \app\models\forms\SearchForm();
+        $this->setBsVersion(4);
+        $user = new RegistrationForm();
+        $post = Yii::$app->request->post();
+        if ($user->load($post)) {
+            $user->api_key = \Yii::$app->security->generateRandomString(16);
+            if ($user->validate()) {
+                $user = $user->register();
+                if ($user) {
+                    $user->refresh();
+                    $user->addRole(User::ROLE_PARTNER);
+                                      }
+                    $user = User::find()->where(['id' => 1])->one();
+                    Yii::$app->session->setFlash('success', "Dear Partner thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
+                    return $this->redirect(['/user/security/login']);
+                } else {
 
                 } // !($user)
 
             } // $user->validate()
 
-        }
+
         return $this->render('partner', [
             'user' => $user
         ]);
     }
 
-    /*    protected function getPartnerSurveys($partnerId, $title) {
-        $category = Partner::findOne(['user_id' => $partnerId])->category;
-        $partnerCategorySurvey = PartnerCategorySurveys::find(['title' => $title, 'partner_category_id' => $category->id])->one();
-        $partnerSurveys = Surveys::find(['partner_category_surveys_id' => $partnerCategorySurvey->id])
-                ->orderBy(['survey_order' => SORT_ASC ])->all();
-        return $partnerSurveys;
-    }
-*/
-
-    /*    public function actionWelcome($id = 0) {
-        // in case someone try to access direct link
-        if (!User::isPartner()){
-            return $this->redirect(['site/index']);
-        }
-       
-        $partnerSurveys = $this->getPartnerSurveys(User::getCurrentUser()->id,
-            strtolower($this->action->id) );
-//        $survey_route = $this->action->id; // welcome
-//        $survey_route = $this->action->controller->module->requestedRoute; // site/welcome
-
-        if ($id < count($partnerSurveys)){
-            
-            $partnerSurvey = $partnerSurveys[$id];
-            // Redirect to next survey if this one is completed
-            if ($this->surveyCompleted( $partnerSurvey->survey_id )){
-                return $this->redirect(['/site/welcome', 'id' => $id+1]);
-            }
-            
-            $survey = \app\modules\survey\widgets\Survey::widget([
-                'surveyId' => $partnerSurvey->survey_id,
-                'nextUrl' => Url::to(['/site/welcome', 'id' => $id+1]),
-            ]);
-            
-            return $this->render('welcome', [
-                'survey' => $survey
-            ]);
-        }
-        return $this->redirect(['/site/index']);
-    }
-*/
     protected function surveyCompleted($id)
     {
         $stat = SurveyStat::findOne([

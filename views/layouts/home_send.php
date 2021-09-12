@@ -49,15 +49,9 @@ $model1->place = $_SESSION['place'];
     <script>
     alert = function() {};
   </script>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>-->
+  
     <script src="/mainrepo_old/web/js/angular/angular.min.js"></script>
     <script language="javascript" src="/mainrepo_old/web/js/angular/app.js"></script>
-    <!--  <script language="javascript">
-        var myapp = angular.module("myApp", []);
-        myapp.controller("myCntrl", function($scope) {
-            $scope.hellomodel = "Hello World!";
-        });
-    </script>-->
 
 
     <meta charset="<?= Yii::$app->charset ?>">
@@ -102,8 +96,10 @@ $model1->place = $_SESSION['place'];
     <style>
         .bg-purple {
             /* background-color: #4a4677*/
-            background-image: linear-gradient(to left, #484078, #4e3d79, #553a79, #5c3779, #633378, #613479, #603479, #5e357a, #523a7c, #473e7c, #3c417a, #324478);
-            /*background-image: linear-gradient(to right, #484078, #4e3d79, #553a79, #5c3779, #633378, #613479, #603479, #5e357a, #523a7c, #473e7c, #3c417a, #324478);*/
+            background-image: -webkit-linear-gradient(left,#21a2fd,#7967fe 52%,#2b9bfd);
+          
+            /*  background-image: linear-gradient(to left, #484078, #4e3d79, #553a79, #5c3779, #633378, #613479, #603479, #5e357a, #523a7c, #473e7c, #3c417a, #324478);
+            background-image: linear-gradient(to right, #484078, #4e3d79, #553a79, #5c3779, #633378, #613479, #603479, #5e357a, #523a7c, #473e7c, #3c417a, #324478);*/
         }
 
         .loader {
@@ -244,12 +240,6 @@ $model1->place = $_SESSION['place'];
             border-collapse: collapse;
             border-left-style: hidden;
             border-right-style: hidden;
-            /*  border-radius: 30px;
-            border-style: hidden;
-            hide standard table (collapsed) border 
-            box-shadow: 0 0 0 1px #666;
-            */
-            /* this draws the table border  */
         }
 
         .td1 {
@@ -257,16 +247,8 @@ $model1->place = $_SESSION['place'];
         }
 
         thead th {
-            /*style 'th' for x-browser position: sticky; consistancy*/
-
             border-collapse: collapse;
             border-bottom-style: hidden;
-            /*chrome shows 2px, FF hides 1px, bottom border scrolls away in both*/
-            /*solution is to use linear-gradient and border:none*/
-            /*background: linear-gradient(to top,red, red 1px, #ffff00 1px, #ffff00 100%);
-  border: none; */
-
-            /*optional to prevent heading text from wrapping to new lines*/
         }
 
         .nav-item {
@@ -305,7 +287,6 @@ $model1->place = $_SESSION['place'];
 
         /**Css For a traingle */
 
-
         .triangle-right {
             width: 0;
             height: 0;
@@ -339,7 +320,7 @@ $model1->place = $_SESSION['place'];
 
     <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/logo.png', ['alt' => 'image', 'height' => '65', 'width' => '70']),
+        'brandLabel' => '',
         'brandUrl' => Yii::$app->homeUrl,
         'containerOptions' => [
             'id' => 'navbarNav3',
@@ -364,7 +345,7 @@ $model1->place = $_SESSION['place'];
     $host = 'host';
     $other = 'other';
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
+        'options' => ['class' => 'navbar-nav  mt-2'],
         'encodeLabels' => false,
         'navLinkClass' => '', // remove nav-link for <a>
         'items' => [
@@ -380,7 +361,7 @@ $model1->place = $_SESSION['place'];
             ['label' => '<div style="opacity:0;">_</div>'],
             ['label' => '<div style="opacity:0;">_</div>'],
             ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => "<div  onmouseover='hover(\"$location\");' onmouseout='unhover(\"$location\");'   style='color:#fff' > " . Html::img('@web/img/logos/location.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'location']) . '<label style="font-size:13px;" id="locationText" >Room rental</label></div>', 'url' => ['/site/redirect', 'filter' => 1]],
+            ['label' => "<div  onmouseover='hover(\"$location\");' onmouseout='unhover(\"$location\");'   style='color:#fff' > " . Html::img('@web/img/logos/location.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'location']) . '<label style="font-size:13px;" id="locationText" >Hotel</label></div>', 'url' => ['/site/redirect', 'filter' => 1]],
             ['label' => '<div style="opacity:0;">_</div>'],
             ['label' => '<div style="opacity:0;">_</div>'],
             ['label' => '<div style="opacity:0;">_</div>'],
@@ -388,38 +369,23 @@ $model1->place = $_SESSION['place'];
             ['label' => '<div style="opacity:0;">_</div>'],
             ['label' => '<div style="opacity:0;">_</div>'],
             ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => "<div  onmouseover='hover(\"$caters\");' onmouseout='unhover(\"$caters\");'   style='color:#fff' > " . Html::img('@web/img/logos/caters.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'caters']) . '<label style="font-size:13px;" id="catersText">Caterers</label></div>', 'url' => ['/site/redirect', 'filter' => 3]],
+            ['label' => "<div  onmouseover='hover(\"$caters\");' onmouseout='unhover(\"$caters\");'   style='color:#fff' > " . Html::img('@web/img/logos/caters.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'caters']) . '<label style="font-size:13px;" id="catersText">Restaurant</label></div>', 'url' => ['/site/redirect', 'filter' => 3]],
             ['label' => '<div style="opacity:0;">_</div>'],
             ['label' => '<div style="opacity:0;">_</div>'],
             ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => "<div  onmouseover='hover(\"$photo\");' onmouseout='unhover(\"$photo\");'   style='color:#fff' > " . Html::img('@web/img/logos/photo.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'photo']) . '<label style="font-size:13px;" id="photoText">Photo&Camera</label></div>', 'url' => ['/site/redirect', 'filter' => 4]],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => "<div  onmouseover='hover(\"$animation\");' onmouseout='unhover(\"$animation\");'   style='color:#fff' > " . Html::img('@web/img/logos/animation.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'animation']) . '<label style="font-size:13px;" id="animationText">Animation</label></div>', 'url' => ['/site/redirect', 'filter' => 5]],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => "<div  onmouseover='hover(\"$security\");' onmouseout='unhover(\"$security\");'   style='color:#fff' > " . Html::img('@web/img/logos/security.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'security']) . '<label style="font-size:13px;" id="securityText">Security</label></div>', 'url' => ['/site/redirect', 'filter' => 6]],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => "<div  onmouseover='hover(\"$host\");' onmouseout='unhover(\"$host\");'   style='color:#fff' > " . Html::img('@web/img/logos/host.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'host']) . '<label style="font-size:13px;" id="hostText">Host&Hostess</label></div>', 'url' => ['/site/redirect', 'filter' => 7]],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => '<div style="opacity:0;">_</div>'],
-            ['label' => "<div  onmouseover='hover(\"$other\");' onmouseout='unhover(\"$other\");'   style='color:#fff' > " . Html::img('@web/img/logos/other.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'other']) . '<label style="font-size:13px;" id="otherText">Other</label></div>', 'url' => ['/site/redirect', 'filter' => 9]],
+            ['label' => "<div  onmouseover='hover(\"$other\");' onmouseout='unhover(\"$other\");'   style='color:#fff' > " . Html::img('@web/img/logos/transport.png', ['alt' => '', 'height' => '28', 'class' => 'center', 'id' => 'other']) . '<label style="font-size:13px;" id="otherText">Transport</label></div>', 'url' => ['/site/redirect', 'filter' => 8]],
         ],
     ]);
 
 
     echo Nav::widget([
 
-        'options' => ['class' => 'navbar-nav ml-auto'],
+        'options' => ['class' => 'navbar-nav ml-auto  mt-2'],
         'encodeLabels' => false,
         'navLinkClass' => '', // remove nav-link for <a>
         'items' => [
             [
-                'label' => '<i class="fas fa-handshake prefix"></i> Become a Partner',
+                'label' => '<i class="fas fa-handshake prefix"></i> Devenir Modérateur',
                 'url' => ['/site/become-partner'],
                 'linkOptions' => [
                     'class' => 'btn btn-info shadow ml-md-3 ml-md-auto mr-1',
@@ -430,7 +396,7 @@ $model1->place = $_SESSION['place'];
                 'label' => '<i class="fas fa-lock prefix"></i> LOGIN',
                 'url' => ['/user/security/login'/* '/site/login'*/],
                 'linkOptions' => [
-                    'class' => 'btn btn-primary shadow ml-md-3 ml-md-auto',
+                    'class' => 'btn  btn-info shadow ml-md-3 ml-md-auto',
                     'data-toggle' => 'modal',
                     'data-target' => '#loginModal'
                 ]
@@ -477,7 +443,7 @@ $model1->place = $_SESSION['place'];
                 </br>
                 <div class="row">
                     <div class="col-sm-3">
-                        <div class="card" style="background-color:#C88A2A;">
+                        <div class="card" style=" background-color: rgb(244, 244, 244)">
                             <div class="card-body">
                                 <?php $form = ActiveForm::begin([
                                     'id' => 'partner-registration-form',
@@ -489,7 +455,7 @@ $model1->place = $_SESSION['place'];
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 text-center">
-                                            <h3 style="color:#fff"><b>Search</b></h3>
+                                            <h3 style="color:  -webkit-linear-gradient(left,#21a2fd,#7967fe 52%,#2b9bfd);"><b>Rechercher</b></h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -531,18 +497,7 @@ $model1->place = $_SESSION['place'];
 
 
                                         </div>
-                                        <div class="col-sm-12">
 
-                                            <?php
-                                            echo $form->field($model1, 'nbr_persson')->textInput([
-
-                                                'class' => 'form-control',
-                                                'placeholder' => 'People number...',
-                                                'type' => 'number',
-
-                                            ]); ?>
-
-                                        </div>
                                         <div class="col-sm-12">
                                             <?php
                                             echo $form->field($model1, 'place')->textInput([
@@ -573,56 +528,8 @@ $model1->place = $_SESSION['place'];
 
 
                         </div>
-                        <?php
-
-
-                        if (($_SESSION['category1']) == 1) {
-                            include 'filter/filter_room_rental.php';
-                            include('action/action_room_rental.php');
-                            $this->registerJs($ls);
-                        }
-                        if (($_SESSION['category1']) == 2) {
-                            include 'filter/filter_equipement.php';
-                            include('action/action_equipement.php');
-                            $this->registerJs($ls);
-                        }
-                        if (($_SESSION['category1']) == 3) {
-                            include 'filter/filter_cater.php';
-                            include('action/action_caters.php');
-                            $this->registerJs($ls);
-                        }
-                        if (($_SESSION['category1']) == 4) {
-                            include 'filter/filter_photo.php';
-                            include('action/action_photo.php');
-                            $this->registerJs($ls);
-                        }
-                        if (($_SESSION['category1']) == 5) {
-                            include 'filter/filter_animation.php';
-                            include('action/action_animation.php');
-                            $this->registerJs($ls);
-                        }
-                        if (($_SESSION['category1']) == 6) {
-                            include 'filter/filter_security.php';
-                            include('action/action_Security.php');
-                            $this->registerJs($ls);
-                        }
-                        if (($_SESSION['category1']) == 7) {
-                            include 'filter/filter_host.php';
-                            include('action/action_host.php');
-                            $this->registerJs($ls);
-                        }
-                        if (($_SESSION['category1']) == 9) {
-                            include 'filter/filter_other.php';
-                            include('action/action_Other.php');
-                            $this->registerJs($ls);
-                        }
-
-                        ?>
 
                     </div><!-- .container -->
-
-
-
                     <div class="col-sm-9">
                         <?= $content ?>
                     </div>
@@ -644,10 +551,7 @@ $model1->place = $_SESSION['place'];
                                 <a class="nav-link active" data-toggle="tab" href="#panel-login" role="tab" aria-controls="panel-login" aria-selected="true"><i class="fas fa-user mr-1"></i>
                                     Login</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#panel-register" role="tab" aria-controls="panel-register" aria-selected="false"><i class="fas fa-user-plus mr-1"></i>
-                                    Register</a>
-                            </li>
+
                         </ul>
                     </div>
 
@@ -668,11 +572,8 @@ $model1->place = $_SESSION['place'];
                                         'labelOptions' => ['class' => 'col-form-label'],
                                     ],
                                 ]); ?>
-                                <?= $form->field($model, 'username')->textInput(['class' => 'form-control form-control-sm validate', 'autofocus' => true]) ?>
-                                <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-sm validate']) ?>
-                                <?= $form->field($model, 'rememberMe')->checkbox([
-                                    'template' => "<div class=\"form-check mt-2\">{input} {label}</div>\n<div class=\"col-md-8\">{error}</div>",
-                                ]) ?>
+                                    <?= $form->field($model, 'username')->textInput(['class' => 'form-control form-control-sm validate', 'autofocus' => true])->label('Nom utilisateur') ?>
+                                    <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-sm validate'])->label('Mot de passe') ?>
                                 <div class="form-group text-center mt-2">
                                     <?= Html::submitButton('Login <i class="fas fa-sign-in-alt ml-1"></i>', ['class' => 'btn btn-info', 'name' => 'login-button']) ?>
                                 </div>

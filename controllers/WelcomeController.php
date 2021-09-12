@@ -72,7 +72,7 @@ class WelcomeController extends \yii\web\Controller
   public function actionIndex()
   {
    
-    $this->layout = 'main2';
+    $this->layout = 'main';
     $user_id = User::getCurrentUser()->id;
     $name = bin2hex(openssl_random_pseudo_bytes(4));
     $partner = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
@@ -394,8 +394,8 @@ class WelcomeController extends \yii\web\Controller
         'ProductsItem' => $ProductItem,
         'id_partenaire' => $id_partenaire
       ]);
-    if ($category_id == 9)
-      return $this->render('other/step' . $id, [
+    if ($category_id == 8)
+      return $this->render('transport/step' . $id, [
         'model' => $modelStep1,
         'model2' => $modelStep2,
         'model3' => $ProductParent,

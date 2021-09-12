@@ -152,7 +152,7 @@ class Step2 extends \yii\web\Controller
         echo ' <div class="col-md-6">';
         //Constructing the form
         $step2Array = array();
-        $step2Array = ['idi', 'cat_id', 'search', 'companyAddress', 'companyAddress_N', 'city', 'country', 'postalCode', 'delai', 'schedule'];
+        $step2Array = ['idi', 'cat_id', 'search', 'companyAddress', 'companyAddress_N', 'city', 'state', 'postalCode', 'delai', 'schedule'];
 
         foreach ($step2Array as $filedElement) {
             switch ($filedElement) {
@@ -167,30 +167,84 @@ class Step2 extends \yii\web\Controller
                     echo  self::$form->field($model2, 'search')->textInput(['id' => 'autocomplete'])->label('Adress');
                     echo '</div>';
                     break;
-                case 'companyAddress':
-                    echo '<div id="address">
-                    <tr>
-                      <td class="slimField">' . self::$form->field($model2, "companyAddress")->textInput(["id" => "street_number"])->label("Street Number") . '</td>';
-                    break;
-                case 'companyAddress_N':
-                    echo '<td class="wideField" colspan="2">' . self::$form->field($model2, "companyAddress_N")->textInput(["id" => "route"])->label("Street") . '</td>
-                    </tr>';
-                    break;
+
+
                 case 'city':
                     echo "<tr>
                             <td class='wideField' colspan='3'>" . self::$form->field($model2, 'city')->textInput(['id' => 'locality'])->label('City') . "</td>
                         </tr>";
                     break;
-                case 'country':
+                case 'state':
                     echo "<tr>
                             <td class='slimField'>";
-                    echo self::$form->field($model2, 'country')->textInput(['id' => 'administrative_area_level_1'])->label('State');
+                    echo self:: $form->field($model2, 'state')->widget(Select2::classname(), ([
+    'name' => 'place_algeria',
+    'data' =>[
+        "Adrar",
+        "Chlef",
+        "Laghouat",
+        "Oum El Bouaghi",
+        "Batna",
+        "Béjaia",
+        "Biskra",
+        "Béchar",
+        "Blida",
+        "Bouira",
+        "Tamanrasset",
+        "Tébessa",
+        "Télemcen",
+        "Tiaret",
+        "Tizi Ouzou",
+        "Alger",
+        "Djelfa",
+        "Jijel",
+        "Sétif",
+        "Saida",
+        "Skikda",
+        "Sidi Bel Abbès",
+        "Annaba",
+        "Guelma",
+        "Constantine",
+        "Médéa",
+        "Mostaganem",
+        "M'Sila",
+        "Mascara",
+        "Ouargla",
+        "Oran",
+        "El Bayadh",
+        "Illizi",
+        "Bordj Bou Arreridj",
+        "Boumerdes",
+        "El Tarf",
+        "Tindouf",
+        "Tissemsilt",
+        "El Oued",
+        "Khenchla",
+        "Souk Ahras",
+        "Tipaza",
+        "Mila",
+        "Ain Defla",
+        "Naama",
+        "Ain Témouchent",
+        "Ghardaia",
+        "Relizane",
+        "Timimoun",
+        "Bordj Badji Mokhtar",
+        "Ouled Djallal",
+        "Béni Abbès",
+        "In Salah",
+        "In Guezzam",
+        "Touggourt",
+        "Djanet",
+        "El M'Ghair",
+        "Meniaa"],
+
+    'options' => ['placeholder' => 'Choisir la willaya...']
+]));
                     echo  "</td>
                             <td class='wideField'>" . self::$form->field($model2, 'postalCode')->textInput(['id' => 'postal_code'])->label('Zip code') . "</td>
                           </tr>";
-                    echo "<tr>
-                                <td class='wideField' colspan='3'>" . self::$form->field($model2, 'country')->textInput(['id' => 'country'])->label('Country') . "</td>
-                            </tr>";
+
                     break;
 
                 case 'Default':
@@ -200,63 +254,10 @@ class Step2 extends \yii\web\Controller
 
         echo '</div>';
         echo '</div>';
-        echo '<div class="col-md-6">
-                <div class="response"></div>
-                <div id="calendar"></div>
-              </div>';
+
         //hidden Input
         echo  '<input type="hidden" value="1" id="category_id_id" name="">';
         echo   Html::hiddenInput('category_id', \Yii::$app->request->get('category_id', 0));
-        echo '</div>';
-    }
-    public static function endingForm($model2)
-    {
-
-        echo '  <hr style="color:gray">';
-        echo  self::$form->field($model2, 'delai')->dropDownList(
-            self::$listData,
-            [
-                'style' => 'width:440px !important',
-                'prompt' => 'How many days in advance can customers cancel without charge?
-  ',
-
-            ]
-        )->label('Concellation conditions');
-        echo '</br>
-        <hr style="color:gray">';
-        echo '<div class="col-md-6">';
-        echo self::$form->field($model2, 'schedule')->widget(MultipleInput::class, [
-            'max' => 3,
-            'min' => 3,
-            'columns' => [
-                [
-                    'name'  => 'Distance',
-                    'type'  => 'checkbox',
-                    'title' => 'Distance',
-                    'enableError' => true,
-                    'options' => [
-                        'class' => 'input-priority'
-                    ]
-
-                ],
-                [
-                    'name'  => 'Price',
-                    'title' => 'Price',
-                    'type' => MaskMoney::class,
-                    'enableError' => true,
-                    'options' => [
-                        'class' => 'input-priority'
-                    ]
-                ]
-
-            ]
-        ])->label('Delivery and Deplacement');
-        self::endingContainer();
-        echo ' </div>';
-        echo ' </div>
-                </div>
-                <input type="hidden" value="1" id="category_id_id" name="">';
-        echo Html::hiddenInput("category_id", \Yii::$app->request->get('category_id', 0));
         echo '</div>';
     }
     public static  function endingContainer()
@@ -274,12 +275,13 @@ class Step2 extends \yii\web\Controller
     {
         ActiveForm::end();
     }
+
     public static function container($model2, $category_id)
     {
         self::beginingContainer();
         self::begginingActiveForm();
         self::contentActiveForm($model2, $category_id);
-        self::endingForm($model2);
+        self::endingContainer();
 
         self::endingActiveForm();
     }

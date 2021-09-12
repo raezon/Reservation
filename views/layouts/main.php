@@ -48,16 +48,19 @@ AppAsset::register($this);
             'items' => [
 
                 ['label' => 'Administration', 'url' => ['/user/admin'], 'visible' => User::isAdmin()],
-                ['label' => 'Profile', 'url' => ['/user/profile', 'id' => \Yii::$app->user->id], 'visible' => User::isUser()],
-                // ['label' => 'Profiles', 'url' => ['/profile/index'], 'visible' => User::isAdmin()],
-                ['label' => 'Partner', 'url' => ['/partner/index'], 'visible' => User::isAdmin()],
+          //['label' => 'Profile', 'url' => ['/user/profile', 'id' => \Yii::$app->user->id], 'visible' => User::isUser()],
+                ['label' => 'Ajouter nouveau produit', 'linkOptions' => [], 'url' => ['/welcome/index'], 'visible' => User::isPartner()],
+                ['label' => 'Modérateur', 'url' => ['/partner/index'], 'visible' => User::isAdmin() ],
                 [
-                    'label' => 'All Products ', 'url' => ['/product-item/index'], 'visible' =>  User::isAdmin()
+                    'label' => 'Tous les produits ', 'url' => ['/product-item/index'], 'visible' =>  User::isAdmin()
                 ],
-                //  ['label' => 'All Reservations', 'url' => ['/reservation/index'], 'visible' =>User::isAdmin()||User::isPartner()],
-                //  ['label' => 'My Reservations', 'url' => ['/reservation/index'], 'visible' => !( Yii::$app->user->isGuest)&&!( User::isPartner())&&!(User::isAdmin())],
-                ['label' => 'Payment', 'url' => ['/payment/index'], 'visible' => User::isAdmin()],
-                //['label' => 'Subscription', 'url' => ['/subscription/index'], 'visible' => User::isAdmin()],
+                [
+                    'label' => 'Mes produits ', 'linkOptions' => [], 'url' => ['/product-item/index'], 'visible' => User::isPartner()
+            
+                ],            
+          
+                ['label' => 'Payment', 'url' => ['/payment/index'], 'visible' => User::isAdmin() or User::isPartner()],
+         
                 ['label' => 'About Us', 'url' => ['/site/about'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => 'Contact', 'url' => ['/site/contact'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => 'Terms & Conditions', 'url' => ['/site/terms'], 'visible' => Yii::$app->user->isGuest],
@@ -71,7 +74,7 @@ AppAsset::register($this);
                 'items' => [
 
                     \webzop\notifications\widgets\Notifications::widget(),
-                    \webzop\notifications\widgets1\Notifications::widget(),
+
 
 
                 ],

@@ -45,11 +45,11 @@ $content = ListView::widget([
 
 $label = ['<div class="dropdown">
 <button class="btn  dropdown-toggle bg-purple" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  <span style="color:#fff;">Sort by:</span>
+  <span style="color:#fff;">Filtrer Par:</span>
 </button>
 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-  <button class="dropdown-item" id="ascending" type="button" value="ascending">price ascending</button>
-  <button class="dropdown-item" id="desending" type="button" value="desending">price desending</button>
+  <button class="dropdown-item" id="ascending" type="button" value="ascending">Prix asendante</button>
+  <button class="dropdown-item" id="desending" type="button" value="desending">Prix descendant</button>
 </div>
 </div>', 'Popular', 'Customer rating'];
 for ($i = 0; $i < 3; $i++) {
@@ -94,50 +94,6 @@ if (isset($_SESSION['active1'])) {
 
 echo '<div id="namiro" style="display:none"></div>';
 //here traitement of each appropriate function
-
-include('action/action_sort_price.php');
-$this->registerJs($ms);
-if (empty($filter))
-  $filter = $category;
-if (isset($_SESSION['filter']))
-  $filter = $_SESSION['filter'];
-
-if ($filter == 1) {
-  include('action/action_room_rental.php');
-  $this->registerJs($ls);
-}
-
-if ($filter == 2) {
-  include('action/action_equipement.php');
-  $this->registerJs($ls);
-}
-if ($filter == 3) {
-  include('action/action_caters.php');
-  $this->registerJs($ls);
-}
-if ($filter == 4) {
-  include('action/action_photo.php');
-  $this->registerJs($ls);
-}
-if ($filter == 5) {
-  include('action/action_room_rental.php');
-  $this->registerJs($ls);
-}
-if ($filter == 6) {
-  include('action/action_Security.php');
-  $this->registerJs($ls);
-}
-if ($filter == 7) {
-
-  include('action/action_host.php');
-  $this->registerJs($ls);
-}
-if ($filter == 9) {
-  include('action/action_Other.php');
-  $this->registerJs($ls);
-}
-
-echo '<input type="hidden" id="browser" value="' . $filter . '">';
 
 
 //}

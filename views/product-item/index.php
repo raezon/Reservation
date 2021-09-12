@@ -40,6 +40,7 @@ $this->registerJs($search);
             'attribute' => 'partner_category',
             'label' => 'Partner Category',
             'value' => function ($model) {
+
                 return $model->partnerCategory->name;
             },
             'filterType' => GridView::FILTER_SELECT2,

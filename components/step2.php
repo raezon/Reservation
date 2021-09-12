@@ -11,6 +11,7 @@ class step2 extends Component
 {
   function getCordinate($addressTo, $unit = '')
   {
+
     // Google API key
     $apiKey = 'AIzaSyB7Iz5ZKGr0_5l_LD47xNf9umU7GSiUVuw';
     // Change address format
@@ -19,6 +20,7 @@ class step2 extends Component
     // Geocoding API request with end address
     $geocodeTo = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address=' . $formattedAddrTo . '&sensor=false&key=' . $apiKey);
     $outputTo = json_decode($geocodeTo);
+
     if (!empty($outputTo->error_message)) {
       return $outputTo->error_message;
     }
@@ -36,22 +38,21 @@ class step2 extends Component
     $state = $modelStep2->state;
     $postalCode = $modelStep2->postalCode;
     $country = $modelStep2->country;
-    $delivery_displacement = $modelStep2->schedule;
-    $cancelation = $modelStep2->delai;
+
 
     $product_model = Partner::find()
       ->where(['user_id' => $user_id])->one();
 
     $address = $addresse;
     $product_model->address = $address;
-    $product_model->country = $country;
+    $product_model->country = 'alger';
     $product_model->city = $city;
     $product_model->postal_code = $postalCode;
     $product_model->category_id = $category_id;
     $product_model->companyAddress = "xxxx";
     $product_model->companyAddress_N = "xxxx";
-    $product_model->DeliveryAndDeplacement = json_encode($delivery_displacement, true);
-    $product_model->picture = $cancelation;
+    $product_model->piece_jointe="Empty";
+
     //DeliveryAndDeplacement Cordinates
     //appeller la fonction
     $Cordinates = array();

@@ -12,7 +12,6 @@ class AvailabilityForm extends \yii\base\Model
     public $state;
     public $postalCode;
     public $country;
-    public $delai;
     public $idi;
     public $cat_id;
     public $schedule;
@@ -21,7 +20,7 @@ class AvailabilityForm extends \yii\base\Model
     {
         return [
             //  rules
-            [['companyAddress', 'companyAddress_N', 'search', 'postalCode', 'schedule', 'schedule.Distance', 'schedule.Price', 'country', 'city', 'delai'], 'required'],
+            [['search', 'postalCode', 'state', 'city'], 'required'],
             [['cat_id', 'idi'], 'safe'],
         ];
     }
@@ -34,9 +33,9 @@ class AvailabilityForm extends \yii\base\Model
         return [
             'search' => \Yii::t('app', 'Search'),
             'companyAddress' => \Yii::t('app', 'Company Address'),
-            'postalCode' => \Yii::t('app', 'Postal Code'),
-            'country' => \Yii::t('app', 'Country'),
-            'city' => \Yii::t('app', 'City'),
+            'postalCode' => \Yii::t('app', 'Code Postal'),
+            'state' => \Yii::t('app', 'Willaya'),
+            'city' => \Yii::t('app', 'comune'),
             'schedule' => \Yii::t('app', ''),
         ];
     }

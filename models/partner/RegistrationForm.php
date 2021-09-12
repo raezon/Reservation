@@ -9,6 +9,7 @@ class RegistrationForm  extends
 // Model 
  BaseRegistrationForm
 {
+    public $piece_jointe;
     /**
      * @var string
      */
@@ -127,18 +128,11 @@ class RegistrationForm  extends
     {
         return [
             'email'    => \Yii::t('user', 'Email'),
-            'username' => \Yii::t('user', 'User Name'),
-            'password' => \Yii::t('user', 'Password'),
-            'repeat_password' => \Yii::t('user', 'Repeat Password'),
-            'accept' => \Yii::t('app', 'Accept terms and conditions?'),
-//            'name' => \Yii::t('app', 'Name'),
-//            'description' => \Yii::t('app', 'Description'),
-//            'address' => \Yii::t('app', 'Address'),
-//            'country' => \Yii::t('app', 'Country'),
-//            'city' => \Yii::t('app', 'City'),
-//            'category_id' => \Yii::t('app', 'Category'),
-//            'tel' => \Yii::t('app', 'Tel'),
-//            'web_site' => \Yii::t('app', 'Web Site'),
+            'username' => \Yii::t('user', 'Nom utilisateur'),
+            'password' => \Yii::t('user', 'Mot de passe'),
+            'repeat_password' => \Yii::t('user', 'Répéter mot de passe'),
+            'accept' => \Yii::t('app', 'Accepter les termes et conditions?'),
+
         ];
     }
 

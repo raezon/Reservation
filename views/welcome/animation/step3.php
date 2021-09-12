@@ -123,11 +123,11 @@ echo Progress::widget([
                 <?= $form->field($model3, 'partner_category')->hiddenInput(['value' => 5])->label(false); ?>
                 <?php
                 echo "<div class='col-md-6'>";
-                echo     $form->field($model3, 'name')->textInput(['style' => 'width:500px', 'placeholder' => 'Name under which you want to appear'])->label("Name");
+                echo     $form->field($model3, 'name')->textInput([ 'placeholder' => 'Name under which you want to appear'])->label("Name");
                 echo "</div>";
                 //
                 echo "<div class='col-md-6'>";
-                echo     $form->field($model3, 'description')->textArea(['style' => 'width:500px', 'placeholder' => 'Describe your company/Service (specialty, expertise, number of years of experience ... etc) this will attract more customers'])->label("Description");
+                echo     $form->field($model3, 'description')->textArea([ 'placeholder' => 'Describe your company/Service (specialty, expertise, number of years of experience ... etc) this will attract more customers'])->label("Description");
                 echo "</div>";
 
 

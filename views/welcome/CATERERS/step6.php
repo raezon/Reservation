@@ -3,38 +3,13 @@
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Progress
-
-
-//$this->title = 'General Information';
-/* @var $this yii\web\View */
+use yii\bootstrap\Progress;
+use  app\views\welcome\widgets\NavStep;
 ?>
-<div class="row">
-    <div class="col-md-2">
-        <h4>General Information</h4>
-    </div>
-    <div class="col-md-3">
-        <h4>Availability and Displacement</h4>
-    </div>
-    <div class="col-md-2">
-        <h4>Service and Prices</h4>
-    </div>
-    <div class="col-md-1 ">
-        <h4>Conditions</h4>
-    </div>
-    <div class="col-md-2">
-        <h4>Payments</h4>
-    </div>
-    <div class="col-md-2">
-        <h4 style="color:green"><b>Messages</b></h4>
-    </div>
-</div>
-<?php
-echo Progress::widget([
-    'percent' => 100,
-    'barOptions' => ['class' => 'progress-bar-success'],
-    'options' => ['class' => 'active progress-striped']
-]);?>
+
+<?php $NavStep = new NavStep('step6'); ?>
+<?php $NavStep->displayNav(); ?>
+<?php $NavStep->displayProgress(100); ?>
 
 <div class="row">
 

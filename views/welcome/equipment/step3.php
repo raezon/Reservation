@@ -7,55 +7,16 @@ use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 use kartik\money\MaskMoney;
 use unclead\multipleinput\MultipleInput;
+use  app\views\welcome\widgets\NavStep;
 
-$geoip = new \lysenkobv\GeoIP\GeoIP();
-$ip = $geoip->ip(Yii::$app->request->getUserIP()); // current user ip
-$currencies = json_decode(file_get_contents('data.json'), true);
-foreach ($currencies as $currency) {
-    if (strtoupper($currency['country']) == strtoupper($ip->isoCode)) {
-        $currencies_symbol = $currency['currency'];
-    }
-}
-if (empty($currencies_symbol))
-    $currencies_symbol = "$";
+$currencies_symbol = "Dzd";
 \Yii::$app->params['maskMoneyOptions']['prefix'] =  $currencies_symbol;
-//$this->title = 'General Information';
-/* @var $this yii\web\View */
-//1 drop down for the lunch
+
 ?>
-<div class="row">
-    <div class="col-sm-3">
-        <h4><b>General Information</b></h4>
-    </div>
-    <div class="col-md-3">
-        <h4>Availability and Displacement</h4>
-    </div>
-    <div class="col-md-2">
-        <h4 style="color:green;font-size:12;">Service and Prices</h4>
-    </div>
-    <div class="col-md-1">
-        <h4>Conditions</h4>
-    </div>
-    <div class="col-md-1">
-        <h4>Payments</h4>
-    </div>
-    <div class="col-md-2">
-        <h4>Messages</h4>
-    </div>
-</div>
-<?php
-echo Progress::widget([
-    'percent' => 60,
-    'barOptions' => ['class' => 'progress-bar-success'],
-    'options' => ['class' => 'active progress-striped']
-]); ?>
-<style>
-    label:not([for="productparent-extra"]):after {
-        font-size: 15px;
-        content: " *";
-        color: red;
-    }
-</style>
+<?php $NavStep = new NavStep('step3'); ?>
+<?php $NavStep->displayNav(); ?>
+<?php $NavStep->displayProgress(60); ?>
+
 <div class="row">
 
     <div class="col-md-12">
@@ -81,11 +42,11 @@ echo Progress::widget([
             <?= $form->field($model3, 'partner_category')->hiddenInput(['value' => 2])->label(false); ?>
             <?php
             echo "<div class='col-md-6'>";
-            echo     $form->field($model3, 'name')->textInput(['style' => 'width:500px', 'placeholder' => 'Name under which you want to appear'])->label("Name");
+            echo     $form->field($model3, 'name')->textInput([ 'placeholder' => 'Name under which you want to appear'])->label("Nom du bien");
             echo "</div>";
             //
             echo "<div class='col-md-6'>";
-            echo     $form->field($model3, 'description')->textArea(['style' => 'width:500px', 'placeholder' => 'Describe your company/Service (specialty, expertise, number of years of experience ... etc) this will attract more customers'])->label("Discription");
+            echo     $form->field($model3, 'description')->textArea([ 'placeholder' => "Décrivez votre entreprise/service (spécialité, expertise, nombre d'années d'expérience ... etc) cela attirera plus de clients"])->label("Discription");
             echo "</div>";
 
             ?>
@@ -146,7 +107,7 @@ echo Progress::widget([
                                 <div class="col-sm-12">
                                     <div class="col-sm-6">
                                         <?=
-                                        $form->field($ProductItem, "[{$i}]name")->textInput()->label('Name of the equipment')
+                                        $form->field($ProductItem, "[{$i}]name")->textInput()->label('Nom du produit')
                                         ?>
                                     </div>
 
@@ -163,22 +124,11 @@ echo Progress::widget([
                                         ])->textInput([
                                             'min' => '1',
                                             'type' => 'number'
-                                        ])->label('Quantity of the equipment') ?>
+                                        ])->label('Quantité') ?>
                                     </div>
                                 </div>
                                 <!--Rental periode-->
                                 <div class="col-sm-12">
-                                    <div class="col-sm-6">
-                                        <?= $form->field($ProductItem, "[{$i}]periode", [
-                                            'options' => [
-                                                'tag' => 'div',
-                                                'class' => '',
-                                            ]
-                                        ])->textInput([
-                                            'min' => '1',
-                                            'type' => 'number'
-                                        ])->label('Rental period by hour') ?>
-                                    </div>
 
 
                                     <!--price -->
@@ -197,28 +147,14 @@ echo Progress::widget([
                                                 'suffix' => '',
                                                 'allowNegative' => false
                                             ]
-                                        ])->label('Total price of the rental period'); ?>
+                                        ])->label('Prix'); ?>
                                     </div>
-                                </div>
-                                <!--people number-->
-                                <div class="col-sm-12">
-                                    <div class="col-sm-6">
-                                        <?= $form->field($ProductItem, "[{$i}]people_number", [
-                                            'options' => [
-                                                'tag' => 'div',
-                                                'class' => '',
-                                            ]
-                                        ])->textInput([
-                                            'min' => '1',
-                                            'type' => 'number'
-                                        ])->label('For how many people') ?>
-                                    </div>
-                                    <!--Image -->
                                     <div class='col-md-6'>
                                         <?= $form->field($ProductItem, "[{$i}]picture[]")->fileInput(['multiple' => true]) ?>
 
                                     </div>
                                 </div>
+                              
                             </div><!-- .row -->
                         </div>
                     </div>
@@ -226,29 +162,7 @@ echo Progress::widget([
             </div>
 
             <?php DynamicFormWidget::end(); ?>
-            <?php
-            echo "<div class='col-md-12' >";
-            echo $form->field($model3, 'extra')->widget(MultipleInput::className(), [
-                'max' => 4,
-                'columns' => [
-                    [
-                        'name'  => 'Description',
-                        'title' => 'Description',
-                        'enableError' => true,
-                        'options' => [
-                            'class' => 'input-priority'
-                        ]
-                    ],
 
-                    [
-                        'name'  => 'Price',
-                        'title' => 'Price',
-                        'type' => MaskMoney::class
-                    ]
-                ]
-            ])->label('Add Other Services');
-            echo "</div >";
-            ?>
         </div>
     </div>
 

@@ -102,7 +102,7 @@ class ProductItem extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
+        /**
      * @return \yii\db\ActiveQuery
      */
     public function getProduct()
@@ -126,6 +126,8 @@ class ProductItem extends \yii\db\ActiveRecord
     {
         return new \app\models\ProductItemQuery(get_called_class());
     }
+
+    
     public function detail($id)
     {
         //Search the product Parent of a productItem

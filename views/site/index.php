@@ -27,7 +27,7 @@ echo
   }
 
 </style>';
-$this->title = 'ClicangoEvent';
+$this->title = 'Reservation';
 $Produit_type = [
 
   ['id' => '0', 'name' => 'Banquet\Dinner'],
@@ -115,7 +115,7 @@ foreach ($categories as $category) {
 
   if ($count == 0) {
     // no Partner found in this Category
-    $carouselContent = '<div class="text-center my-2"><h1>' . \Yii::t('app', 'No product found!') . '</h1></div>';
+    $carouselContent = '<div class="text-center my-2"><h1>' . \Yii::t('app', 'Pas de Produit!') . '</h1></div>';
   } else if ($count <= $perPage) {
     // Less than 3 partners in this Category
     $carouselContent .= '<div class="container text-center my-3">
@@ -125,7 +125,7 @@ foreach ($categories as $category) {
 
     foreach ($products as $product) {
 
-      $carouselContent .= $this->render('_partner_card', ['model1' => $product, 'perPage' => $perPage]);
+      $carouselContent .= $this->render('_partner_card', ['model'=>$productsparent,'model1' => $product, 'perPage' => $perPage]);
     }
 
 
@@ -246,9 +246,9 @@ foreach ($categories as $category) {
            
               'convertFormat' => true,
               'pluginOptions' => [
-                "maxSpan"=> [ "days"=> 0,"hour"=>30],
-                'minDate'=>Date('Y-m-d'),
-                'timePicker' => true,
+               // "maxSpan"=> [ "days"=> 0,"hour"=>30],
+               // 'minDate'=>Date('Y-m-d'),
+              //  'timePicker' => true,
             //    'timePickerIncrement' => 30,
        
                 'locale' => ['format' => 'Y-m-d h:i A']
@@ -265,7 +265,66 @@ foreach ($categories as $category) {
 
               <?php echo $form->field($model, 'place')->widget(Select2::classname(), ([
                 'name' => 'place_algeria',
-                'data' =>[ "Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaia", "Biskra", "Béchar", "Blida", "Bouira"],
+
+                'data' =>[
+                   "Adrar"=> "Adrar",
+                    "Chlef"=>"Chlef",
+                    "Laghouat"=>"Laghouat",
+                    "Oum El Bouaghi"=> "Oum El Bouaghi",
+                    "Batna"=>"Batna",
+                    "Béjaia"=>"Béjaia",
+                    "Biskra"=>"Biskra",
+                    "Béchar"=>"Béchar",
+                    "Blida"=>"Blida",
+                    "Bouira"=>"Bouira",
+                    "Tamanrasset"=>"Tamanrasset",
+                    "Tébessa"=>"Tébessa",
+                    "Télemcen"=>"Télemcen",
+                    "Tiaret"=>"Tiaret",
+                    "Tizi Ouzou"=>"Tizi Ouzou",
+                    "Alger",
+                    "Djelfa",
+                    "Jijel",
+                    "Sétif",
+                    "Saida",
+                    "Skikda",
+                    "Sidi Bel Abbès",
+                    "Annaba",
+                    "Guelma",
+                    "Constantine",
+                    "Médéa",
+                    "Mostaganem",
+                    "M'Sila",
+                    "Mascara",
+                    "Ouargla",
+                    "Oran",
+                    "El Bayadh",
+                    "Illizi",
+                    "Bordj Bou Arreridj",
+                    "Boumerdes",
+                    "El Tarf",
+                    "Tindouf",
+                    "Tissemsilt",
+                    "El Oued",
+                    "Khenchla",
+                    "Souk Ahras",
+                    "Tipaza",
+                    "Mila",
+                    "Ain Defla",
+                    "Naama",
+                    "Ain Témouchent",
+                    "Ghardaia",
+                    "Relizane",
+                    "Timimoun",
+                    "Bordj Badji Mokhtar",
+                    "Ouled Djallal",
+                    "Béni Abbès",
+                    "In Salah",
+                    "In Guezzam",
+                    "Touggourt",
+                    "Djanet",
+                    "El M'Ghair",
+                    "Meniaa"],
 
                 'options' => ['placeholder' => 'Choisir la willaya...']
               ])); ?>
@@ -280,7 +339,7 @@ foreach ($categories as $category) {
         <div class="row float-right">
           <div class="col-sm-12 mt-2">
             <!--<input type="submit" class="btn btn-primary shadow ml-sm-auto" value="SEARCH...">-->
-            <?= Html::submitButton('<span style="color:#fff;">SEARCH...</span>', ['class' => 'btn bg-purple shadow ml-sm-auto','style'=>'color:#fff;']) ?>
+            <?= Html::submitButton('<span style="color:#fff;">Rechercher...</span>', ['class' => 'btn bg-purple shadow ml-sm-auto','style'=>'color:#fff;']) ?>
           </div>
         </div>
       </div><!-- .form-group -->
@@ -298,105 +357,8 @@ foreach ($categories as $category) {
         'bordered' => true,
         'encodeLabels' => false,
         'items' => $items
-        //              [
-        //                  [ 'label' => 'One', 'content' => 'Anim pariatur cliche...', 'active' => true ],
-        //                  [ 'label' => 'Two', 'content' => 'Anim pariatur cliche...', 'headerOptions' => [], 'options' => ['id' => 'myveryownID'], ],
-        //               ],
       ]);  ?>
     </div>
   </div><!-- .row -->
 
 </section>
-<script>
-  // This sample uses the Autocomplete widget to help the user select a
-  // place, then it retrieves the address components associated with that
-  // place, and then it populates the form fields with those details.
-  // This sample requires the Places library. Include the libraries=places
-  // parameter when you first load the API. For example:
-  // <script
-  // src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-  var placeSearch, autocomplete;
-
-  var componentForm = {
-    street_number: 'short_name',
-    route: 'long_name',
-    locality: 'long_name',
-    administrative_area_level_1: 'short_name',
-    country: 'long_name',
-    postal_code: 'short_name'
-  };
-
-  function initAutocomplete() {
-    // Create the autocomplete object, restricting the search predictions to
-    // geographical location types.
-
-    autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('autocomplete'), {
-        types: ['geocode']
-      });
-
-    // Avoid paying for data that you don't need by restricting the set of
-    // place fields that are returned to just the address components.
-    autocomplete.setFields(['address_component']);
-
-    // When the user selects an address from the drop-down, populate the
-    // address fields in the form.
-    autocomplete.addListener('place_changed', fillInAddress);
-
-
-
-
-
-
-
-
-
-
-    // Avoid paying for data that you don't need by restricting the set of
-    // place fields that are returned to just the address components.
-    //autocomplete.setFields(['address_component']);
-
-    // When the user selects an address from the drop-down, populate the
-    // address fields in the form.
-    //autocomplete.addListener('place_changed', fillInAddress);
-  }
-
-  function fillInAddress() {
-    // Get the place details from the autocomplete object.
-    var place = autocomplete.getPlace();
-
-    for (var component in componentForm) {
-      document.getElementById(component).value = '';
-      document.getElementById(component).disabled = false;
-    }
-
-    // Get each component of the address from the place details,
-    // and then fill-in the corresponding field on the form.
-    for (var i = 0; i < place.address_components.length; i++) {
-      var addressType = place.address_components[i].types[0];
-      if (componentForm[addressType]) {
-        var val = place.address_components[i][componentForm[addressType]];
-        document.getElementById(addressType).value = val;
-      }
-    }
-  }
-
-  // Bias the autocomplete object to the user's geographical location,
-  // as supplied by the browser's 'navigator.geolocation' object.
-  function geolocate() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        var circle = new google.maps.Circle({
-          center: geolocation,
-          radius: position.coords.accuracy
-        });
-        autocomplete.setBounds(circle.getBounds());
-      });
-    }
-  }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTGpqrJDrULNO0PNch-b8vlmcwwGt7D2c&libraries=places&callback=initAutocomplete" async defer></script>
