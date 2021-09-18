@@ -107,7 +107,7 @@ class saveNext extends Component
                             $splitedMealType[] = $model->name;
                             $model->name = json_encode($splitedMealCategory, true);
                             $model->product_type = $model->description;
-
+                            
                             $model->temp = $model->temp;
                             $model->number_of_agent = 0;
                             $model->price = $model->price;
@@ -115,14 +115,15 @@ class saveNext extends Component
                             $model->languages = (string) json_encode($splitedMealType, true);
                         }
 
-                        if ($modelCustomer->partner_category == 9) {
+                        if ($modelCustomer->partner_category == 8) {
                             $model->languages = "empty";
                             $model->checkbox = "empty";
                             $model->temp = 'empty';
+                            $model->quantity = 0.0;
                             $model->description = "empty";
                             $model->people_number = 0;
                             $model->number_of_agent = 0;
-                            $model->price = 0.0;
+                            $model->price = $model->price;
                         }
 
                         $model->status = "0";

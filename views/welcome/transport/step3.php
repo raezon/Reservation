@@ -177,7 +177,7 @@ $currencies_symbol = "Dzd";
 
                                     <div class="col-sm-6">
                                         <?php
-                                        echo $form->field($ProductItem, "[{$i}]price_day")->widget(MaskMoney::classname(), [
+                                        echo $form->field($ProductItem, "[{$i}]price")->widget(MaskMoney::classname(), [
                                             'name' => 'amount_ph_1',
                                             'value' => null,
                                             'options' => [

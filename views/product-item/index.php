@@ -73,7 +73,7 @@ $this->registerJs($search);
             },
 
         ],
-        [
+       /* [
             'attribute' => 'temp',
             'label' => 'Produit nom',
             'value' => function ($model) {
@@ -92,7 +92,7 @@ $this->registerJs($search);
                     return $model->temp;
                 }
             },
-        ],
+        ],*/
         'price',
         [
             'attribute' => 'currencies_symbol',

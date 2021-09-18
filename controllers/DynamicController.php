@@ -364,7 +364,7 @@ class DynamicController extends Controller
 
         }
 
-        // return $this->redirect(Url::to(['welcome/step','id'=>3,'category_id'=>$category_id]));
+     return $this->redirect(Url::to(['welcome/step','id'=>4,'category_id'=>1]));
         /* return $this->render('welcome', [
             'modelCustomer' => $modelCustomer,
             'modelsAddress' => (empty($modelsAddress)) ? [new Address] : $modelsAddress

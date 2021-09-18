@@ -1,21 +1,35 @@
-<div class="row">
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use kartik\widgets\FileInput;
+use yii\helpers\Url;
+/* @var $this yii\web\View */
+/* @var $model app\models\Payment */
+/* @var $form ActiveForm */
+?>
+<div class="site-payement">
+
+    <?php $form = ActiveForm::begin([
+                                        'action' => ['save-reservation','prix'=>$prix,'id'=>$id],
+                                        'id' => 'formDecaissement',
+                                        'method' => 'post',
+                                        'enableAjaxValidation' => false,
+                                        'enableClientValidation' => false,
+                                        'options' => ['enctype' => 'multipart/form-data']
+                                       // 'options' => ['data-pjax' => true ]
+                                    ]); ?>
 
 
-        <!-- jumbotron -->
-      <div class="container">
-     
-          <br>
-          <div style="background:rgb(136, 235, 186) " class="jumbotron" >
-           <h1>Dear Client</h1>
-           <p> Thank you For purchasing our product..</p>
 
-          </div>
-      </div>
-      <!-- jumbotron /////////////// End-->
-      
+    <?=  $form->field($model, 'file')->widget(FileInput::classname(), [
+    'options' => ['enctype' => 'multipart/form-data'],
+    'pluginOptions' => ['previewFileType' => 'any']
+]);?>
 
+    <div class="form-group">
+        <?= Html::submitButton('Reserver', ['class' => 'btn btn-primary']) ?>
+    </div>
+    <?php ActiveForm::end(); ?>
 
-
-    </div><!-- .col-md-12 -->
-
-</div><!-- .row -->
+</div><!-- site-payement -->

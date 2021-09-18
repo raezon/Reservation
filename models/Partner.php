@@ -22,7 +22,7 @@ class Partner extends BasePartner
     {
         return
             [
-                [['name', 'description', 'address', 'fax', 'country', 'city', 'user_id', 'category_id', 'status','piece_jointe'], 'required'],
+                [['name', 'description', 'address', 'fax', 'country', 'city', 'user_id', 'category_id', 'status'], 'required'],
                 [['companyAddress', 'companyAddress_N'], 'safe'],
                 [['description'], 'string'],
                 [['user_id', 'category_id', 'status', 'created_at', 'updated_at'], 'integer'],

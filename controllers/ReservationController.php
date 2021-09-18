@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\base\Payment;
 use Yii;
 use app\models\Reservation;
 use yii\data\ActiveDataProvider;
@@ -30,7 +31,7 @@ class ReservationController extends Controller
                     [
                         'allow' => true,
 //                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-payment', 'add-reservation-detail'],
-                        'roles' => [User::ROLE_ADMIN]
+                        'roles' => [User::ROLE_ADMIN,User::ROLE_PARTNER]
                     ],
                     [
                         'allow' => false
@@ -91,6 +92,31 @@ class ReservationController extends Controller
             return $this->render('create', [
                 'model' => $model,
             ]);
+        }
+    }
+    public function actionViewPiece($id){
+        $model =Reservation::findOne($id);
+        Yii::setAlias('@app', 'uploads/');
+        // This will need to be the path relative to the root of your app.
+        $filePath = '/web/uploads';
+        // Might need to change '@app' for another alias
+        $completePath = Yii::getAlias('@app/'.$model->piece_jointe.'.pdf');
+
+
+
+       $this->redirect($completePath);
+    }
+    public function actionAccept($userId ,$reservation_id){
+        $model =new Payment();
+        $now = new \DateTime();
+        $model->payment_date = $now->format('Y-m-d H:i:s');
+        $model->reservation_id =$reservation_id;
+        $model->amount=0;
+        if ($model->save()) {
+            return $this->redirect(['payment/index']);
+        } else{
+            print_r($model->errors);
+            die();
         }
     }
 

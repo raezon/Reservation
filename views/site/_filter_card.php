@@ -72,7 +72,7 @@ $totalPrice= $model1->totalPrice($model1->description, $model1->partner_category
             <?php endif ?>
             <?php if ($model1->partner_category != 3) : ?>
               <?php if ($model1->partner_category != 6) : ?>
-                <p class="card-text"><?= '<b>Product name</b><b class="triangle-right"></b>' .  $model1->name  ?></p>
+                <p class="card-text"><?= '<b>Nom produit</b><b class="triangle-right"></b>' .  $model1->name  ?></p>
               <?php endif ?>
             <?php endif ?>
             <!--Affichage detail of product if fulfy a condition of partner_category == 2-->
@@ -86,7 +86,7 @@ $totalPrice= $model1->totalPrice($model1->description, $model1->partner_category
             <?php endif ?>
             <!--Affichage detail of product if fulfy a condition of partner_category == 2-->
             <?php if ($model1->partner_category == 2) : ?>
-              <p class="card-text"><?= '<b>Number equipement</b><b class="triangle-right"></b>' . $model1->quantity  ?></p>
+              <p class="card-text"><?= '<b>nombre </b><b class="triangle-right"></b>' . $model1->quantity  ?></p>
             <?php endif ?>
             <!--Affichage detail of product if fulfy a condition of partner_category == 2-->
             <?php if ($model1->partner_category == 3) : ?>
@@ -125,10 +125,7 @@ $totalPrice= $model1->totalPrice($model1->description, $model1->partner_category
                   <p class="card-text"><?= '<b>Number of host/hostess</b><b class="triangle-right"></b>' . $model1->number_of_agent ?></p>
                   <p class="card-text"><?= '<b>Duration</b><b class="triangle-right"></b>' . $model1->periode . 'hour' ?></p>
                 <?php endif ?>
-                <?php if ($model1->partner_category != 3) : ?>
-                  <p class="card-text"><?= '<b>Partner name</b><span class="triangle-right"></span><span>' . $detail[1]->name ?>
-                    </span></p>
-                  <?php endif ?>
+  
 
           </div>
 

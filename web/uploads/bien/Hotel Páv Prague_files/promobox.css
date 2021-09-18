@@ -1,0 +1,46 @@
+.reservation-content .snippet > div {
+    background: transparent;
+    color: #fff !important;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.reservation-content .snippet > div a {
+    display: block;
+    transition: 0.3s;
+    text-decoration: none;
+    background: #ee941f;
+    color: #fff !important;
+    font-size: 1.1em;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.reservation-content .snippet > div a:hover {
+    color: #ee941f !important;
+    background: #fff;
+    border-color: #ee941f;
+}
+
+.reservation-content .snippet > div form {
+    margin-bottom: 0;
+}
+
+.reservation-content .snippet > div input, .reservation-content .snippet > div input button {
+    width: 100%;
+    padding: 7px 8px;
+}
+
+.reservation-content .snippet > div input {
+    color: #333 !important;
+}
+
+.reservation-content .snippet > div button {
+    width: 100%;
+    padding: 7px 8px;
+    margin-top: 10px;
+    color: #fff;
+    background: #ee941f;
+    text-transform: uppercase;
+    border: 1px solid #e98448;
+}

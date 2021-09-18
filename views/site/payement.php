@@ -1,27 +1,21 @@
-<?php
+<div class="row">
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use kartik\widgets\FileInput;
-use yii\helpers\Url;
-/* @var $this yii\web\View */
-/* @var $model app\models\Payment */
-/* @var $form ActiveForm */
-?>
-<div class="site-payement">
 
-    <?php $form = ActiveForm::begin(); ?>
-
-       
+        <!-- jumbotron -->
+      <div class="container">
      
-       <?=  $form->field($model, 'piece_jointe')->widget(FileInput::classname(), [
-    'options' => ['multiple' => true],
-    'pluginOptions' => ['previewFileType' => 'any']
-]);?>
-    
-        <div class="form-group">
-            <?= Html::submitButton('Payer', ['class' => 'btn btn-primary']) ?>
-        </div>
-    <?php ActiveForm::end(); ?>
+          <br>
+          <div style="background:rgb(136, 235, 186) " class="jumbotron" >
+           <h1>Dear Client</h1>
+           <p> Thank you For purchasing our product..</p>
 
-</div><!-- site-payement -->
+          </div>
+      </div>
+      <!-- jumbotron /////////////// End-->
+      
+
+
+
+    </div><!-- .col-md-12 -->
+
+</div><!-- .row -->

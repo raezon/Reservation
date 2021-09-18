@@ -13,7 +13,6 @@ use yii\behaviors\TimestampBehavior;
  * @property string $start_date
  * @property string $end_date
  * @property integer $status
- * @property string $observation
  * @property string $country
  * @property string $city
  * @property integer $user_id
@@ -37,7 +36,6 @@ class Reservation extends \yii\db\ActiveRecord
             [['reservation_date', 'user_id'], 'required'],
             [['reservation_date', 'start_date', 'end_date'], 'safe'],
             [['status', 'user_id', 'created_at', 'updated_at'], 'integer'],
-            [['observation'], 'string'],
             [['country', 'city'], 'string', 'max' => 255]            
         ];
     }
@@ -61,7 +59,7 @@ class Reservation extends \yii\db\ActiveRecord
             'start_date' => Yii::t('app', 'Start Date'),
             'end_date' => Yii::t('app', 'End Date'),
             'status' => Yii::t('app', 'Status'),
-            'observation' => Yii::t('app', 'Observation'),
+         
             'country' => Yii::t('app', 'Country'),
             'city' => Yii::t('app', 'City'),
             'user_id' => Yii::t('app', 'User ID'),

@@ -65,6 +65,9 @@ class Filter extends Component
         $this->request = Yii::$app->request;
         $_SESSION['active'] = $active;
         $this->model =  new \app\models\forms\SearchForm();
+        $session = Yii::$app->session;
+        $session->open();
+
         $this->model->category = $_SESSION['category'] + 1;
         $this->model->date_depart = $_SESSION['date_depart'];
         $this->model->date_arriver = $_SESSION['date_arriver'];

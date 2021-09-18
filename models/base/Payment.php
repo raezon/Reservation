@@ -13,11 +13,8 @@ use mootensai\behaviors\UUIDBehavior;
  * @property integer $id
  * @property string $payment_date
  * @property string $amount
- * @property integer $status
  * @property string $piece_jointe
  * @property integer $reservation_id
- * @property integer $created_at
- * @property integer $updated_at
  */
 class Payment extends \yii\db\ActiveRecord
 {
@@ -29,13 +26,12 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'payment_date', 'amount', 'status', 'reservation_id'], 'required'],
-            [['id', 'status', 'reservation_id', 'created_at', 'updated_at'], 'integer'],
+            [[ 'payment_date', 'amount', 'reservation_id'], 'required'],
+            [['id',  'reservation_id'], 'integer'],
             [['payment_date'], 'safe'],
             [['amount'], 'number'],
-            [['piece_jointe'], 'string'],
-            [['lock'], 'default', 'value' => '0'],
-            [['lock'], 'mootensai\components\OptimisticLockValidator']
+         
+           
         ];
     }
     
@@ -47,16 +43,7 @@ class Payment extends \yii\db\ActiveRecord
         return 'payment';
     }
 
-    /**
-     * 
-     * @return string
-     * overwrite function optimisticLock
-     * return string name of field are used to stored optimistic lock 
-     * 
-     */
-    public function optimisticLock() {
-        return 'lock';
-    }
+
 
     /**
      * @inheritdoc
@@ -77,26 +64,7 @@ class Payment extends \yii\db\ActiveRecord
      * @inheritdoc
      * @return array mixed
      */ 
-    public function behaviors()
-    {
-        return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created_at',
-                'updatedAtAttribute' => 'updated_at',
-                'value' => new \yii\db\Expression('NOW()'),
-            ],
-            'blameable' => [
-                'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'created_by',
-                'updatedByAttribute' => 'updated_by',
-            ],
-            'uuid' => [
-                'class' => UUIDBehavior::className(),
-                'column' => 'id',
-            ],
-        ];
-    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

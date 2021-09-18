@@ -31,7 +31,6 @@ $this->registerJs($search);
         'start_date',
         'end_date',
         'status',
-        'observation:ntext',
         'country',
         'city',
 //        [

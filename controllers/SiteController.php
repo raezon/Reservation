@@ -2,56 +2,42 @@
 
 namespace app\controllers;
 
-
-use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
-use yii\helpers\Url;
-use app\models\LoginForm;
-
-use app\models\ContactForm;
-use app\models\partner\RegistrationForm;
-use app\models\User;
-use app\models\Partner;
-use app\models\Product;
-use app\models\ProductParent;
-use app\models\ProductItem;
-use app\models\Other;
-use app\models\ProductItemSearch;
-use app\models\base\TblEvents;
-use app\modules\survey\models\SurveyStat;
-use app\models\PartnerCategorySurveys;
-use app\models\Surveys;
-use app\models\base\QuestionsList;
-use app\models\base\Questions;
-use app\models\base\QuestionsPartner;
-use app\models\AccountNotification;
-use app\models\Notificationsuser;
-use yii\data\ActiveDataProvider;
-use app\models\Reservation;
-use app\models\Payment;
-use yii\data\Pagination;
-use yii\widgets\LinkPager;
-use yii\data\ArrayDataProvider;
-use yii\web\Session;
 use app\components\Filter;
-use app\components\FilterRoom;
-use app\components\FiltreEquipement;
 use app\components\FilterCater;
-use app\components\FilterPhoto;
-use app\components\FiltreAnimation;
-use app\components\FilterSecurity;
 use app\components\FilterHost;
 use app\components\FilterOther;
+use app\components\FilterPhoto;
+use app\components\FilterRoom;
+use app\components\FilterSecurity;
+use app\components\FiltreAnimation;
+use app\components\FiltreEquipement;
+use app\models\AccountNotification;
+use app\models\base\TblEvents;
+use app\models\ContactForm;
+use app\models\LoginForm;
 use app\models\modelMap;
-
-use app\components\FiltreOther;
-
-
-
-
+use app\models\Notificationsuser;
+use app\models\Partner;
+use app\models\partner\RegistrationForm;
+use app\models\Payment;
+use app\models\Product;
+use app\models\ProductItem;
+use app\models\ProductItemSearch;
+use app\models\ProductParent;
+use app\models\Reservation;
+use app\models\User;
+use app\modules\survey\models\SurveyStat;
+use Yii;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\data\Pagination;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\helpers\Url;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\web\Session;
+use yii\web\UploadedFile;
 class SiteController extends Controller
 {
 
@@ -110,12 +96,12 @@ class SiteController extends Controller
     /**
      * @function getDistance()
      * Calculates the distance between two address
-     * 
+     *
      * @params
      * $addressFrom - Starting point
      * $addressTo - End point
      * $unit - Unit type
-     * 
+     *
      * @author CodexWorld
      * @url https://www.codexworld.com
      *
@@ -124,14 +110,14 @@ class SiteController extends Controller
     {
         return $this->render('reservation', []);
     }
-    function getDistance($addressFrom, $addressTo, $unit = '')
+    public function getDistance($addressFrom, $addressTo, $unit = '')
     {
 
         // Google API key
         $apiKey = 'AIzaSyB7Iz5ZKGr0_5l_LD47xNf9umU7GSiUVuw';
 
         // Change address format
-        $formattedAddrTo     = str_replace(' ', '+', $addressTo);
+        $formattedAddrTo = str_replace(' ', '+', $addressTo);
         $array_partner_filtered_by_address = array();
         // Geocoding API request with end address
         $geocodeTo = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address=' . $formattedAddrTo . '&sensor=false&key=' . $apiKey);
@@ -139,37 +125,32 @@ class SiteController extends Controller
         if (!empty($outputTo->error_message)) {
             return $outputTo->error_message;
         }
-        $latitudeTo        = $outputTo->results[0]->geometry->location->lat;
-        $longitudeTo    = $outputTo->results[0]->geometry->location->lng;
+        $latitudeTo = $outputTo->results[0]->geometry->location->lat;
+        $longitudeTo = $outputTo->results[0]->geometry->location->lng;
         foreach ($addressFrom as $address) {
             //print_r($address);
-
 
             if ($address['latitude'] != 0) {
 
                 // Geocoding API request with start address
 
-
                 // Get latitude and longitude from the geodata
-                $latitudeFrom    = $address['latitude'];
-                $longitudeFrom    = $address['longitude'];
-
+                $latitudeFrom = $address['latitude'];
+                $longitudeFrom = $address['longitude'];
 
                 // Calculate distance between latitude and longitude
-                $theta    = $longitudeFrom - $longitudeTo;
-                $dist    = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
-                $dist    = acos($dist);
-                $dist    = rad2deg($dist);
-                $miles    = $dist * 60 * 1.1515;
+                $theta = $longitudeFrom - $longitudeTo;
+                $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) + cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
+                $dist = acos($dist);
+                $dist = rad2deg($dist);
+                $miles = $dist * 60 * 1.1515;
 
                 // Convert unit and return distance
                 $unit = strtoupper($unit);
 
                 $distance = round($miles * 1.609344, 2);
 
-
-
-                $distance = (float)$distance;
+                $distance = (float) $distance;
 
                 if ($distance < 30) {
 
@@ -178,15 +159,13 @@ class SiteController extends Controller
             }
         }
 
-
-
         return $array_partner_filtered_by_address;
     }
 
     public function actionAdress()
     {
         $addressFrom = '12 Rue Ahmed Bououfa, Ain Benian, Algeria';
-        $addressTo   = '14 Rue Ahmed Bououfa, Ain Benian, Algeria';
+        $addressTo = '14 Rue Ahmed Bououfa, Ain Benian, Algeria';
 
         // Get distance in km
         $distance = $this->getDistance($addressFrom, $addressTo, "K");
@@ -209,13 +188,15 @@ class SiteController extends Controller
         }
 
         //partie de verification pour qu'elle partie de redirectrion
-        if (isset($_SESSION["pass"]))
+        if (isset($_SESSION["pass"])) {
             if ($_SESSION["pass"] === 1) {
                 $_SESSION['pass'] = 0;
                 $_SESSION['page'] = -2;
             }
+        }
+
         if (!empty($request->get('page'))) {
-            $_SESSION['base'] = $_SESSION['base']  + 1;
+            $_SESSION['base'] = $_SESSION['base'] + 1;
             $id = $request->get('page');
             if ($id > 0) {
                 $_SESSION['base'] = $_SESSION['base'] + 1;
@@ -239,7 +220,6 @@ class SiteController extends Controller
     }
     public function actionFilter($price, $type_of_room, $space_for_rent, $accepts, $facilities, $transport, $parking, $active)
     {
-
 
         $this->setBsVersion('4.x');
         $request = Yii::$app->request;
@@ -265,7 +245,7 @@ class SiteController extends Controller
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
                         'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
-                        'deliveryPrice' => $result[7]
+                        'deliveryPrice' => $result[7],
                     ]);
                     break;
             }
@@ -274,7 +254,7 @@ class SiteController extends Controller
         return $this->renderAjax('_send', [
             'model1' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
             'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
-            'deliveryPrice' => $result[7]
+            'deliveryPrice' => $result[7],
         ]);
     }
     public function actionFilterRoom($price, $type_of_room, $space_for_rent, $accepts, $facilities, $transport, $parking, $active)
@@ -298,14 +278,14 @@ class SiteController extends Controller
                 case 'pagination_page':
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
                     ]);
                     break;
             }
         }
         return $this->renderAjax('_send', [
             'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
         ]);
     }
     public function actionFilterEquipement($price, $active)
@@ -330,14 +310,14 @@ class SiteController extends Controller
                 case 'pagination_page':
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
                     ]);
                     break;
             }
         }
         return $this->renderAjax('_send', [
             'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
         ]);
     }
     public function actionFilterCater($price, $active)
@@ -361,14 +341,14 @@ class SiteController extends Controller
                 case 'pagination_page':
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
                     ]);
                     break;
             }
         }
         return $this->renderAjax('_send', [
             'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
         ]);
     }
 
@@ -395,14 +375,14 @@ class SiteController extends Controller
                 case 'pagination_page':
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
                     ]);
                     break;
             }
         }
         return $this->renderAjax('_send', [
             'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
         ]);
     }
     public function actionFilterAnimation($price, $active)
@@ -428,14 +408,14 @@ class SiteController extends Controller
                 case 'pagination_page':
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
                     ]);
                     break;
             }
         }
         return $this->renderAjax('_send', [
             'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
         ]);
     }
     public function actionFilterSecurity($price, $active)
@@ -460,14 +440,14 @@ class SiteController extends Controller
                 case 'pagination_page':
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6], 'deliveryPrice' => $_SESSION["deliveryPrice"]
+                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6], 'deliveryPrice' => $_SESSION["deliveryPrice"],
                     ]);
                     break;
             }
         }
         return $this->renderAjax('_send', [
             'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
         ]);
     }
     public function actionFilterHost($price, $active)
@@ -492,14 +472,14 @@ class SiteController extends Controller
                 case 'pagination_page':
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
                     ]);
                     break;
             }
         }
         return $this->renderAjax('_send', [
             'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
         ]);
     }
     public function actionFilterOther($price, $active)
@@ -523,14 +503,14 @@ class SiteController extends Controller
                 case 'pagination_page':
                     return $this->renderAjax('page', [
                         'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6]
+                        'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6],
                     ]);
                     break;
             }
         }
         return $this->renderAjax('_send', [
             'model' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
-            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6], 'deliveryPrice' => $_SESSION["deliveryPrice"]
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => $_SESSION['nbr_persson'], 'active' => $result[5], 'category' => $result[6], 'deliveryPrice' => $_SESSION["deliveryPrice"],
         ]);
     }
 
@@ -540,21 +520,23 @@ class SiteController extends Controller
         $this->setBsVersion('4.x');
         $active = $_SESSION['active'];
         $request = Yii::$app->request;
-        if ($sort == "ascending")
+        if ($sort == "ascending") {
             $query = ProductItem::find()
                 ->andFilterWhere(['partner_category' => $filter])
                 ->orderBy(['price' => SORT_ASC])
                 ->all();
-        else
+        } else {
             $query = ProductItem::find()
                 ->andFilterWhere(['partner_category' => $filter])
                 ->orderBy(['price' => SORT_DESC])
                 ->all();
+        }
+
         $pages = new Pagination(['totalCount' => count($query)]);
 
         $searchModel = new ProductItemSearch();
         $dataProvider = new ArrayDataProvider([
-            'allModels'  => $query,
+            'allModels' => $query,
 
             'pagination' => [
                 'pageSize' => 3,
@@ -564,18 +546,19 @@ class SiteController extends Controller
 
         $category = $filter;
         $id = -2;
-        if (!empty($request->get('page')))
+        if (!empty($request->get('page'))) {
             $id = $request->get('page');
+        }
 
         if ($id > -1) {
             return $this->renderAjax('page', [
                 'dataProvider' => $dataProvider,
-                'pages' => $pages, 'searchModel' => $searchModel, 'a' => 'a', 'active' => $active, 'category' => $filter
+                'pages' => $pages, 'searchModel' => $searchModel, 'a' => 'a', 'active' => $active, 'category' => $filter,
             ]);
         } else {
             return $this->renderAjax('_send', [
                 'dataProvider' => $dataProvider,
-                'pages' => $pages, 'searchModel' => $searchModel, 'a' => 'a', 'active' => $active, 'category' => $filter
+                'pages' => $pages, 'searchModel' => $searchModel, 'a' => 'a', 'active' => $active, 'category' => $filter,
             ]);
         }
     }
@@ -587,7 +570,7 @@ class SiteController extends Controller
         $_SESSION['base'] = 0;
         $_SESSION['condition'] = 0;
 
-        $model =  new \app\models\forms\SearchForm();
+        $model = new \app\models\forms\SearchForm();
         $searchModel = new ProductItemSearch();
         $_SESSION['category'] = $filter - 1;
         $_SESSION['category1'] = $filter;
@@ -599,58 +582,57 @@ class SiteController extends Controller
         //}
     }
 
-
-
     public function actionSend()
     {
         //session_unset();
-       // die();
+        // die();
         $this->setBsVersion('4');
         $this->layout = 'home_send';
-        $model =  new \app\models\forms\SearchForm();
+        $model = new \app\models\forms\SearchForm();
         if ($model->load(Yii::$app->request->post())) {
             //creating session variable
             $session = Yii::$app->session;
             $session->open();
             $_SESSION['category'] = $model->category;
-            
-            
+
             $_SESSION['category1'] = $model->category + 1;
-            if( $_SESSION['category1']==1)
-            $_SESSION['subcategory'] = $model->subcategory-1;
-             else 
-             $_SESSION['subcategory'] = $model->subcategory;
+            if ($_SESSION['category1'] == 1) {
+                $_SESSION['subcategory'] = $model->subcategory - 1;
+            } else {
+                $_SESSION['subcategory'] = $model->subcategory;
+            }
+
             $_SESSION['date_depart'] = $model->date_depart;
             $_SESSION['date_arriver'] = $model->date_arriver;
             //calculate the difference of hour
-            $date = explode(" - ",  $_SESSION['date_depart'] );
+            $date = explode(" - ", $_SESSION['date_depart']);
 
             $date_depart = $date[0];
             $timestamp = strtotime($date_depart);
-            $_SESSION['dayDepart']  = date('l', $timestamp);
+            $_SESSION['dayDepart'] = date('l', $timestamp);
             $date_arriver = $date[1];
             $timestamp = strtotime($date_arriver);
-            $_SESSION['dayArriver']  = date('l', $timestamp);
+            $_SESSION['dayArriver'] = date('l', $timestamp);
             $date_arriver = $date[1];
-            $_SESSION['depart']= $date[0];
+            $_SESSION['depart'] = $date[0];
             $_SESSION['arriver'] = $date[1];
-            $heure_depart= substr($date_depart, 11,20); ;
-            $heure_arriver = substr($date_arriver , 11,20); 
-            $timeStartChosedByClient = new \DateTime(  $heure_depart);
+
+            $heure_depart = substr($date_depart, 11, 20);
+            $heure_arriver = substr($date_arriver, 11, 20);
+            $timeStartChosedByClient = new \DateTime($heure_depart);
             $timeStartChosedByClient = $timeStartChosedByClient->format('H:i');
-            $timeClosedChosedByClient = new \DateTime($heure_arriver );
+            $timeClosedChosedByClient = new \DateTime($heure_arriver);
             $timeClosedChosedByClient = $timeClosedChosedByClient->format(' H:i');
-            $_SESSION['duration']=  strtotime($timeClosedChosedByClient)-strtotime($timeStartChosedByClient);
-            $_SESSION['duration']=$_SESSION['duration']/3600  ;
+            $_SESSION['duration'] = strtotime($timeClosedChosedByClient) - strtotime($timeStartChosedByClient);
+            $_SESSION['duration'] = $_SESSION['duration'] / 3600;
 
             //
             $_SESSION['place'] = $model->place;
             $_SESSION['nbr_persson'] = $model->nbr_persson;
         }
-     
-      
+
         return $this->render('send', [
-            'model' => $model->category
+            'model' => $model->category,
             //'model' => $model,'products1'=>$products,'category_searched'=>$value_category_serached,'dataProvider'=>$dataProvider,
             //'pages' => $pages,'searchModel'=>$searchModel
 
@@ -663,14 +645,13 @@ class SiteController extends Controller
         //pour faire le filtrage
         //slection les dates entre le range dans le partenaire dans un interval de date
         //selctioner les adress et filtrer avec adress
-        $model =  new \app\models\forms\SearchForm();
+        $model = new \app\models\forms\SearchForm();
         if ($model->load(Yii::$app->request->post())) {
             $this->layout = 'home_send';
             $this->setBsVersion('4');
             $session = Yii::$app->session;
             $session->open();
             if (empty($model)) {
-
                 $model->category = $_SESSION['category'];
                 $model->date_depart = $_SESSION['date_depart'];
                 $model->date_arriver = $_SESSION['date_arriver'];
@@ -684,17 +665,18 @@ class SiteController extends Controller
             $model->place = $_SESSION['place'];
             $model->nbr_persson = $_SESSION['nbr_persson'];
 
-            //getting the partner that has the nearest address with near to in a range of less than 30 km and return that distance 
+            //getting the partner that has the nearest address with near to in a range of less than 30 km and return that distance
             $array_partner_filtered_by_address = array();
             $partner_getting_address = Partner::find()->all();
             $addressFrom = "";
             foreach ($partner_getting_address as $address) {
 
-                if ($address->address != "xxxx")
+                if ($address->address != "xxxx") {
                     $addressFrom = $address->address . "," . $address->city . "," . $address->country;
+                }
 
                 $addressTo = $_SESSION['place'];
-   
+
             }
 
             //verifying in the product  people who have the category id
@@ -711,12 +693,13 @@ class SiteController extends Controller
                 $array_partner[] = $partner->partner_id;
             }
             $result = array_intersect($array_partner, $array_partner_filtered_by_address);
-        
-     
+
             $value_category_serached = $model->category + 1;
             $value_category_serached = $value_category_serached . "";
-            if (empty($products))
+            if (empty($products)) {
                 $products = "vide";
+            }
+
             // I need to create a product Parent with the filter appropriate of the date
             $product_parent = ProductParent::find()->where(['partner_id' => $array_partner])->all();
 
@@ -742,7 +725,7 @@ class SiteController extends Controller
             $this->layout = 'home_send';
             return $this->renderAjax('_send', [
                 'model' => $model, 'products1' => $products, 'category_searched' => $value_category_serached, 'dataProvider' => $dataProvider,
-                'pages' => $pages, 'searchModel' => $searchModel
+                'pages' => $pages, 'searchModel' => $searchModel,
 
             ]);
         } else {
@@ -765,17 +748,18 @@ class SiteController extends Controller
             $model->place = $_SESSION['place'];
             $model->nbr_persson = $_SESSION['nbr_persson'];
 
-            //getting the partner that has the nearest address with near to in a range of less than 30 km and return that distance 
+            //getting the partner that has the nearest address with near to in a range of less than 30 km and return that distance
             $array_partner_filtered_by_address = array();
             $partner_getting_address = Partner::find()->all();
             $addressFrom = "";
             foreach ($partner_getting_address as $address) {
 
-                if ($address->address != "xxxx")
+                if ($address->address != "xxxx") {
                     $addressFrom = $address->address . "," . $address->city . "," . $address->country;
+                }
 
                 $addressTo = $_SESSION['place'];
-  
+
             }
 
             //verifying in the product  people who have the category id
@@ -796,8 +780,10 @@ class SiteController extends Controller
             $products = Product::find()->andwhere(['partner_category' => $model->category + 1, 'number_people' => $model->nbr_persson, 'partner_id' => $result])->all();
             $value_category_serached = $model->category + 1;
             $value_category_serached = $value_category_serached . "";
-            if (empty($products))
+            if (empty($products)) {
                 $products = "vide";
+            }
+
             // I need to create a product Parent with the filter appropriate of the date
             $product_parent = ProductParent::find()->where(['partner_id' => $array_partner])->all();
 
@@ -823,7 +809,7 @@ class SiteController extends Controller
             $this->layout = 'home_send';
             return $this->renderAjax('_send', [
                 'model' => $model, 'products1' => $products, 'category_searched' => $value_category_serached, 'dataProvider' => $dataProvider,
-                'pages' => $pages, 'searchModel' => $searchModel
+                'pages' => $pages, 'searchModel' => $searchModel,
 
             ]);
         }
@@ -832,66 +818,131 @@ class SiteController extends Controller
     {
         $this->layout = 'home';
         // session_unset();
-        $model =  new \app\models\forms\SearchForm();
+        $model = new \app\models\forms\SearchForm();
         $this->setBsVersion(4);
-      //  $this->setBsVersion('3.x');
+        //  $this->setBsVersion('3.x');
 
         return $this->render('index', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
     public function actionAbout()
     {
         return $this->render('about', []);
     }
-    public function actionReservation($amount, $id, $product_id)
+    /* public function actionReservation($amount, $id, $product_id)
     {
-        //get the id 
-        $reservation_id = Reservation::find()->orderBy(['id' => SORT_DESC])->one();
-        $id_reservation = $reservation_id->id;
-        $model = new Reservation();
-        $model_p = new Payment;
-        $model_Partner = ProductParent::find()->where(['id' => $product_id])->all();
-        $partner_id = $model_Partner[0]->partner_id;
-        $model->id = $id_reservation + 1;
-        $date_reservation = date("Y/m/d");
-        $model->reservation_date = $date_reservation;
-        $model->status = 0;
-        $model->observation = "not visioned";
-        $model->user_id = User::getCurrentUser()->id;
-        $model->partner_id = $partner_id;
-        $model->product_id = $product_id;
-        if ($model->save()) {
-            echo "success";
-        } else {
-            echo "problem";
-            print_r($model->getErrors());
+    //get the id
+    $reservation_id = Reservation::find()->orderBy(['id' => SORT_DESC])->one();
+    $id_reservation = $reservation_id->id;
+    $model = new Reservation();
+    $model_p = new Payment;
+    $model_Partner = ProductParent::find()->where(['id' => $product_id])->all();
+    $partner_id = $model_Partner[0]->partner_id;
+    $model->id = $id_reservation + 1;
+    $date_reservation = date("Y/m/d");
+    $model->reservation_date = $date_reservation;
+    $model->status = 0;
+    
+    $model->user_id = User::getCurrentUser()->id;
+    $model->partner_id = $partner_id;
+    $model->product_id = $product_id;
+    if ($model->save()) {
+    echo "success";
+    } else {
+    echo "problem";
+    print_r($model->getErrors());
+    die();
+    }
+
+    $this->layout = 'home_send';
+    // $this->setBsVersion('4.x');
+    Yii::$app->session->setFlash('success', "Transaction succesful");
+
+    return $this->redirect(['/site/detail']);
+    }*/
+    public function actionReservation($prix,$id)
+    {
+       
+
+        $this->setBsVersion('3');
+        $this->layout = 'main';
+        if (User::isUser()) {
+            $model = new \app\models\Reservation();
+
+           
+            return $this->render('reservation', [
+                'model' => $model,
+                'prix'=>$prix,
+                'id'=>$id
+            ]);
+        }else{
+            echo 'sss';
             die();
         }
+        return $this->redirect(['/user/security/login']);
 
+    }
+    public function actionSaveReservation($prix,$id)
+    {
 
-        $this->layout = 'home_send';
-        // $this->setBsVersion('4.x');
-        Yii::$app->session->setFlash('success', "Transaction succesful");
-        return $this->redirect(['/site/detail']);
+    
+        $model = new \app\models\Reservation();
+
+        if ($model->load(Yii::$app->request->post())) {
+            
+                $now = new \DateTime();
+              
+                $model->reservation_date = $now->format('Y-m-d H:i:s');
+                $model->file = UploadedFile::getInstance($model, 'file');
+        
+                if ($model->file != 'vide' and !empty($model->file)) {
+                    if ($model->upload()) {
+        
+                    }
+                }
+                $model->product_item_id = $id;
+                $model->montant=$prix;
+                if ($model->file) {
+                    $model->piece_jointe = (string) $model->file;
+                } else {
+                    $model->piece_jointe = "vide";
+                }
+                $model->user_id =(string) User::getCurrentUser()->id;
+        
+                if ($model->save()) {
+                    
+                } else{
+                    print_r($model->errors);
+                    die();
+                }
+                return $this->render('payement', [
+        
+                ]);
+            
+        }
+        return $this->render('reservation', [
+            'model' => $model,
+        ]);
+        
     }
     public function actionDetail($amount, $id, $product_id, $deliveryPrice)
     {
 
         $this->setBsVersion('4');
         $this->layout = 'detail';
-     
-        $model =  new \app\models\forms\SearchForm();
+
+        $model = new \app\models\forms\SearchForm();
         $model_Partner = ProductParent::find()->where(['id' => $product_id])->all();
         $partner_id = $model_Partner[0]->partner_id;
-       
+
         $partner = Partner::find()->where(['id' => $partner_id])->all();
-        $model = ProductItem::find()->where(['id'=>$id])->all();
+        $model = ProductItem::find()->where(['id' => $id])->all();
         $image = json_decode($model[0]->picture, true);
 
         $count = count($image);
         $extra = json_decode($model_Partner[0]->extra, true);
-      
+
         //récuperer la quantité
         $qte = 0;
         if ($model_Partner[0]->partner_category == 3) {
@@ -901,27 +952,27 @@ class SiteController extends Controller
         }
         //Get Cordinates
 
-            $partner = Partner::find()->where(['id' => $partner_id])->one();
-;
-            //die();
-            $latitude = $partner->latitude;
-            $longitude = $partner->longitude;
-            $modelmap = new modelMap();
-       
+        $partner = Partner::find()->where(['id' => $partner_id])->one();
+
+        //die();
+        $latitude = $partner->latitude;
+        $longitude = $partner->longitude;
+        $modelmap = new modelMap();
+
         //Address
         $apiKey = 'AIzaSyCTGpqrJDrULNO0PNch-b8vlmcwwGt7D2c';
         $counter = 0;
         $addressTo = $_SESSION['place'];
-        $formattedAddrTo     = $addressTo;;
+        $formattedAddrTo = $addressTo;
         // Geocoding API request with end address
-        $formattedAddrTo     = str_replace(' ', '+', $addressTo);
+        $formattedAddrTo = str_replace(' ', '+', $addressTo);
         $geocodeTo = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address=' . $formattedAddrTo . '&sensor=false&key=' . $apiKey);
         $outputTo = json_decode($geocodeTo);
         if (!empty($outputTo->error_message)) {
             return $outputTo->error_message;
         }
-        $latitudeTo        = $outputTo->results[0]->geometry->location->lng;
-        $longitudeTo    = $outputTo->results[0]->geometry->location->lat;
+        $latitudeTo = $outputTo->results[0]->geometry->location->lng;
+        $longitudeTo = $outputTo->results[0]->geometry->location->lat;
 
         return $this->render('detail', ['model' => $image, 'cancelation' => $partner->picture, 'latFrom' => $latitudeTo, 'lngFrom' => $longitudeTo, 'qte' => $qte, 'category' => $model_Partner[0]->partner_category, 'id' => $id, 'count' => $count, 'product' => $model[0], 'Languages' => $model[0]->languages, 'product_parent' => $model_Partner[0], 'partner' => $partner, 'count_extra' => 0, 'extra' => $extra, 'search' => $model, 'modelmap' => $modelmap, 'latitude' => $latitude, 'longitude' => $longitude, 'deliveryPrice' => $deliveryPrice]);
     }
@@ -948,14 +999,13 @@ class SiteController extends Controller
             return $this->goHome();
         }
         $model = new LoginForm();
-       
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             if ($model->username == 'admin') {
-                
+
                 return $this->redirect(['/user/admin']);
             }
-            
-          
+
             return $this->redirect(['/welcome/index']);
             //return $this->goBack();
         }
@@ -994,7 +1044,7 @@ class SiteController extends Controller
             $user = User::find()->where(['id' => User::getCurrentUser()->id])->one();
 
             $partner = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
-            //send attachement to email 
+            //send attachement to email
             AccountNotification::create(AccountNotification::KEY_USER_MESSAGE, $msg, $user->username, $user->id)->send_contact();
             return $this->refresh();
         }
@@ -1003,25 +1053,9 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionPayement(){
-        $this->setBsVersion('3');
-        $this->layout = 'main';
-        $model = new \app\models\Payment();
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                // form inputs are valid, do something here
-                return;
-            }
-        }
-    
-        return $this->render('payement', [
-            'model' => $model,
-        ]);
-    }
     public function actionTerms()
     {
-        
+
         return $this->render('terms');
     }
 
@@ -1036,9 +1070,10 @@ class SiteController extends Controller
         return $this->render('features');
     }
 
-    public function actionBecomeClient(){
+    public function actionBecomeClient()
+    {
         $this->layout = 'home';
-        $model =  new \app\models\forms\SearchForm();
+        $model = new \app\models\forms\SearchForm();
         $this->setBsVersion(4);
         $user = new RegistrationForm();
         $post = Yii::$app->request->post();
@@ -1050,25 +1085,24 @@ class SiteController extends Controller
                     $user->refresh();
                     $user->addRole(User::ROLE_PARTNER);
                 }
-                    $user = User::find()->where(['id' => 1])->one();
+                $user = User::find()->where(['id' => 1])->one();
 
-                    Yii::$app->session->setFlash('success', "Dear Partner thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
-                    return $this->redirect(['/user/security/login']);
-                } else {
+                Yii::$app->session->setFlash('success', "Dear Partner thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
+                return $this->redirect(['/user/security/login']);
+            } else {
 
-                } 
+            }
 
-            } 
-
+        }
 
         return $this->render('client', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
     public function actionBecomePartner()
     {
         $this->layout = 'home';
-        $model =  new \app\models\forms\SearchForm();
+        $model = new \app\models\forms\SearchForm();
         $this->setBsVersion(4);
         $user = new RegistrationForm();
         $post = Yii::$app->request->post();
@@ -1079,19 +1113,18 @@ class SiteController extends Controller
                 if ($user) {
                     $user->refresh();
                     $user->addRole(User::ROLE_PARTNER);
-                                      }
-                    $user = User::find()->where(['id' => 1])->one();
-                    Yii::$app->session->setFlash('success', "Dear Partner thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
-                    return $this->redirect(['/user/security/login']);
-                } else {
+                }
+                $user = User::find()->where(['id' => 1])->one();
+                Yii::$app->session->setFlash('success', "Dear Partner thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
+                return $this->redirect(['/user/security/login']);
+            } else {
 
-                } // !($user)
+            } // !($user)
 
-            } // $user->validate()
-
+        } // $user->validate()
 
         return $this->render('partner', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
@@ -1099,13 +1132,13 @@ class SiteController extends Controller
     {
         $stat = SurveyStat::findOne([
             'survey_stat_survey_id' => $id,
-            'survey_stat_user_id' => \Yii::$app->user->getId()
+            'survey_stat_user_id' => \Yii::$app->user->getId(),
         ]);
         return ($stat !== null && $stat->survey_stat_is_done);
     }
 
     /**
-     * 
+     *
      * @param type $version 4 or 3
      */
     protected function setBsVersion($version)
@@ -1136,25 +1169,34 @@ class SiteController extends Controller
             //getting the category of product
             $category = $model->partner_category;
             //dans la category Room Rental
-            if ($category == 1)
+            if ($category == 1) {
                 return $this->render('product_view_Room_rental', ['model' => $model, 'model2' => $model2, 'model_p' => $model_p]);
+            }
+
             //dans le cas de equipement
-            if ($category == 2)
+            if ($category == 2) {
                 return $this->render('product_view_equipement', ['model' => $model, 'model2' => $model2, 'model_p' => $model_p]);
+            }
+
             //dans le cas de  Catters
-            if ($category == 3)
+            if ($category == 3) {
                 return $this->render('product_view_catters', ['model' => $model, 'model2' => $model2, 'model_p' => $model_p]);
+            }
+
             //dans les autres catégory
-            if ($category == 4 || $category == 5 || $category == 6 || $category == 7 || $category == 8)
+            if ($category == 4 || $category == 5 || $category == 6 || $category == 7 || $category == 8) {
                 return $this->render('product_view_price_day_night_and_languages', ['model' => $model, 'model2' => $model2, 'model_p' => $model_p]);
+            }
 
             return $this->render('product_view', ['model' => $model, 'model_p' => $model_p, 'model2' => $model2]);
         }
     }
     public function actionMessage($id)
     {
-        if (User::getCurrentUser()->id != 1)
+        if (User::getCurrentUser()->id != 1) {
             $this->layout = 'main2';
+        }
+
         $model_notification = Notificationsuser::find()->andwhere(['id' => $id])->One();
         $model1 = json_decode($model_notification->key2, true);
         $answer = $model_notification->answer;
@@ -1164,7 +1206,7 @@ class SiteController extends Controller
             //i should send the notifcation for the admin
             $id_update = $id;
             $answer = $model->answer;
-            //send attachement to email 
+            //send attachement to email
             AccountNotification::create(AccountNotification::KEY_USER_MESSAGE, $id_update, "admin", $answer)->update_contact();
             return $this->refresh();
         }
@@ -1173,7 +1215,7 @@ class SiteController extends Controller
         $model->email = $model1['email'];
         $model->subject = $model1['subject'];
         $model->body = $model1['body'];
-        $model->answer =  $answer;
+        $model->answer = $answer;
 
         return $this->render('message', ['model1' => $model1, 'model' => $model]);
     }

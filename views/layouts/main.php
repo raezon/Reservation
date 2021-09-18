@@ -50,7 +50,7 @@ AppAsset::register($this);
                 ['label' => 'Administration', 'url' => ['/user/admin'], 'visible' => User::isAdmin()],
           //['label' => 'Profile', 'url' => ['/user/profile', 'id' => \Yii::$app->user->id], 'visible' => User::isUser()],
                 ['label' => 'Ajouter nouveau produit', 'linkOptions' => [], 'url' => ['/welcome/index'], 'visible' => User::isPartner()],
-                ['label' => 'Modérateur', 'url' => ['/partner/index'], 'visible' => User::isAdmin() ],
+                ['label' => 'Modérateur', 'url' => ['/partner/index'], 'visible' => User::isAdmin() or User::isPartner() ],
                 [
                     'label' => 'Tous les produits ', 'url' => ['/product-item/index'], 'visible' =>  User::isAdmin()
                 ],
@@ -58,7 +58,8 @@ AppAsset::register($this);
                     'label' => 'Mes produits ', 'linkOptions' => [], 'url' => ['/product-item/index'], 'visible' => User::isPartner()
             
                 ],            
-          
+
+                ['label' => 'Reservation', 'url' => ['/reservation/index'], 'visible' => User::isAdmin() or User::isPartner()],
                 ['label' => 'Payment', 'url' => ['/payment/index'], 'visible' => User::isAdmin() or User::isPartner()],
          
                 ['label' => 'About Us', 'url' => ['/site/about'], 'visible' => Yii::$app->user->isGuest],

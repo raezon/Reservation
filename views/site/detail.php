@@ -40,7 +40,7 @@ $avis=new app\models\Avis;
                 <div class="product-information">
                     <div class="product-actions">
 
-                        <form action="index.php?r=site/payement" 
+                        <form action="index.php?r=site/reservation" 
                             id="add-to-cart-or-refresh" class="row">
                         
                             <div class="productdetail-right col-12 col-lg-6 col-md-6">
@@ -120,11 +120,11 @@ $avis=new app\models\Avis;
                                         <div class="add">
                                             
                                             <a class="btn btn-primary add-to-cart"  
-                                                href='index.php?r=site/payement'>
+                                                href='index.php?r=site/reservation&prix=<?=$product->price?>&id=<?=$product->id?>' >
                                                 <div class="icon-cart">
                                                     <i class="shopping-cart"></i>
                                                 </div>
-                                                <span>Reserver</span>
+                                                <span>Acheter</span>
 
 </a>
 

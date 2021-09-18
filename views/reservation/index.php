@@ -19,9 +19,6 @@ $this->registerJs($search);
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Reservation'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
@@ -39,10 +36,59 @@ $this->registerJs($search);
         ],
         ['attribute' => 'id', 'visible' => false],
         'reservation_date',
-        'start_date',
-        'end_date',
-        'status',
-        'observation:ntext',
+        [
+            'attribute' => 'reservation_id',
+            'label' => Yii::t('app', 'Produit'),
+            'value' => function($model){
+                return $model->productItem->name;
+            },
+        ],
+        [
+            'attribute' => 'reservation_id',
+            'label' => Yii::t('app', 'Montant'),
+            'value' => function($model){
+                return $model->montant;
+            },
+        ],
+        [
+            'attribute' => 'reservation_id',
+            'format' => 'html',
+            'label' => 'Ccp ',
+            'value' => function ($model) {
+                if ($model->piece_jointe != 'vide' && $model->piece_jointe != '0') {
+                    return  Html::a(
+                        'Pièce jointe',
+                        ['reservation/view-piece', 'id' => $model->id],
+                        [
+                            'id' =>  'Imprimer',
+                            'class' => 'btn btn-primary',
+                            'target' => '_blank'
+                        ]
+                    );
+                } else {
+                    return '';
+                }
+            },
+        ],
+        [
+            'attribute' => 'status',
+            'format' => 'html',
+            'label' => 'Accepter ',
+            'value' => function ($model) {
+              
+                    return  Html::a(
+                        'Accepter',
+                        ['reservation/accept', 'userId' => $model->user_id,'reservation_id'=>$model->id],
+                        [
+                            'id' =>  'Accepter',
+                            'class' => 'btn btn-success',
+                            'target' => '_blank'
+                        ]
+                    );
+               
+            },
+        ],
+       
         [
                 'attribute' => 'user_id',
                 'label' => Yii::t('app', 'User'),

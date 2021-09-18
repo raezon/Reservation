@@ -37,63 +37,29 @@ $this->registerJs($search);
         ['attribute' => 'id', 'visible' => false],
         [
             'attribute' => 'reservation_id',
-            'label' => Yii::t('app', 'Nom client'),
+            'label' => Yii::t('app', 'Montant'),
             'value' => function($model){
-                return 'mohamed';
+                return $model->reservation->montant;
             },
         ],
-        'amount',
+        [
+            'attribute' => 'reservation_id',
+            'label' => Yii::t('app', 'Produit'),
+            'value' => function($model){
+                return 'pc';
+            },
+        ],
+        [
+            'attribute' => 'reservation_id',
+            'label' => Yii::t('app', 'Nom utilisateur'),
+            'value' => function($model){
+                return $model->reservation->user->username;
+            },
+        ],
+    
         'payment_date',
-        [
-            'attribute' => 'reservation_id',
-            'format' => 'html',
-            'label' => 'Ccp ',
-            'value' => function ($model) {
-                if ($model->reservation_id != 'vide' && $model->reservation_id != '0') {
-                    return  Html::a(
-                        'Pièce jointe',
-                        ['decaissement/view-piece', 'id' => $model->id],
-                        [
-                            'id' =>  'Imprimer',
-                            'class' => 'btn btn-primary',
-                            'target' => '_blank'
-                        ]
-                    );
-                } else {
-                    return '';
-                }
-            },
-        ],
-        [
-            'attribute' => 'reservation_id',
-            'format' => 'html',
-            'label' => 'Accepter ',
-            'value' => function ($model) {
-                if ($model->reservation_id != 'vide' && $model->reservation_id != '0') {
-                    return  Html::a(
-                        'Accepter',
-                        ['decaissement/view-piece', 'id' => $model->id],
-                        [
-                            'id' =>  'Accepter',
-                            'class' => 'btn btn-success',
-                            'target' => '_blank'
-                        ]
-                    );
-                } else {
-                    return '';
-                }
-            },
-        ],
+       
 
-        [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => '{save-as-new} {view} {update} {delete}',
-            'buttons' => [
-                'save-as-new' => function ($url) {
-                    return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, ['title' => 'Save As New']);
-                },
-            ],
-        ],
     ]; 
     ?>
     <?= GridView::widget([

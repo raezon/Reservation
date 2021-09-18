@@ -1,0 +1,53 @@
+(function ($, window, document) {
+
+    $(function () {
+        validateEmail();
+        bindAjaxSubmit();
+        bindAjax();
+        lang = $('#lang').text();
+        if (!lang) {
+            lang = 'cs';
+        }
+        $.get('/ajaxPromoCode.php/?state=default&lang=' + lang, function (data) {
+            $('.snippet').html(data);
+        });
+    });
+
+    var bindAjaxSubmit = function () {
+        $('body').delegate(".ajax-submit", "click", function (event) {
+            event.preventDefault();
+            $btn = $(this);
+            $form = $btn.closest('form');
+            snippet = $btn.closest('.snippet');
+            $.post($form.attr('action') + '&lang=' + lang, $form.serialize(), function (data) {
+                snippet.html(data);
+            });
+        });
+    };
+
+    var bindAjax = function () {
+        $('body').delegate(".ajax", "click", function (event) {
+            event.preventDefault();
+            link = $(this);
+            snippet = link.closest('.snippet');
+            $.ajax({
+                url: link.attr('href') + '&lang=' + lang, success: function (result) {
+                    snippet.html(result);
+                }
+            });
+        });
+    };
+
+    var validateEmail = function () {
+        $('body').delegate("#email-submit", "click", function (e) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (!re.test($('#email-input').val())) {
+                var badEmailFormatMessage = $('#email-bad-format').text();
+                alert(badEmailFormatMessage);
+                e.stopImmediatePropagation();
+                e.preventDefault();
+            }
+        });
+    };
+
+}(window.jQuery, window, document));
