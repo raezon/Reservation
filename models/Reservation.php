@@ -17,11 +17,11 @@ class Reservation extends BaseReservation
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['reservation_date', 'piece_jointe', 'user_id', 'product_item_id'], 'required'],
+            [['reservation_date','partner_id', 'piece_jointe', 'user_id', 'product_item_id'], 'required'],
             [['file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'file,pdf'],
             [['reservation_date'], 'safe'],
             [['piece_jointe'], 'string'],
-            [['status', 'user_id', 'product_item_id'], 'integer'],
+            [['status', 'user_id','partner_id', 'product_item_id'], 'integer'],
             [['montant'], 'number']
         ]);
     }

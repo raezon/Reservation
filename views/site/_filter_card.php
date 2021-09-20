@@ -43,7 +43,7 @@ $totalPrice= $model1->totalPrice($model1->description, $model1->partner_category
         <img style="vertical-align:left" width="20px" height="20px" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTQwNy41NzkgODcuNjc3Yy0zMS4wNzMtNTMuNjI0LTg2LjI2NS04Ni4zODUtMTQ3LjY0LTg3LjYzNy0yLjYyLS4wNTQtNS4yNTctLjA1NC03Ljg3OCAwLTYxLjM3NCAxLjI1Mi0xMTYuNTY2IDM0LjAxMy0xNDcuNjQgODcuNjM3LTMxLjc2MiA1NC44MTItMzIuNjMxIDEyMC42NTItMi4zMjUgMTc2LjEyM2wxMjYuOTYzIDIzMi4zODdjLjA1Ny4xMDMuMTE0LjIwNi4xNzMuMzA4IDUuNTg2IDkuNzA5IDE1LjU5MyAxNS41MDUgMjYuNzcgMTUuNTA1IDExLjE3NiAwIDIxLjE4My01Ljc5NyAyNi43NjgtMTUuNTA1LjA1OS0uMTAyLjExNi0uMjA1LjE3My0uMzA4bDEyNi45NjMtMjMyLjM4N2MzMC4zMDQtNTUuNDcxIDI5LjQzNS0xMjEuMzExLTIuMzI3LTE3Ni4xMjN6bS0xNTEuNTc5IDE0NC4zMjNjLTM5LjcwMSAwLTcyLTMyLjI5OS03Mi03MnMzMi4yOTktNzIgNzItNzIgNzIgMzIuMjk5IDcyIDcyLTMyLjI5OCA3Mi03MiA3MnoiIGZpbGw9IiM2MjU1YTAiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9nPjwvc3ZnPg==" />
         <?php if ($model1->partner_category == 1) { ?>
           <?php $addres_room_tental = json_decode($model1->languages, true);
-          $addres_room_tental = $addres_room_tental['address']; ?>
+    ?>
           <span style="vertical-align:left" class=" card-text"><?= '' . $addres_room_tental ?></span>
         <?php } else { ?>
           <span style="vertical-align:left" class=" card-text"><?= '' . $detail[1]->address  ?></span>
@@ -82,7 +82,7 @@ $totalPrice= $model1->totalPrice($model1->description, $model1->partner_category
               $description = json_decode($model1->description, true);
               ?>
               <p class="card-text"><?= '<b>Type of room</b><b class="triangle-right"></b>' . $temp[0] ?></p>
-              <p class="card-text"><?= '<b>Space for rent</b><b class="triangle-right"></b>' . $description[0]  ?></p>
+         
             <?php endif ?>
             <!--Affichage detail of product if fulfy a condition of partner_category == 2-->
             <?php if ($model1->partner_category == 2) : ?>

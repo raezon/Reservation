@@ -36,8 +36,6 @@ $this->title = 'Devenir Modérateur';
 
                     <?= $form->field($user, 'repeat_password', ['labelOptions' => []])->passwordInput() ?>
 
-                    <?= $form->field($user, 'password', ['labelOptions' => []])->fileInput()->label('Registre Comerce') ?>
-
                     <?= $form->field($user, 'accept')->checkbox([
                         //                                'template' => "<div class=\"form-check mt-2\">{input} {label}\n{error}</div>",
                         'checked' => false,

@@ -11,7 +11,7 @@ use app\components\FilterRoom;
 use app\components\FilterSecurity;
 use app\components\FiltreAnimation;
 use app\components\FiltreEquipement;
-use app\models\AccountNotification;
+use app\controllers\notification\AccountNotification;
 use app\models\base\TblEvents;
 use app\models\ContactForm;
 use app\models\LoginForm;
@@ -594,19 +594,16 @@ class SiteController extends Controller
             $session = Yii::$app->session;
             $session->open();
             $_SESSION['category'] = $model->category;
-
             $_SESSION['category1'] = $model->category + 1;
             if ($_SESSION['category1'] == 1) {
                 $_SESSION['subcategory'] = $model->subcategory - 1;
             } else {
                 $_SESSION['subcategory'] = $model->subcategory;
             }
-
             $_SESSION['date_depart'] = $model->date_depart;
             $_SESSION['date_arriver'] = $model->date_arriver;
             //calculate the difference of hour
             $date = explode(" - ", $_SESSION['date_depart']);
-
             $date_depart = $date[0];
             $timestamp = strtotime($date_depart);
             $_SESSION['dayDepart'] = date('l', $timestamp);
@@ -616,7 +613,6 @@ class SiteController extends Controller
             $date_arriver = $date[1];
             $_SESSION['depart'] = $date[0];
             $_SESSION['arriver'] = $date[1];
-
             $heure_depart = substr($date_depart, 11, 20);
             $heure_arriver = substr($date_arriver, 11, 20);
             $timeStartChosedByClient = new \DateTime($heure_depart);
@@ -625,7 +621,6 @@ class SiteController extends Controller
             $timeClosedChosedByClient = $timeClosedChosedByClient->format(' H:i');
             $_SESSION['duration'] = strtotime($timeClosedChosedByClient) - strtotime($timeStartChosedByClient);
             $_SESSION['duration'] = $_SESSION['duration'] / 3600;
-
             //
             $_SESSION['place'] = $model->place;
             $_SESSION['nbr_persson'] = $model->nbr_persson;
@@ -861,7 +856,7 @@ class SiteController extends Controller
 
     return $this->redirect(['/site/detail']);
     }*/
-    public function actionReservation($prix,$id)
+    public function actionReservation($prix,$id,$partner_id)
     {
        
 
@@ -874,7 +869,8 @@ class SiteController extends Controller
             return $this->render('reservation', [
                 'model' => $model,
                 'prix'=>$prix,
-                'id'=>$id
+                'id'=>$id,
+                'partner_id'=>$partner_id
             ]);
         }else{
             echo 'sss';
@@ -883,7 +879,7 @@ class SiteController extends Controller
         return $this->redirect(['/user/security/login']);
 
     }
-    public function actionSaveReservation($prix,$id)
+    public function actionSaveReservation($prix,$id,$partner_id)
     {
 
     
@@ -895,7 +891,7 @@ class SiteController extends Controller
               
                 $model->reservation_date = $now->format('Y-m-d H:i:s');
                 $model->file = UploadedFile::getInstance($model, 'file');
-        
+                $model->partner_id=$partner_id;
                 if ($model->file != 'vide' and !empty($model->file)) {
                     if ($model->upload()) {
         
@@ -911,7 +907,8 @@ class SiteController extends Controller
                 $model->user_id =(string) User::getCurrentUser()->id;
         
                 if ($model->save()) {
-                    
+                    $keyNotification = AccountNotification::KEY_NEW_PRODUCT . ' ' . $prix . 'Da';
+                    AccountNotification::create($keyNotification, ['user' => User::getCurrentUser()->id,'reservation_id'=>$model->id])->send();
                 } else{
                     print_r($model->errors);
                     die();
@@ -919,6 +916,7 @@ class SiteController extends Controller
                 return $this->render('payement', [
         
                 ]);
+               
             
         }
         return $this->render('reservation', [
@@ -1005,8 +1003,12 @@ class SiteController extends Controller
 
                 return $this->redirect(['/user/admin']);
             }
-
-            return $this->redirect(['/welcome/index']);
+            if(User::isPartner()){
+                return $this->redirect(['/welcome/index']);
+            }else{
+                return $this->redirect(['/site/index']);
+            }
+           
             //return $this->goBack();
         }
         $this->layout = 'main';
@@ -1073,21 +1075,24 @@ class SiteController extends Controller
     public function actionBecomeClient()
     {
         $this->layout = 'home';
-        $model = new \app\models\forms\SearchForm();
         $this->setBsVersion(4);
         $user = new RegistrationForm();
+        $registred_user = new User();
         $post = Yii::$app->request->post();
         if ($user->load($post)) {
             $user->api_key = \Yii::$app->security->generateRandomString(16);
             if ($user->validate()) {
                 $user = $user->register();
                 if ($user) {
-                    $user->refresh();
-                    $user->addRole(User::ROLE_PARTNER);
+                    $auth=new \app\models\AuthAssignment;
+                    $auth->user_id=$user->id;
+                    $auth->item_name=User::ROLE_USER;
+                    $auth->created_at=time();
+                    $auth->save();
                 }
-                $user = User::find()->where(['id' => 1])->one();
+           
 
-                Yii::$app->session->setFlash('success', "Dear Partner thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
+                Yii::$app->session->setFlash('success', "Dear Client thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
                 return $this->redirect(['/user/security/login']);
             } else {
 
@@ -1112,7 +1117,13 @@ class SiteController extends Controller
                 $user = $user->register();
                 if ($user) {
                     $user->refresh();
-                    $user->addRole(User::ROLE_PARTNER);
+                    if ($user) {
+                        $auth=new \app\models\AuthAssignment;
+                        $auth->user_id=$user->id;
+                        $auth->item_name=User::ROLE_USER;
+                        $auth->created_at=time();
+                        $auth->save();
+                    }
                 }
                 $user = User::find()->where(['id' => 1])->one();
                 Yii::$app->session->setFlash('success', "Dear Partner thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");

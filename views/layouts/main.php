@@ -59,13 +59,13 @@ AppAsset::register($this);
             
                 ],            
 
-                ['label' => 'Reservation', 'url' => ['/reservation/index'], 'visible' => User::isAdmin() or User::isPartner()],
+                ['label' => 'My Reservations', 'url' => ['/reservation/index'], 'visible' =>  User::isUser()or  User::isPartner()or User::isAdmin()],
                 ['label' => 'Payment', 'url' => ['/payment/index'], 'visible' => User::isAdmin() or User::isPartner()],
          
                 ['label' => 'About Us', 'url' => ['/site/about'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => 'Contact', 'url' => ['/site/contact'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => 'Terms & Conditions', 'url' => ['/site/terms'], 'visible' => Yii::$app->user->isGuest],
-
+                app\widgets\Notifications::widget(),
 
             ],
         ]);

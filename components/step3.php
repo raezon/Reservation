@@ -18,6 +18,7 @@ class step3 extends Component
   function save_partner_step3($user_id, $category_id, $modelStep3)
   {
 
+ 
     //Intialization
     //methode de sauvgarde de tous ces données 
     $produit_nom = $modelStep3->produit_nom;
@@ -150,7 +151,7 @@ class step3 extends Component
     $product_model->description = json_encode($produit_option, true);
     $product_model->picture = $produit_image_Name;
 
-    $product_model->price = 0.12;
+    $product_model->price = $modelStep3->price;
     $product_model->currencies_symbol = $currencies_symbol;
     $product_model->people_number = 0;
     if ( $category_id == 1)
@@ -159,7 +160,7 @@ class step3 extends Component
     $product_model->periode = 0;
 
 
-    $product_model->product_type = $array_type_room_rental;
+    $product_model->product_type = 'vide';
     // $product_model->product_option_id="xxx";
 
     $product_model->number_of_agent = 0;
@@ -187,7 +188,7 @@ class step3 extends Component
 
 
     $product_model->checkbox = json_encode($informationConcerningRoom,true);
-    $product_model->price =$product_model->price ;
+    $product_model->price =$modelStep3->price ;
 
 
     // $product_model->partner_id=$partenaire_model->id;
@@ -229,12 +230,8 @@ class step3 extends Component
     $msg['created_at'] = "xx";
     $msg['updated_at'] = "xx";
 
-
-    print_r($product_model);
-    die();
     if ($product_model->save()) {
-      echo "sauvgarde";
-       die();
+      
     } else {
       echo "Fail save Step3";
       print_r($product_model->getAttributes());

@@ -120,11 +120,16 @@ $avis=new app\models\Avis;
                                         <div class="add">
                                             
                                             <a class="btn btn-primary add-to-cart"  
-                                                href='index.php?r=site/reservation&prix=<?=$product->price?>&id=<?=$product->id?>' >
+                                                href='index.php?r=site/reservation&prix=<?=$product->price?>&id=<?=$product->id?>&partner_id=<?=$product_parent->partner_id?>' >
                                                 <div class="icon-cart">
                                                     <i class="shopping-cart"></i>
                                                 </div>
+                                                <?php if($product_parent->partnerCategory->id==2){?>
                                                 <span>Acheter</span>
+                                                <?php }else{?>
+                                               
+                                                    <span>Reserver</span>
+                                                <?php }?>
 
 </a>
 

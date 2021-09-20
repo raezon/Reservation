@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\controllers\notification;
 
 
 use Yii;
@@ -26,7 +26,7 @@ class AccountNotification extends Notification
  * @var \yii\web\User the user object
  */
  public $user;
- public $partner;
+ public $reservation_id;
  public $key1;
  public $key2;
  public $key3;

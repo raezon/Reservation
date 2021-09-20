@@ -13,7 +13,7 @@ use Yii;
  * @property integer $status
  * @property double $montant
  * @property integer $product_item_id
- *
+ * @property integer $partner_id 
  * @property \app\models\User $user
  * @property \app\models\ProductItem $productItem
  */
@@ -27,10 +27,10 @@ class Reservation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['reservation_date', 'piece_jointe', 'user_id', 'product_item_id'], 'required'],
+            [['reservation_date','partner_id', 'piece_jointe', 'user_id', 'product_item_id'], 'required'],
             [['reservation_date'], 'safe'],
             [['piece_jointe'], 'string'],
-            [['status', 'user_id', 'product_item_id'], 'integer'],
+            [['status', 'user_id','partner_id', 'product_item_id'], 'integer'],
             [['montant'], 'number']
         ];
     }
@@ -74,6 +74,14 @@ class Reservation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\ProductItem::className(), ['id' => 'product_item_id']);
     }
+    	        
+   /** 
+    * @return \yii\db\ActiveQuery 
+    */ 
+   public function getPartner() 
+   { 
+       return $this->hasOne(\app\models\Partner::className(), ['id' => 'partner_id']); 
+   } 
     
     /**
      * @inheritdoc

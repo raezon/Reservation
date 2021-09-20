@@ -44,11 +44,11 @@ class Distance
                     ->all();
 
                 foreach ($ProductItems as $item) {
-                            $array_partner_filtered_by_address[$counter]['partner_id'] = $address['id'];
-                            $array_partner_filtered_by_address[$counter]['distance'] = $distance;
-                            $array_partner_filtered_by_address[$counter]['product_item_id'] = $item->id;
-                            $array_partner_filtered_by_address[$counter]['product_id'] = $product_parent_id;
-                            $array_partner_filtered_by_address[$counter]['price'] = 0;
+                    $array_partner_filtered_by_address[$counter]['partner_id'] = $address['id'];
+                    $array_partner_filtered_by_address[$counter]['distance'] = 0;
+                    $array_partner_filtered_by_address[$counter]['product_item_id'] = $item->id;
+                    $array_partner_filtered_by_address[$counter]['product_id'] = $product_parent_id;
+                    $array_partner_filtered_by_address[$counter]['price'] = 0;
                             $counter++;
 
 

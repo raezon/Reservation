@@ -83,43 +83,6 @@ class RegistrationForm  extends
     /**
      * @var integer
      */
-//    public $category_id;
-    
-    /**
-     * @inheritdoc
-     *
-    public function rules()
-    {
-        $user = $this->module->modelMap['User'];
-
-        return [
-            // username rules
-            'usernameTrim'     => ['username', 'trim'],
-            'usernameLength'   => ['username', 'string', 'min' => 3, 'max' => 255],
-            'usernamePattern'  => ['username', 'match', 'pattern' => $user::$usernameRegexp],
-            'usernameRequired' => ['username', 'required'],
-            'usernameUnique'   => [
-                'username',
-                'unique',
-                'targetClass' => $user,
-                'message' => \Yii::t('user', 'This username has already been taken')
-            ],
-            // email rules
-            'emailTrim'     => ['email', 'trim'],
-            'emailRequired' => ['email', 'required'],
-            'emailPattern'  => ['email', 'email'],
-            'emailUnique'   => [
-                'email',
-                'unique',
-                'targetClass' => $user,
-                'message' => \Yii::t('user', 'This email address has already been taken')
-            ],
-            // password rules
-            'passwordRequired' => ['password', 'required', 'skipOnEmpty' => $this->module->enableGeneratingPassword],
-            'passwordLength'   => ['password', 'string', 'min' => 6, 'max' => 72],
-            //'repeat_password'   => ['repeat_password', 'string', 'min' => 6, 'max' => 72],
-        ];
-    }*/
 
     /**
      * @inheritdoc
@@ -170,21 +133,13 @@ class RegistrationForm  extends
         }
 
         /** @var User $user */
-        $user = \Yii::createObject(\app\models\User::className());
-        $user->setScenario('register');
+        $user = \Yii::createObject(\app\models\User::class);
+       // $user->setScenario('register');
         $this->loadAttributes($user);
 
         if (!$user->register()) {
             return false;
         }
-
-//        Yii::$app->session->setFlash(
-//            'info',
-//            Yii::t(
-//                'user',
-//                'Your account has been created and a message with further instructions has been sent to your email'
-//            )
-//        );
 
         return $user;
     }    

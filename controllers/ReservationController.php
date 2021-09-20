@@ -2,14 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\base\Partner;
 use app\models\base\Payment;
-use Yii;
 use app\models\Reservation;
+use app\models\User;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use app\models\User;
 
 /**
  * ReservationController implements the CRUD actions for Reservation model.
@@ -31,13 +32,13 @@ class ReservationController extends Controller
                     [
                         'allow' => true,
 //                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-payment', 'add-reservation-detail'],
-                        'roles' => [User::ROLE_ADMIN,User::ROLE_PARTNER]
+                        'roles' => [User::ROLE_ADMIN, User::ROLE_PARTNER, User::ROLE_USER],
                     ],
                     [
-                        'allow' => false
-                    ]
-                ]
-            ]
+                        'allow' => false,
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -47,8 +48,16 @@ class ReservationController extends Controller
      */
     public function actionIndex()
     {
+        if (User::isPartner()) {
+            $partner = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
+            $query = Reservation::find()->where(['partner_id' => $partner->id]);
+        } else {
+            if (User::isUser()) {
+                $query = Reservation::find()->where(['user_id' => User::getCurrentUser()->id]);
+            }
+        }
         $dataProvider = new ActiveDataProvider([
-            'query' => Reservation::find(),
+            'query' => $query,
         ]);
 
         return $this->render('index', [
@@ -94,27 +103,39 @@ class ReservationController extends Controller
             ]);
         }
     }
-    public function actionViewPiece($id){
-        $model =Reservation::findOne($id);
+    public function actionViewPiece($id)
+    {
+        $model = Reservation::findOne($id);
         Yii::setAlias('@app', 'uploads/');
         // This will need to be the path relative to the root of your app.
         $filePath = '/web/uploads';
         // Might need to change '@app' for another alias
-        $completePath = Yii::getAlias('@app/'.$model->piece_jointe.'.pdf');
+        $completePath = Yii::getAlias('@app/' . $model->piece_jointe . '.pdf');
 
-
-
-       $this->redirect($completePath);
+        $this->redirect($completePath);
     }
-    public function actionAccept($userId ,$reservation_id){
-        $model =new Payment();
+    public function actionAccept($userId, $reservation_id)
+    {
+        $model = new Payment();
         $now = new \DateTime();
         $model->payment_date = $now->format('Y-m-d H:i:s');
-        $model->reservation_id =$reservation_id;
-        $model->amount=0;
+        $model->reservation_id = $reservation_id;
+        $model->amount = 0;
+
         if ($model->save()) {
+            $model = \app\models\Reservation::find()->where(['id' => $reservation_id])->one();
+            $model->status = 1;
+            $model->user_id =(string)$userId ;
+            $model->partner_id =(string)$model->partner_id ;
+            $model->product_item_id =(string)$model->product_item_id ;
+            if($model->update()){
+
+            }else{
+                print_r($model->errors);
+                die();
+            }
             return $this->redirect(['payment/index']);
-        } else{
+        } else {
             print_r($model->errors);
             die();
         }
@@ -130,7 +151,7 @@ class ReservationController extends Controller
     {
         if (Yii::$app->request->post('_asnew') == '1') {
             $model = new Reservation();
-        }else{
+        } else {
             $model = $this->findModel($id);
         }
 
@@ -155,14 +176,15 @@ class ReservationController extends Controller
 
         return $this->redirect(['index']);
     }
-    
+
     /**
-     * 
+     *
      * Export Reservation information into PDF format.
      * @param integer $id
      * @return mixed
      */
-    public function actionPdf($id) {
+    public function actionPdf($id)
+    {
         $model = $this->findModel($id);
         $providerPayment = new \yii\data\ArrayDataProvider([
             'allModels' => $model->payments,
@@ -189,27 +211,28 @@ class ReservationController extends Controller
             'methods' => [
                 'SetHeader' => [\Yii::$app->name],
                 'SetFooter' => ['{PAGENO}'],
-            ]
+            ],
         ]);
 
         return $pdf->render();
     }
 
     /**
-    * Creates a new Reservation model by another data,
-    * so user don't need to input all field from scratch.
-    * If creation is successful, the browser will be redirected to the 'view' page.
-    *
-    * @param type $id
-    * @return type
-    */
-    public function actionSaveAsNew($id) {
+     * Creates a new Reservation model by another data,
+     * so user don't need to input all field from scratch.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     *
+     * @param type $id
+     * @return type
+     */
+    public function actionSaveAsNew($id)
+    {
         $model = new Reservation();
 
         if (Yii::$app->request->post('_asnew') != '1') {
             $model = $this->findModel($id);
         }
-    
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -218,7 +241,7 @@ class ReservationController extends Controller
             ]);
         }
     }
-    
+
     /**
      * Finds the Reservation model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -234,41 +257,45 @@ class ReservationController extends Controller
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
     }
-    
+
     /**
-    * Action to load a tabular form grid
-    * for Payment
-    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
-    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
-    *
-    * @return mixed
-    */
+     * Action to load a tabular form grid
+     * for Payment
+     * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+     * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+     *
+     * @return mixed
+     */
     public function actionAddPayment()
     {
         if (Yii::$app->request->isAjax) {
             $row = Yii::$app->request->post('Payment');
-            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+            if ((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add') {
                 $row[] = [];
+            }
+
             return $this->renderAjax('_formPayment', ['row' => $row]);
         } else {
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
     }
-    
+
     /**
-    * Action to load a tabular form grid
-    * for ReservationDetail
-    * @author Yohanes Candrajaya <moo.tensai@gmail.com>
-    * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
-    *
-    * @return mixed
-    */
+     * Action to load a tabular form grid
+     * for ReservationDetail
+     * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+     * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+     *
+     * @return mixed
+     */
     public function actionAddReservationDetail()
     {
         if (Yii::$app->request->isAjax) {
             $row = Yii::$app->request->post('ReservationDetail');
-            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+            if ((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add') {
                 $row[] = [];
+            }
+
             return $this->renderAjax('_formReservationDetail', ['row' => $row]);
         } else {
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));

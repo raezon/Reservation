@@ -132,7 +132,7 @@ class Bill extends \yii\bootstrap\Widget
 
         if($this->category==3){
             $header='<div class="col-sm-12" ng-init="price=TotalPrice(' . $this->product_item . ','.$_SESSION['nbr_persson'].',' . $this->category . ',' . $this->deliveryServiceAndPrice . ')">';
-            $minPrice=$this->product->min_price;
+            $minPrice=$this->product->price;
             $peopleMin=($minPrice*$this->people_number)/$this->product->price;
             $min=$peopleMin;
             if(fmod($min,$this->people_number)>0){

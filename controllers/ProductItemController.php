@@ -415,7 +415,7 @@ class ProductItemController extends Controller
             $informationConcerningRoom[9]=$model3->fullDay;
         
             $model->checkbox = json_encode($informationConcerningRoom,true);
-            $model->min_price = 0.0;
+            $model->price = 0.0;
          }
          $product_parent->extra = json_encode($product_parent->extra, true);
 

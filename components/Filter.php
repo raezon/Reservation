@@ -106,8 +106,6 @@ class Filter extends Component
         $distance = new Distance();
 
         if (($this->value_category_serached == 1 && empty($this->filteraf)) || ($this->filteraf == 1)) {
-
-
             $array_partner_filtered_by_address = $distance->getDistance1($addressFrom, $addressTo, "K");
             $this->array_partner_filtered_by_address2 = $array_partner_filtered_by_address;
             foreach ($array_partner_filtered_by_address  as $array_partner_filtered_by_address) {
@@ -115,7 +113,6 @@ class Filter extends Component
                 // $array_partner_filtered_by_address = $array_partner_filtered_by_address['partner_id'];
             }
         }
-        //other 
         else {
 
             $this->array_partner_filtered_by_address1 = array();
@@ -133,10 +130,8 @@ class Filter extends Component
         $query = $this->getPartnerId();
         // if ($this->value_category_serached != 1)
         $query = $this->compareDistanceBetweenOriginalPartnerAndTheAdressFilledByClient($query, $this->array_partner_filtered_by_address2);
-
         $query = $this->SortProducts($query);
         $result = $this->sendingDataToSiteController($query);
-
         return ($result);
     }
     //This methode is used for getting the date and cleansing it 
@@ -211,24 +206,38 @@ class Filter extends Component
             ->andwhere(['partner_id' => $this->result])
             ->andwhere(['partner_category' => $this->value_category_serached])
             ->all();
+            if($this->value_category_serached==4)
+                 $this->value_category_serached=8;
+           
 
+      //      if($this->value_category_serached==4)
+      //      $this->value_category_serached=8;
         if (empty($this->filteraf)) {
 
-
+            if($this->value_category_serached==4)
+            $this->value_category_serached=8;
             $product_parent = ProductParent::find()->andWhere(['partner_id' => $this->result])
                 ->andWhere(['partner_category' => $this->value_category_serached])->all();
         }
 
         if (!empty($this->filteraf)) {
-            if ($this->filteraf > 0)
+            if ($this->filteraf > 0){
+                if($this->filteraf==4)
+                $this->filteraf=8;  
                 $product_parent = ProductParent::find()
                     ->andWhere(['partner_id' => $this->result])
                     ->andWhere(['partner_category' => $this->filteraf])->all();
+            }
+              
         }
-        if ($this->filteraf == 0)
+        if ($this->filteraf == 0){
+            if($this->value_category_serached==4)
+            $this->value_category_serached=8; 
             $product_parent = ProductParent::find()
-                ->andWhere(['partner_id' => $this->result])
-                ->andWhere(['partner_category' => $this->value_category_serached])->all();
+            ->andWhere(['partner_id' => $this->result])
+            ->andWhere(['partner_category' => $this->value_category_serached])->all();
+        }
+            
 
         $product_parent_id = [];
         foreach ($product_parent as $p) {
@@ -256,13 +265,6 @@ class Filter extends Component
                 $query = ProductItem::find()
                     ->andWhere(['partner_category' => $filter])
                     ->andWhere(['product_id' => $product_parent_id])
-                    ->andWhere(['>=', 'people_number', $nbrPersson])
-                    ->andWhere(['<=', 'people_number', new \yii\db\Expression("JSON_EXTRACT(checkbox, '$[2]')")])
-                    ->andWhere(['>=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[0]')"), $_SESSION['duration']]) 
-                    ->andWhere(['<=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[1]')"), $_SESSION['duration']])
-                    ->andWhere(['!=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[4]')"), $_SESSION['dayDepart']])
-                    ->andWhere(['!=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[4]')"), $_SESSION['dayArriver']])
-                    //add the time
                     ->all();
             }
             if ($filter == 3){
@@ -270,36 +272,39 @@ class Filter extends Component
                 $query = ProductItem::find()
                     ->andWhere(['partner_category' => $filter])
                     ->andWhere(['product_id' => $product_parent_id])
-                    ->andFilterWhere(['<=', 'min_price', new \yii\db\Expression("price*'$nbrPersson'/people_number")])
-                    ->all();  
+                    ->all();
+; 
+            
             }
                          
         } else {
-            if ($category != 1 && $category != 3)
-                $query = ProductItem::find()->andWhere(['partner_category' => $this->value_category_serached])
+            if ($category != 1 && $category != 3){
+              
+                    $query = ProductItem::find()->andWhere(['partner_category' => $this->value_category_serached])
                     ->andWhere(['product_id' => $product_parent_id])
                     ->all();
+
+            }
+            
             if ($category == 1){
                
                 $query = ProductItem::find()
                 ->andWhere(['partner_category' => 1])
                 ->andWhere(['product_id' => $product_parent_id])
-                ->andWhere(['>=', 'people_number', $nbrPersson])
-                ->andWhere(['>=', 'people_number', new \yii\db\Expression("JSON_EXTRACT(checkbox, '$[2]')")])
-                ->andWhere(['>=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[0]')"), $_SESSION['duration']]) 
-                ->andWhere(['<=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[1]')"), $_SESSION['duration']])
-                ->andWhere(['!=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[4]')"), $_SESSION['dayDepart']])
-                ->andWhere(['!=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[4]')"), $_SESSION['dayArriver']])
                 ->all();
                 
             }
                    
-            if ($category == 3)
-                    $query = ProductItem::find()
-                        ->andWhere(['partner_category' => 3])
-                        ->andWhere(['product_id' => $product_parent_id])
-                        ->andFilterWhere(['<=', 'min_price', new \yii\db\Expression("price*'$nbrPersson'/people_number")])
-                        ->all();
+            if ($category == 3){
+                $query = ProductItem::find()
+                ->andWhere(['partner_category' => 3])
+                ->andWhere(['product_id' => $product_parent_id])
+                ->all();
+
+
+           
+            }
+                   
                         
         }
         if (!empty($this->filteraf)) {
@@ -327,12 +332,6 @@ class Filter extends Component
                 $query = ProductItem::find()
                 ->andWhere(['partner_category' => $filter])
                 ->andWhere(['product_id' => $product_parent_id])
-                ->andWhere(['>=', 'people_number', $nbrPersson])
-                ->andWhere(['<=', 'people_number', new \yii\db\Expression("JSON_EXTRACT(checkbox, '$[2]')")])
-                ->andWhere(['>=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[0]')"), $_SESSION['duration']]) 
-                ->andWhere(['<=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[1]')"), $_SESSION['duration']])
-                ->andWhere(['!=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[4]')"), $_SESSION['dayDepart']])
-                ->andWhere(['!=', new \yii\db\Expression("JSON_EXTRACT(checkbox,'$[4]')"), $_SESSION['dayArriver']])
                 ->all();
             }
                    
@@ -340,8 +339,8 @@ class Filter extends Component
                 $query = ProductItem::find()
                     ->andWhere(['partner_category' => 3])
                     ->andWhere(['product_id' => $product_parent_id1])
-                    ->andFilterWhere(['<=', 'min_price', new \yii\db\Expression("price*'$nbrPersson'/people_number")])
                     ->all();
+
         }
       
         if (empty($this->result) or empty($query) or empty($product_parent_id))

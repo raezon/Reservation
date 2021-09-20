@@ -78,7 +78,7 @@ class saveNext extends Component
 
                         if ($modelCustomer->partner_category == 1) {
                             $model->caution = 0.0;
-                            $model->price = 0.0;
+                         //   $model->price = 0.0;
                         }
 
                         if ($modelCustomer->partner_category == 2) {
@@ -129,7 +129,7 @@ class saveNext extends Component
                         $model->status = "0";
                         /**/
                         if ($modelCustomer->partner_category == 4) {
-                            $model->price = 0.0;
+                           // $model->price = 0.0;
                             $model->periode = 0.0;
                             $length = sizeof($_FILES['ProductParent']["tmp_name"]["picutre"]);
                             $array_image = array();

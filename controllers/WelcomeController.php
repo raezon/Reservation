@@ -135,20 +135,8 @@ class WelcomeController extends \yii\web\Controller
     // $this->layout = 'blank';
     //doing our checking
 
-    $partner = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
-    if (!empty($partner)) {
-      $product_parent = ProductParent::find()->andwhere(['partner_id' => $partner->id])->one();
-      if (!empty($product_parent))
-        return $this->redirect(Url::to(['welcome/step', 'id' => 3, 'category_id' => $product_parent->partner_category]));
-      else{
-       // print_r($partner);
-      //  die();
-        return $this->render('index', [
-          'categories' => $categories
-        ]);
-      }
-        
-    }
+   
+ 
     return $this->render('index', [
       'categories' => $categories
     ]);
@@ -260,11 +248,11 @@ class WelcomeController extends \yii\web\Controller
       //parite 3 du forumlaire
       if ($modelStep1->idi == 3 && $modelStep3->load(Yii::$app->request->post())) {
         $category_id = 1;
-        $msg[] = Yii::$app->step3->save_partner_step3($user_id, $category_id, $modelStep3);
+         Yii::$app->step3->save_partner_step3($user_id, $category_id, $modelStep3);
       }
       //sending Notification if it is okey
       if ($modelStep3->idi == 3) {
-        $msg = json_encode($msg);
+      /*  $msg = json_encode($msg);
         $user = User::find()->where(['id' => User::getCurrentUser()->id])->one();
         $partner = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
         AccountNotification::create(
@@ -273,10 +261,11 @@ class WelcomeController extends \yii\web\Controller
           $user->username,
           $partner->name
         )->send();
-        //sending a flash message
+        //sending a flash message*/
         Yii::$app->session->setFlash('success', "Add another product");
         return $this->redirect(Url::to(['welcome/step', 'id' => $modelStep3->idi, 'category_id' => $category_id]));
       }
+    
       return $this->redirect(Url::to(['welcome/step', 'id' => $modelStep1->idi + 1, 'category_id' => $category_id]));
     }
   }

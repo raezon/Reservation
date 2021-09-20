@@ -126,13 +126,14 @@ echo Nav::widget([
 
         ['label' => 'Ajouter nouveau produit', 'linkOptions' => [], 'url' => ['/welcome/index'], 'visible' => User::isPartner()],
         //  ['label' => 'All Reservations', 'url' => ['/reservation/index'], 'visible' =>User::isAdmin()||User::isPartner()],
-        //  ['label' => 'My Reservations', 'url' => ['/reservation/index'], 'visible' => !( Yii::$app->user->isGuest)&&!( User::isPartner())&&!(User::isAdmin())],
+        ['label' => 'My Reservations', 'url' => ['/reservation/index'], 'visible' =>  User::isUser()or  User::isPartner()or User::isAdmin()],
+
         ['label' => 'Payment', 'linkOptions' => [], 'url' => ['/payment/index'], 'visible' => User::isAdmin() or   User::isPartner()],
         ['label' => 'Subscription', 'linkOptions' => [], 'url' => ['/subscription/index'], 'visible' => User::isAdmin()],
-        ['label' => 'About Us', 'linkOptions' => [], 'url' => ['/site/about'], 'visible' => Yii::$app->user->isGuest],
-        ['label' => 'Contact', 'linkOptions' => [], 'url' => ['/site/contact'], 'visible' => Yii::$app->user->isGuest],
-        ['label' => 'Termes et Conditions', 'linkOptions' => [], 'url' => ['/site/terms'], 'visible' => Yii::$app->user->isGuest],
-
+        ['label' => 'About Us', 'linkOptions' => [], 'url' => ['/site/about']],
+        ['label' => 'Contact', 'linkOptions' => [], 'url' => ['/site/contact']],
+        ['label' => 'Termes et Conditions', 'linkOptions' => [], 'url' => ['/site/terms']],
+        app\widgets\Notifications::widget(),
     ],
 ]);
 
