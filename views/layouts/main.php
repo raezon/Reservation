@@ -22,6 +22,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/notifications.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://static.jcoc611.com/hosted/js/InputAffix.1.1.1.min.js"></script>
     <?= Html::csrfMetaTags() ?>
@@ -50,18 +51,19 @@ AppAsset::register($this);
                 ['label' => 'Administration', 'url' => ['/user/admin'], 'visible' => User::isAdmin()],
           //['label' => 'Profile', 'url' => ['/user/profile', 'id' => \Yii::$app->user->id], 'visible' => User::isUser()],
                 ['label' => 'Ajouter nouveau produit', 'linkOptions' => [], 'url' => ['/welcome/index'], 'visible' => User::isPartner()],
-                ['label' => 'Modérateur', 'url' => ['/partner/index'], 'visible' => User::isAdmin() or User::isPartner() ],
+            
                 [
-                    'label' => 'Tous les produits ', 'url' => ['/product-item/index'], 'visible' =>  User::isAdmin()
+                    'label' => 'Tous les produits ', 'linkOptions' => [], 'url' => ['/product-item/index'], 'visible' => User::isAdmin()
+            
                 ],
                 [
                     'label' => 'Mes produits ', 'linkOptions' => [], 'url' => ['/product-item/index'], 'visible' => User::isPartner()
             
                 ],            
-
-                ['label' => 'My Reservations', 'url' => ['/reservation/index'], 'visible' =>  User::isUser()or  User::isPartner()or User::isAdmin()],
+                ['label' => 'Achats', 'url' => ['/reservation/index'], 'visible' =>  User::isUser()],
+                ['label' => 'Ordres', 'url' => ['/reservation/index'], 'visible' =>    User::isPartner()or User::isAdmin()],
                 ['label' => 'Payment', 'url' => ['/payment/index'], 'visible' => User::isAdmin() or User::isPartner()],
-         
+                ['label' => 'Messagerie', 'linkOptions' => [], 'url' => ['/messagerie/index'], 'visible' =>    User::isAdmin()],
                 ['label' => 'About Us', 'url' => ['/site/about'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => 'Contact', 'url' => ['/site/contact'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => 'Terms & Conditions', 'url' => ['/site/terms'], 'visible' => Yii::$app->user->isGuest],

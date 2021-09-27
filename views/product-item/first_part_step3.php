@@ -77,33 +77,7 @@ foreach ($Produit_option as $option) {
 echo "<div class='col-md-12'>";
 //echo $model->product_type  ;
 
-$type = json_decode($model->product_type, true);
 
-$model->area = $type['0']['area'];
-$model->caution = $type['0']['caution'];
-$model->event_cake = $type['0']['event_cake'];
-$model->drink = $type['0']['drink'];
-$model->External_food = $type['0']['External_food'];
-$model->External_Catering = $type['0']['External_Catering'];
-$model->Internal_Catering = $type['0']['Internal_Catering'];
-$model->Without_guarantee = $type['0']['Without_guarantee'];
-$model->Minimum_consumption_Price = $type['0']['Minimum_consumption_Price'];
-$model->Wifi = $type['0']['Wifi'];
-$model->Board = $type['0']['Board'];
-$model->System_Sound = $type['0']['System_Sound'];
-$model->Micro = $type['0']['Micro'];
-$model->Video_projector = $type['0']['Video_projector'];
-$model->System_Sound = $type['0']['System_Sound'];
-if (array_key_exists('To_bring_back_cake_of_the_event', $type['0']))
-  $model->To_bring_back_cake_of_the_event = $type['0']['To_bring_back_cake_of_the_event'];
-$model->Parking_lot = $type['0']['Parking_lot']["name"];
-$model->Parking_lot_field = $type['0']['Parking_lot']['field'];
-$model->Subway = $type['0']['Subway']['name'];
-$model->Subway_field = $type['0']['Subway']['field'];
-$model->Train = $type['0']['Train']['name'];
-$model->Train_field = $type['0']['Train']['field'];
-$model->Bus = $type['0']['Bus']['name'];
-$model->Bus_field = $type['0']['Bus']['field'];
 
 /*******************************First line******************************************/
 

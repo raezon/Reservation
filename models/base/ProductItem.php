@@ -45,25 +45,22 @@ class ProductItem extends \yii\db\ActiveRecord
     public $Halal;
     public $Cacher;
     public $Without_porc;
-    public $Arabic;
-    public $Frensh;
-    public $English;
-    public $Deutsh;
-    public $Japenesse;
     public $image;
-    public $caution;
-    public $distance;
+ 
 
     public function rules()
     {
         return
             [
-                [['vegan', 'Vegetarian', 'Organic', 'Gluten_free', 'Halal', 'Cacher', 'Without_porc', 'image', 'caution', 'partner_category', 'extra', 'distance'], 'safe'],
-                [['Arabic', 'Frensh', 'English', 'Deutsh', 'Japenesse'], 'safe'],
-                [['name', 'temp', 'description', 'people_number', 'number_of_agent', 'quantity', 'periode', 'price', 'currencies_symbol', 'languages', 'picture', 'checkbox', 'status', 'product_id'], 'required'],
+                [['vegan', 'Vegetarian', 'Organic', 'Gluten_free', 'Halal', 'Cacher', 'Without_porc', 'image', 'partner_category'], 'safe'],
+               
+                [['name', 'temp', 'description', 'people_number',  'quantity', 'periode', 'price', 'currencies_symbol', 'languages', 'status', 'product_id'], 'required'],
+               
+                [['picture'], 'safe'],
+            
                 [['people_number', 'number_of_agent', 'quantity', 'periode', 'status', 'product_id'], 'integer'],
                 [['price'], 'number'],
-                [['name', 'temp', 'currencies_symbol', 'languages', 'picture', 'image', 'checkbox'], 'string', 'max' => 255]
+                [['name', 'temp', 'currencies_symbol', 'languages', 'image', 'checkbox'], 'string', 'max' => 255]
             ];
     }
 

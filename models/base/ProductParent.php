@@ -33,8 +33,8 @@ class ProductParent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['partner_id', 'partner_category', 'name', 'kind_of_food', 'min', 'extra', 'currencies_symbol', 'description'], 'required'],
-            [['IBAN', 'BIC_SWIFT', 'Bank_name', 'Bank_country', 'File'], 'safe'],
+            [['partner_id', 'partner_category', 'name', ], 'required'],
+            [['kind_of_food', 'min', 'extra', 'currencies_symbol', 'description','IBAN', 'BIC_SWIFT', 'Bank_name', 'Bank_country', 'File'], 'safe'],
             [['partner_id', 'partner_category'], 'integer'],
             [['name', 'kind_of_food', 'min', 'extra', 'currencies_symbol'], 'string', 'max' => 255],
         ];

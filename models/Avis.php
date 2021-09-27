@@ -9,7 +9,6 @@ use Yii;
  *
  * @property int $id
  * @property string $commentaire
- * @property float $note
  * @property string $date
  */
 class Avis extends \yii\db\ActiveRecord
@@ -28,9 +27,9 @@ class Avis extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['commentaire', 'note', 'date'], 'required'],
+            [['commentaire', 'date'], 'required'],
             [['commentaire'], 'string'],
-            [['note'], 'number'],
+      
             [['date'], 'safe'],
         ];
     }

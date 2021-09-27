@@ -24,7 +24,7 @@ class StepAsset extends AssetBundle
 
     public $css = [
         'css/site.css',
-        'css/fullcalendar.min.css'
+        'css/fullcalendar.min.css',
     ];
     public $js = [
         //'js/app.js',
@@ -36,8 +36,8 @@ class StepAsset extends AssetBundle
         'js/fullcalendar.min.js',
         'js/send.js',
         //'js/fullcalendar.min.js'
-        'js/OveridingUlceadMultipleInput.js'
-
+        'js/OveridingUlceadMultipleInput.js',
+        'notifications.js',
     ];
 
     public $depends = [

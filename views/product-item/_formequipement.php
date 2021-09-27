@@ -36,26 +36,14 @@ if (empty($currencies_symbol))
 
     <?= $form->errorSummary($model); ?>
 
-    <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+   
 
     <?= $form->field($product_parent, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label('Name sosiety') ?>
     <?= $form->field($product_parent, 'description')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label('Description') ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
 
-    <?= $form->field($model, 'temp')->textInput(['maxlength' => true, 'placeholder' => 'Temp']) ?>
-
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true, 'placeholder' => 'Description']) ?>
-
-    <?= $form->field($model, 'people_number', [
-        'options' => [
-            'tag' => 'div',
-            'class' => '',
-        ]
-    ])->textInput([
-        'type' => 'number',
-        'placeholder' => 'People Number'
-    ]) ?>
+    
 
 
     <?= $form->field($model, 'quantity', [
@@ -67,15 +55,7 @@ if (empty($currencies_symbol))
         'type' => 'number',
         'placeholder' => 'Quantity'
     ]) ?>
-    <?= $form->field($model, 'periode', [
-        'options' => [
-            'tag' => 'div',
-            'class' => '',
-        ]
-    ])->textInput([
-        'type' => 'number',
-        'placeholder' => 'Periode'
-    ]) ?>
+ 
 
     <?=
     $form->field($model, "price")->widget(MaskMoney::classname(), [
@@ -92,38 +72,8 @@ if (empty($currencies_symbol))
         ]
     ])->label('Price') ?>
 
-
-
-
-
-    <?= $form->field($model, 'currencies_symbol')->textInput(['maxlength' => true, 'placeholder' => 'Currencies Symbol']) ?>
-    <?php
-    if (!is_array($product_parent->extra))
-        $product_parent->extra = json_decode($product_parent->extra, true);
-    ?>
-    <?= $form->field($product_parent, 'extra')->widget(MultipleInput::className(), [
-        'max' => 4,
-        'columns' => [
-            [
-                'name'  => 'Description',
-                'title' => 'Description',
-                'enableError' => true,
-                'options' => [
-                    'class' => 'input-priority'
-                ]
-            ],
-            [
-                'name'  => 'Price',
-                'title' => 'Price',
-                'type' => MaskMoney::class
-            ]
-        ]
-    ])->label('Additonnal services');
-    ?>
-
     <?php $model->image = $model->picture; ?>
     <?= $form->field($model, 'image[]')->fileInput(['multiple' => true]) ?>
-
 
 
     <?php

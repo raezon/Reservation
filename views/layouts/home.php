@@ -117,23 +117,22 @@ echo Nav::widget([
     //    ['label' => 'Profile', 'linkOptions' => [], 'url' => ['/user/profile', 'id' => \Yii::$app->user->id], 'visible' => User::isUser()],
     //    ['label' => 'Profiles', 'linkOptions' => [], 'url' => ['/profile/index'], 'visible' => User::isAdmin()],
         ['label' => 'Modérateur', 'linkOptions' => [], 'url' => ['/partner/index'], 'visible' => User::isAdmin()],
-        [
-            'label' => 'Tous les produits ', 'linkOptions' => [], 'url' => ['/product-item/index'], 'visible' => User::isAdmin(),
-        ],
+       
         [
             'label' => 'Mes produits ', 'linkOptions' => [], 'url' => ['/product-item/index'], 'visible' => User::isPartner(),
         ],
 
         ['label' => 'Ajouter nouveau produit', 'linkOptions' => [], 'url' => ['/welcome/index'], 'visible' => User::isPartner()],
-        //  ['label' => 'All Reservations', 'url' => ['/reservation/index'], 'visible' =>User::isAdmin()||User::isPartner()],
-        ['label' => 'My Reservations', 'url' => ['/reservation/index'], 'visible' =>  User::isUser()or  User::isPartner()or User::isAdmin()],
-
-        ['label' => 'Payment', 'linkOptions' => [], 'url' => ['/payment/index'], 'visible' => User::isAdmin() or   User::isPartner()],
-        ['label' => 'Subscription', 'linkOptions' => [], 'url' => ['/subscription/index'], 'visible' => User::isAdmin()],
+     
+        ['label' => 'Mes achats', 'url' => ['/reservation/index'], 'visible' =>  User::isUser()],
+        ['label' => 'Ordres', 'url' => ['/reservation/index'], 'visible' =>    User::isPartner()],
+        ['label' => 'Payment', 'linkOptions' => [], 'url' => ['/payment/index'], 'visible' =>    User::isPartner()],
+        ['label' => 'Messagerie', 'linkOptions' => [], 'url' => ['/messagerie/index'], 'visible' =>    User::isAdmin()],
+        
         ['label' => 'About Us', 'linkOptions' => [], 'url' => ['/site/about']],
         ['label' => 'Contact', 'linkOptions' => [], 'url' => ['/site/contact']],
         ['label' => 'Termes et Conditions', 'linkOptions' => [], 'url' => ['/site/terms']],
-        app\widgets\Notifications::widget(),
+        
     ],
 ]);
 

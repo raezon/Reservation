@@ -193,7 +193,7 @@ class step3 extends Component
 
     // $product_model->partner_id=$partenaire_model->id;
     //$product_model->extra=$services;
-    $product_model->status = 0;
+    $product_model->status = 1;
     $expression = new Expression('NOW()');
     $now = (new \yii\db\Query)->select($expression)->scalar();  // SELECT NOW()
     $timestamp = strtotime($now);
@@ -210,7 +210,7 @@ class step3 extends Component
 
 
     if (is_null($product_model->status))
-      $product_model->status = 0;
+      $product_model->status = 1;
 
     $msg['partner_category'] = $product_model->partner_category;
     $msg['name'] = $product_model->name;

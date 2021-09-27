@@ -35,9 +35,11 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\Session;
 use yii\web\UploadedFile;
+
 class SiteController extends Controller
 {
 
@@ -79,6 +81,29 @@ class SiteController extends Controller
         Yii::info('info log message');
         Yii::warning('warning log message');
         Yii::error('error log message');
+    }
+    public function actionSendAvis($product_id)
+    {
+        $model = new \app\models\Avis();
+
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            if ($model->load(Yii::$app->request->post())) {
+                $model->product_id = $product_id;
+                $model->date = date("Y/m/d");
+                $model->name=\app\models\User::find()->where(['id'=>User::getCurrentUser()->id])->one()->username;
+                if ($model->save()) {
+                  //  Yii::$app->session->setFlash('success', "Avis envoyer avec success");
+                } else {
+                    print_r($model->errors);
+                    die();
+                }
+            }
+
+        
+        $model1 = \app\models\ProductItem::find()->where(['id'=>$product_id])->one();
+
+        return $this->redirect(['/site/detail','amount' => $model1->price, 'product_id' => $model1->product_id, 'id' => $model1->id, 'deliveryPrice' => 0]);
+
     }
     public function actions()
     {
@@ -838,7 +863,7 @@ class SiteController extends Controller
     $date_reservation = date("Y/m/d");
     $model->reservation_date = $date_reservation;
     $model->status = 0;
-    
+
     $model->user_id = User::getCurrentUser()->id;
     $model->partner_id = $partner_id;
     $model->product_id = $product_id;
@@ -856,73 +881,84 @@ class SiteController extends Controller
 
     return $this->redirect(['/site/detail']);
     }*/
-    public function actionReservation($prix,$id,$partner_id)
+    public function actionReservation($prix, $id, $partner_id, $product_name)
     {
-       
 
         $this->setBsVersion('3');
         $this->layout = 'main';
         if (User::isUser()) {
             $model = new \app\models\Reservation();
 
-           
             return $this->render('reservation', [
                 'model' => $model,
-                'prix'=>$prix,
-                'id'=>$id,
-                'partner_id'=>$partner_id
+                'prix' => $prix,
+                'id' => $id,
+                'partner_id' => $partner_id,
+                'product_name' => $product_name,
             ]);
-        }else{
-            echo 'sss';
-            die();
+        } else {
+            throw new NotFoundHttpException('Vous pouvez pas réserver ce produit vous etes pas un client ');
         }
         return $this->redirect(['/user/security/login']);
 
     }
-    public function actionSaveReservation($prix,$id,$partner_id)
+    public function actionSaveReservation($prix, $id, $partner_id, $product_name)
     {
 
-    
         $model = new \app\models\Reservation();
 
         if ($model->load(Yii::$app->request->post())) {
-            
-                $now = new \DateTime();
-              
-                $model->reservation_date = $now->format('Y-m-d H:i:s');
-                $model->file = UploadedFile::getInstance($model, 'file');
-                $model->partner_id=$partner_id;
-                if ($model->file != 'vide' and !empty($model->file)) {
-                    if ($model->upload()) {
-        
-                    }
+
+            $now = new \DateTime();
+
+            $model->reservation_date = $now->format('Y-m-d H:i:s');
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->partner_id = $partner_id;
+            if ($model->file != 'vide' and !empty($model->file)) {
+                if ($model->upload()) {
+
                 }
-                $model->product_item_id = $id;
-                $model->montant=$prix;
-                if ($model->file) {
-                    $model->piece_jointe = (string) $model->file;
-                } else {
-                    $model->piece_jointe = "vide";
-                }
-                $model->user_id =(string) User::getCurrentUser()->id;
-        
-                if ($model->save()) {
-                    $keyNotification = AccountNotification::KEY_NEW_PRODUCT . ' ' . $prix . 'Da';
-                    AccountNotification::create($keyNotification, ['user' => User::getCurrentUser()->id,'reservation_id'=>$model->id])->send();
-                } else{
-                    print_r($model->errors);
-                    die();
-                }
-                return $this->render('payement', [
-        
-                ]);
-               
-            
+            }
+            $model->product_item_id = $id;
+            $model->montant = $prix;
+            if ($model->file) {
+                $model->piece_jointe = (string) $model->file;
+            } else {
+                $model->piece_jointe = "vide";
+            }
+            $model->user_id = (string) User::getCurrentUser()->id;
+
+            if ($model->save()) {
+                $currTime = time();
+                $db = Yii::$app->getDb();
+
+                $messageNotification = AccountNotification::KEY_NEW_PRODUCT . ' ' . User::find()->where(['id' => User::getCurrentUser()->id])->one()->username . ' a payer pour produit ' . $product_name . ' qui coute ' . $prix . ' Dzd';
+                $keyNotification = AccountNotification::KEY_NEW_PRODUCT . ' ' . $prix . 'Da';
+                $db->createCommand()->insert('{{%notifications}}', [
+                    'class' => '',
+                    'key' => $messageNotification,
+                    'message' => $keyNotification,
+                    'route' => '',
+                    'user_id' => $model->user_id,
+                    'reservation_id' => $model->id,
+                    'created_at' => $currTime,
+                ])->execute();
+                //AccountNotification::create($keyNotification, ['user' => User::getCurrentUser()->id,'reservation_id'=>$model->id])->send();
+
+            } else {
+                print_r($model->errors);
+                die();
+            }
+            return $this->render('payement', [
+
+            ]);
+
         }
+
         return $this->render('reservation', [
             'model' => $model,
         ]);
-        
+
     }
     public function actionDetail($amount, $id, $product_id, $deliveryPrice)
     {
@@ -971,6 +1007,7 @@ class SiteController extends Controller
         }
         $latitudeTo = $outputTo->results[0]->geometry->location->lng;
         $longitudeTo = $outputTo->results[0]->geometry->location->lat;
+       
 
         return $this->render('detail', ['model' => $image, 'cancelation' => $partner->picture, 'latFrom' => $latitudeTo, 'lngFrom' => $longitudeTo, 'qte' => $qte, 'category' => $model_Partner[0]->partner_category, 'id' => $id, 'count' => $count, 'product' => $model[0], 'Languages' => $model[0]->languages, 'product_parent' => $model_Partner[0], 'partner' => $partner, 'count_extra' => 0, 'extra' => $extra, 'search' => $model, 'modelmap' => $modelmap, 'latitude' => $latitude, 'longitude' => $longitude, 'deliveryPrice' => $deliveryPrice]);
     }
@@ -1003,12 +1040,12 @@ class SiteController extends Controller
 
                 return $this->redirect(['/user/admin']);
             }
-            if(User::isPartner()){
+            if (User::isPartner()) {
                 return $this->redirect(['/welcome/index']);
-            }else{
+            } else {
                 return $this->redirect(['/site/index']);
             }
-           
+
             //return $this->goBack();
         }
         $this->layout = 'main';
@@ -1084,13 +1121,12 @@ class SiteController extends Controller
             if ($user->validate()) {
                 $user = $user->register();
                 if ($user) {
-                    $auth=new \app\models\AuthAssignment;
-                    $auth->user_id=$user->id;
-                    $auth->item_name=User::ROLE_USER;
-                    $auth->created_at=time();
+                    $auth = new \app\models\AuthAssignment;
+                    $auth->user_id = $user->id;
+                    $auth->item_name = User::ROLE_USER;
+                    $auth->created_at = time();
                     $auth->save();
                 }
-           
 
                 Yii::$app->session->setFlash('success', "Dear Client thank you for your registration we invite you to check you email or your spam box we've sent you a confirmation email to continue your registration.");
                 return $this->redirect(['/user/security/login']);
@@ -1106,6 +1142,7 @@ class SiteController extends Controller
     }
     public function actionBecomePartner()
     {
+
         $this->layout = 'home';
         $model = new \app\models\forms\SearchForm();
         $this->setBsVersion(4);
@@ -1116,13 +1153,18 @@ class SiteController extends Controller
             if ($user->validate()) {
                 $user = $user->register();
                 if ($user) {
-                    $user->refresh();
+                    // $user->refresh();
                     if ($user) {
-                        $auth=new \app\models\AuthAssignment;
-                        $auth->user_id=$user->id;
-                        $auth->item_name=User::ROLE_USER;
-                        $auth->created_at=time();
-                        $auth->save();
+                        $auth = \app\models\AuthAssignment::find()->where(['user_id' => $user->id])->one();
+                        $auth->user_id = (string) $user->id;
+                        $auth->item_name = (string) User::ROLE_PARTNER;
+                        $auth->created_at = (string) time();
+                        if ($auth->update()) {
+
+                        } else {
+                            print_r($auth->errors);
+                            die();
+                        }
                     }
                 }
                 $user = User::find()->where(['id' => 1])->one();

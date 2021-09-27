@@ -43,7 +43,8 @@ class DetailAsset extends AssetBundle
         //'js/calendar.js',
         //'js/jquery.min.js',
         //'js/moment.min.js',
-
+        
+        'notifications.js'
 
 
 

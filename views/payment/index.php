@@ -46,7 +46,8 @@ $this->registerJs($search);
             'attribute' => 'reservation_id',
             'label' => Yii::t('app', 'Produit'),
             'value' => function($model){
-                return 'pc';
+
+                return $model->reservation->productItem->name;
             },
         ],
         [

@@ -259,11 +259,13 @@ class Filter extends Component
             if ($filter != 1 && $filter != 3)
                 $query = ProductItem::find()
                     ->andWhere(['partner_category' => $filter])
+                    ->andWhere(['>=','quantity',1])
                     ->andWhere(['product_id' => $product_parent_id])->all();
             if ($filter == 1){
               
                 $query = ProductItem::find()
                     ->andWhere(['partner_category' => $filter])
+                    ->andWhere(['>=','quantity',1])
                     ->andWhere(['product_id' => $product_parent_id])
                     ->all();
             }
@@ -271,6 +273,7 @@ class Filter extends Component
             
                 $query = ProductItem::find()
                     ->andWhere(['partner_category' => $filter])
+                    ->andWhere(['>=','quantity',1])
                     ->andWhere(['product_id' => $product_parent_id])
                     ->all();
 ; 
@@ -281,6 +284,7 @@ class Filter extends Component
             if ($category != 1 && $category != 3){
               
                     $query = ProductItem::find()->andWhere(['partner_category' => $this->value_category_serached])
+                    ->andWhere(['>=','quantity',1])
                     ->andWhere(['product_id' => $product_parent_id])
                     ->all();
 
@@ -290,6 +294,7 @@ class Filter extends Component
                
                 $query = ProductItem::find()
                 ->andWhere(['partner_category' => 1])
+                ->andWhere(['>=','quantity',1])
                 ->andWhere(['product_id' => $product_parent_id])
                 ->all();
                 
@@ -298,6 +303,7 @@ class Filter extends Component
             if ($category == 3){
                 $query = ProductItem::find()
                 ->andWhere(['partner_category' => 3])
+                ->andWhere(['>=','quantity',1])
                 ->andWhere(['product_id' => $product_parent_id])
                 ->all();
 
@@ -322,15 +328,18 @@ class Filter extends Component
 
             $query = ProductItem::find()
                 ->andWhere(['partner_category' => $this->filteraf])
+                ->andWhere(['>=','quantity',1])
                 ->andWhere(['product_id' => $product_parent_id1])->all();
             if ($category != 1  && $category != 3)
                 $query = ProductItem::find()
                     ->andWhere(['partner_category' => $this->filteraf])
+                    ->andWhere(['>=','quantity',1])
                     ->andWhere(['product_id' => $product_parent_id1])->all();
             if ($category == 1){
               
                 $query = ProductItem::find()
                 ->andWhere(['partner_category' => $filter])
+                ->andWhere(['>=','quantity',1])
                 ->andWhere(['product_id' => $product_parent_id])
                 ->all();
             }
@@ -338,6 +347,7 @@ class Filter extends Component
             if ($category == 3)
                 $query = ProductItem::find()
                     ->andWhere(['partner_category' => 3])
+                    ->andWhere(['>=','quantity',1])
                     ->andWhere(['product_id' => $product_parent_id1])
                     ->all();
 

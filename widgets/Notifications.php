@@ -130,27 +130,30 @@ class Notifications extends \yii\base\Widget
 
     public static function getCountUnseen(){
 
+    
         $userId = Yii::$app->getUser()->getId();
 
         //check if admin
         if(\app\models\User::isUser(\app\models\User::getCurrentUser()->id)){
 
                 $count = (new Query())
-                ->from('{{%notification}}')
-                ->innerJoin('reservation', 'reservation.id = notification.reservation_id')
-               ->andWhere(['reservation.status' => 1])
-               ->andWhere(['reservation.user_id' =>\app\models\User::getCurrentUser()->id])
+                ->from('{{%notifications}}')
+                ->innerJoin('reservation', 'reservation.id = notifications.reservation_id')
+                ->andWhere(['reservation.status' => 1])
+                ->andWhere(['reservation.user_id' =>\app\models\User::getCurrentUser()->id])
                 ->andWhere(['seen' => false])
                 ->count();
                 return $count;
             }else{
-
+  
                 //All aprobateur that have the pallier to aprove
                 if(\app\models\User::isPartner(\app\models\User::getCurrentUser()->id)){
+                
                     $partner = \app\models\Partner::find()->where(['user_id' => \app\models\User::getCurrentUser()->id])->one();
                     $count = (new Query())
-                    ->from('{{%notification}}')
-                    ->innerJoin('reservation', 'reservation.id = notification.reservation_id')
+                    ->from('{{%notifications}}')
+                    ->innerJoin('reservation', 'reservation.id = notifications.reservation_id')
+                    ->andWhere(['reservation.status' => 0])
                     ->andWhere(['reservation.partner_id' =>$partner->id])
               //      ->innerJoin('grade', 'grade.user_id = decaissementhistorique.reciever_user_id')
                //     ->andWhere(['>=','grade.montant','decaissementhistorique.montant'])

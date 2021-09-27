@@ -107,6 +107,25 @@ $gridColumn = [
 
         },
     ],
+    [
+        'attribute' => 'status',
+        'format' => 'html',
+        'label' => 'Blocker ',
+        'visible' => User::isPartner(),
+        'value' => function ($model) {
+
+            return Html::a(
+                'Blocker',
+                ['reservation/block', 'userId' => $model->user_id, 'reservation_id' => $model->id],
+                [
+                    'id' => 'Accepter',
+                    'class' => 'btn btn-danger',
+                    'target' => '_blank',
+                ]
+            );
+
+        },
+    ],
 
     [
         'attribute' => 'user_id',
@@ -121,15 +140,7 @@ $gridColumn = [
         ],
         'filterInputOptions' => ['placeholder' => 'User', 'id' => 'grid--user_id'],
     ],
-    [
-        'class' => 'yii\grid\ActionColumn',
-        'template' => '{save-as-new} {view} {update} {delete}',
-        'buttons' => [
-            'save-as-new' => function ($url) {
-                return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, ['title' => 'Save As New']);
-            },
-        ],
-    ],
+    
 ];
 ?>
     <?=GridView::widget([

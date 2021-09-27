@@ -53,6 +53,12 @@ $config = [
                     ],
                 ],
             ],
+            'controllerMap' => [
+                'default' => 'app\controllers\notification\NotificationController',
+                'fixture' => [ // Fixture generation command line.
+                  
+                ],
+            ],
         ],
 
         'gridview' => [

@@ -133,7 +133,7 @@ $currencies_symbol = "Dzd";
                                             $mealData,
                                             [
                                                 'style' => ' !important',
-                                                'prompt' => 'Choose your type of Transport',
+                                                'prompt' => 'Choisir votre  transport',
                                                 'onchange' => '
                                                 $.post("index.php?r=welcome/lists&id=' . '"+$(this).val(), function(data){
                                                     $("select#servicesandpriceform-produit_option").html(data);

@@ -1,11 +1,10 @@
 <?php
 
 use app\widgets\FirstDetatil as WidgetsFirstDetail;
-use app\widgets\SecurityMenu as WidgetsSecurityMenu;
+use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\Html;
-use kartik\rating\StarRating;
-$avis=new app\models\Avis;
+
+$avis = new app\models\Avis;
 ?>
 <!-- product-detail-top -->
 <div class="product-detail-top">
@@ -40,9 +39,9 @@ $avis=new app\models\Avis;
                 <div class="product-information">
                     <div class="product-actions">
 
-                        <form action="index.php?r=site/reservation" 
+                        <div
                             id="add-to-cart-or-refresh" class="row">
-                        
+
                             <div class="productdetail-right col-12 col-lg-6 col-md-6">
                                 <div class="product-reviews">
                                     <div id="product_comments_block_extra">
@@ -111,23 +110,23 @@ $avis=new app\models\Avis;
                                         <div>
                                         </div>
                                     </div>
-                                   
+
                                 </div>
 
                                 <input class="sb-search-input" placeholder="I want your freebies!" type="hidden" id="email" name="email"  value='2'>
                                 <div id="_desktop_productcart_detail">
                                     <div class="product-add-to-cart in_border">
                                         <div class="add">
-                                            
-                                            <a class="btn btn-primary add-to-cart"  
-                                                href='index.php?r=site/reservation&prix=<?=$product->price?>&id=<?=$product->id?>&partner_id=<?=$product_parent->partner_id?>' >
+
+                                            <a class="btn btn-primary add-to-cart"
+                                                href='index.php?r=site/reservation&prix=<?=$product->price?>&id=<?=$product->id?>&partner_id=<?=$product_parent->partner_id?>&product_name=<?=$product->name?>' >
                                                 <div class="icon-cart">
                                                     <i class="shopping-cart"></i>
                                                 </div>
-                                                <?php if($product_parent->partnerCategory->id==2){?>
+                                                <?php if ($product_parent->partnerCategory->id == 2) {?>
                                                 <span>Acheter</span>
-                                                <?php }else{?>
-                                               
+                                                <?php } else {?>
+
                                                     <span>Reserver</span>
                                                 <?php }?>
 
@@ -210,9 +209,33 @@ $avis=new app\models\Avis;
                                     nec, vulputate eget, arcu. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                                     Aenean commodo ligula eget dolor. Aenean massa.</p>
                                 <h3>Lorem ipsum dolor sit amet</h3>
-                                <div class="image-des"><a href="#"><img class="img-fluid"
-                                            src="http://images.vinovathemes.com/prestashop_savemart/image-product-1.jpg"
-                                            alt="#"></a></div>
+                                <div class="image-des"><a href="#">
+                                        <?php
+switch ($product_parent->partnerCategory->id) {
+    case 1:
+        echo ' <img class="img-fluid"
+                                        src="img/hotel.png"
+                                        alt="#">';
+        break;
+    case 2:
+        echo ' <img class="img-fluid"
+                                        src="img/vitrine.png"
+                                        alt="#">';
+        break;
+    case 3:
+        echo ' <img class="img-fluid"
+                                        src="img/restaurant.png"
+                                        alt="#">';
+        break;
+    case 8:
+        echo ' <img class="img-fluid"
+                                            src="img/transport.png"
+                                            alt="#">';
+        break;
+}
+
+?>
+                                    </a></div>
                                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
                                     dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
                                     nascetur ridiculus mus. <br> Donec quam felis, ultricies nec, pellentesque eu,
@@ -220,9 +243,31 @@ $avis=new app\models\Avis;
                                     aliquet nec, vulputate eget, arcu. Lorem ipsum dolor sit amet, consectetuer
                                     adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Lorem ipsum dolor
                                     sit amet, consectetuer adipiscing elit.</p>
-                                <div class="image-des"><a href="#"><img class="img-fluid"
-                                            src="http://images.vinovathemes.com/prestashop_savemart/image-product-2.jpg"
-                                            alt="#"></a></div>
+                                <div class="image-des"><a href="#"> <?php
+switch ($product_parent->partnerCategory->id) {
+    case 1:
+        echo ' <img class="img-fluid"
+                                        src="img/hotel.png"
+                                        alt="#">';
+        break;
+    case 2:
+        echo ' <img class="img-fluid"
+                                        src="img/vitrine.png"
+                                        alt="#">';
+        break;
+    case 3:
+        echo ' <img class="img-fluid"
+                                        src="img/restaurant.png"
+                                        alt="#">';
+        break;
+    case 8:
+        echo ' <img class="img-fluid"
+                                            src="img/transport.png"
+                                            alt="#">';
+        break;
+}
+
+?></a></div>
                                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
                                     dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
                                     nascetur ridiculus mus. <br> Donec quam felis, ultricies nec, pellentesque eu,
@@ -289,41 +334,43 @@ $avis=new app\models\Avis;
                         var productcomment_ok = 'OK';
                         var moderation_active = 1;
 
-                        
+
                         </script>
 
-                        <div class="tab-pane fade" id="reviews" aria-expanded="false">
-                            <div id="product_comments_block_tab">
+
+                        <div class="tab-pane " id="reviews" aria-expanded="false">
+                        <?php
+$aviss = \app\models\Avis::find()->where(['product_id'=>$product->id])->all();
+foreach ($aviss as $data) {?>
+                        <div id="product_comments_block_tab">
                                 <div class="comment clearfix">
                                     <div class="comment_author">
-                                        <span>Grade&nbsp;</span>
-                                        <div class="star_content clearfix">
-                                            <div class="star star_on"></div>
-                                            <div class="star star_on"></div>
-                                            <div class="star star_on"></div>
-                                            <div class="star star_on"></div>
-                                            <div class="star star_on"></div>
-                                        </div>
+
                                         <div class="comment_author_infos">
-                                            <div class="user-comment"><i class="fa fa-user-o"></i> dfsfs</div>
-                                            <div class="date-comment">07/08/2018</div>
+                                            <div class="user-comment"><i class="fa fa-user-o"></i> <p><?=$data->name?></p></div>
+                                            <div class="date-comment"><?=$data->date?></div>
                                         </div>
                                     </div>
                                     <div class="comment_details">
-                                        <h4>fsfdfs</h4>
-                                        <p>fdfsd</p>
-                                        <ul>
-                                            <li>3 out of 5 people found this review useful.</li>
-                                        </ul>
+
+                                        <p><?=$data->commentaire?></p>
+
                                     </div>
+
                                 </div>
                             </div>
-                            <p class="text-center mt-10">
-                                <a id="new_comment_tab_btn" class="open-comment-form btn btn-default"
-                                    data-toggle="modal" data-target="#new_comment_form" href="#">Ecrire votre avis !</a>
-                            </p>
+                            <?php }?>
+                            <div class="comments_advices">
+
+                                            <a class="open-comment-form" data-toggle="modal"
+                                                data-target="#new_comment_form" href="#"><i
+                                                    class="fa fa-edit"></i>Ecrire avis</a>
+                                        </div>
+
 
                         </div>
+
+
 
 
                         <div class="modal fade" id="new_comment_form" tabindex="-1" role="dialog"
@@ -339,13 +386,13 @@ $avis=new app\models\Avis;
                                     </div>
                                     <div class="modal-body">
                                     <?php
-                                     $picture=json_decode($product->picture,true);
-                                     $path = Yii::getAlias('@productImgUrl') . '/' . $picture[0];
-                                    ?>
+$picture = json_decode($product->picture, true);
+$path = Yii::getAlias('@productImgUrl') . '/' . $picture[0];
+?>
                                             <div class="product row no-gutters">
                                                 <div class="product-image col-4">
                                                     <img class="img-fluid"
-                                                        src="<?= $path ?>"
+                                                        src="<?=$path?>"
                                                         height="" width="" alt="Nullam sed sollicitudin mauris">
                                                 </div>
                                                 <div class="product_desc col-8">
@@ -357,28 +404,26 @@ $avis=new app\models\Avis;
                                                 <div id="new_comment_form_error" class="error alert alert-danger">
                                                     <ul></ul>
                                                 </div>
-                                              
-                                                <?php $form = ActiveForm::begin();?>
-                                               
+
+                                                <?php $form = ActiveForm::begin([
+    'id' => '',
+    'enableAjaxValidation' => true,
+    //   'enableClientValidation' => false,
+    'method' => 'post',
+    'action' => ['send-avis', 'product_id' => $product->id],
+]
+
+);?>
+
 
                                               <?=$form->field($avis, 'commentaire')->textarea()?>
-                                              <div class="star_content clearfix">
-                                            <div class="star star_on"></div>
-                                            <div class="star star_on"></div>
-                                            <div class="star star_on"></div>
-                                            <div class="star star_on"></div>
-                                            <div class="star star_on"></div>
-                                        </div>
-                                           
+                                              <?=Html::submitButton('Envoyee', ['class' => 'btn btn-primary shadow ml-sm-auto'])?>
 
-                                                    <div class="fr">
-                                                        <button id="submitNewMessage" data-dismiss="modal"
-                                                            aria-label="Close" class="btn btn-primary"
-                                                            name="submitMessage" type="submit">Envoyer</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <?php ActiveForm::end();?>
+                                          <?php ActiveForm::end();?>
+                                        </div>
+
+
+
                                     </div>
                                 </div>
                             </div>

@@ -73,26 +73,7 @@ $this->registerJs($search);
             },
 
         ],
-       /* [
-            'attribute' => 'temp',
-            'label' => 'Produit nom',
-            'value' => function ($model) {
-                $etat = 'active';
-                if ($model->partner_category == 1 ) {
-                   
-                    $temp=json_decode( $model->description,true);
-                    return $temp[0];
-                    
-                } else if( $model->partner_category == 6){
-                    $temp=json_decode( $model->temp,true);
-                    return $temp[0];
-                }
-                else {
-                    
-                    return $model->temp;
-                }
-            },
-        ],*/
+
         'price',
         [
             'attribute' => 'currencies_symbol',
@@ -116,27 +97,14 @@ $this->registerJs($search);
             },
 
         ],
-        [
-            'attribute' => 'status',
-            'label' => 'Status',
-            'value' => function ($model) {
-                $etat = 'active';
-                if ($model->status == 0) {
-                    $etat = 'not active';
-                } else {
-                    $etat = 'active';
-                }
-                return $etat;
-            },
-
-        ],
-
+    
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{view}{update}{confirm} {delete}',
-            'visible' => User::isAdmin(),
+            'visible' => User::isPartner(),
             'buttons' => [
                 'delete' => function ($url, $model) {
+                    
                     return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
                         'class' => '',
                         'data' => [
@@ -163,54 +131,11 @@ $this->registerJs($search);
                         ],
                     ]);
                 },
-                'confirm' => function ($url, $model) {
-                    return Html::a('<span class="glyphicon glyphicon-ok"></span>', ['confirm', 'id' => $model->id],  [
-                        'class' => '',
-                        'data' => [
-
-                            'method' => 'post',
-                        ],
-                    ]);
-                },
+               
 
             ]
         ],
-        [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => '{view}{update}{confirm} {delete}',
-            'visible' => !User::isGuest() && !User::isAdmin(),
-            'buttons' => [
-                'delete' => function ($url, $model) {
-                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
-                        'class' => '',
-                        'data' => [
-                            'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.',
-                            'method' => 'post',
-                        ]
-                    ]);
-                },
-                'update' => function ($url, $model) {
-                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update', 'id' => $model->id], [
-                        'class' => '',
-                        'data' => [
-
-                            'method' => 'post',
-                        ],
-                    ]);
-                },
-                'view' => function ($url, $model) {
-                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id],  [
-                        'class' => '',
-                        'data' => [
-
-                            'method' => 'post',
-                        ],
-                    ]);
-                },
-
-
-            ]
-        ],
+      
     ];
     ?>
     <?= GridView::widget([

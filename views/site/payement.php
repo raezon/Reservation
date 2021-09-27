@@ -6,8 +6,8 @@
      
           <br>
           <div style="background:rgb(136, 235, 186) " class="jumbotron" >
-           <h1>Dear Client</h1>
-           <p> Thank you For purchasing our product..</p>
+           <h1>Cher client</h1>
+           <p> Merci d'avoir acheté notre produit..</p>
 
           </div>
       </div>

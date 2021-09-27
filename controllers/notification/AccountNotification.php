@@ -14,6 +14,8 @@ class AccountNotification extends Notification
 
  const KEY_NEW_PRODUCT = 'new_reservation';
 
+ const KEY_NEW_ACCEPT = 'Payement Accepter';
+
  const KEY_Answer_PRODUCT = 'answer_reservation';
 
  const KEY_UPDATE_PRODUCT = 'update_product';
@@ -55,16 +57,9 @@ class AccountNotification extends Notification
 /**
  * @inheritdoc
  */
- public function getRoute(){
- 	//try to get the Cuurent User and partner
- 	$user_id=User::getCurrentUser()->id;
- 	if($user_id!=1){
- 		$partner_id=Partner::find()->andwhere(['user_id' =>$user_id])->one();
- 	$id=(string)$partner_id->id;
- 	//$url='/product-historique/index&id='.$partner_id;
- return ['product-historique/notification&id='.$id];
- 	}
- 	
- }
+public function getRoute()
+{
+	return ['/users/edit', 'id' => $this->user->id];
+}
 }
 ?>

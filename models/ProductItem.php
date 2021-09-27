@@ -84,13 +84,11 @@ class ProductItem extends BaseProductItem
         return
             [
                 [[
-                    'vegan', 'Vegetarian', 'Organic', 'Gluten_free', 'Halal', 'Cacher', 'Without_porc', 'image', 'area', 'caution', 'partner_category',
-                    'photo1', 'photo2', 'video1', 'video2', 'photo1andvideo', 'photo2andvideo', 'extra', 'distance'
+                    'vegan', 'Vegetarian', 'Organic', 'Gluten_free', 'Halal', 'Cacher', 'Without_porc', 'image', 'partner_category',
                 ], 'safe'],
-
-                [['Board', 'System_Sound', 'Micro', 'To_bring_back_cake_of_the_event', 'To_bring_back_drinks', 'Parking_lot', 'Parking_lot_field', 'Subway', 'Subway_field', 'Train', 'Train_field', 'Bus', 'Bus_field', 'Video_projector', 'Wifi', 'vegan', 'glutenfree', 'Halal', 'Kosher', 'Organic', 'Withoutpork', 'working_day', 'working_night', 'prix_day', 'prix_night', 'Spanish', 'Frensh', 'English', 'Deutsh', 'Chinesse', 'event_cake', 'drink', 'External_food', 'External_Catering', 'Internal_Catering', 'Without_guarantee', 'Minimum_consumption_Price'], 'safe'],
-                [['Spanish', 'Frensh', 'English', 'Deutsh', 'Chinesse', 'services', 'extra', 'services_F', 'extra_p', 'extra_t'], 'safe'],
-                [['name', 'temp', 'description', 'people_number', 'number_of_agent', 'quantity', 'periode', 'price', 'currencies_symbol', 'languages', 'picture', 'checkbox', 'status', 'product_id'], 'required'],
+              
+                [['picture'], 'safe'],
+                [['name', 'temp', 'description', 'people_number', 'quantity', 'periode', 'price', 'currencies_symbol', 'status', 'product_id'], 'required'],
                 [['partner_category', 'people_number', 'number_of_agent', 'quantity', 'periode', 'status', 'product_id'], 'integer'],
                 [['price'], 'number'],
                 [['description', 'languages', 'currencies_symbol', 'picture', 'image', 'checkbox'], 'string', 'max' => 3000],

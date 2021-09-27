@@ -9,16 +9,8 @@ use unclead\multipleinput\MultipleInput;
 /* @var $model app\models\ProductItem */
 /* @var $form yii\widgets\ActiveForm */
 
-$geoip = new \lysenkobv\GeoIP\GeoIP();
-$ip = $geoip->ip(Yii::$app->request->getUserIP()); // current user ip
-$currencies = json_decode(file_get_contents('data.json'), true);
-foreach ($currencies as $currency) {
-    if (strtoupper($currency['country']) == strtoupper($ip->isoCode)) {
-        $currencies_symbol = $currency['currency'];
-    }
-}
-if (empty($currencies_symbol))
-    $currencies_symbol = "$";
+
+    $currencies_symbol = "Dzd";
 \Yii::$app->params['maskMoneyOptions']['prefix'] =  $currencies_symbol;
 ?>
 
@@ -37,18 +29,15 @@ if (empty($currencies_symbol))
     <?= $form->errorSummary($model); ?>
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-    <?= $form->field($product_parent, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label('Name sosiety') ?>
+    <?= $form->field($product_parent, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label('Nom du bien') ?>
     <?= $form->field($product_parent, 'description')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label('Description') ?>
-    <?= $form->field($product_parent, 'kind_of_food')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label('Kind of food') ?>
-    <?= $form->field($product_parent, 'min')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label('Minimum quantity to place this order') ?>
+ 
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label("Repat") ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label("Meal") ?>
-
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true, 'placeholder' => 'Description'])->label("Sort") ?>
 
     <?= $form->field($model, 'product_type')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label("Product name") ?>
 
-    <?= $form->field($model, 'temp')->textInput(['maxlength' => true, 'placeholder' => 'Temp']) ?>
+    <?= $form->field($model, 'temp')->textInput(['maxlength' => true, 'placeholder' => 'Temp'])->label('Chaud/Froid') ?>
 
 
 
@@ -60,7 +49,7 @@ if (empty($currencies_symbol))
     ])->textInput([
         'type' => 'number',
         'placeholder' => 'People Number'
-    ]) ?>
+    ])->label('Nombre perssone?') ?>
 
     <?= $form->field($model, 'quantity', [
         'options' => [
@@ -71,16 +60,7 @@ if (empty($currencies_symbol))
         'type' => 'number',
         'placeholder' => 'Quantity'
     ]) ?>
-    <?= $form->field($model, 'periode', [
-        'options' => [
-            'tag' => 'div',
-            'class' => '',
-        ]
-    ])->textInput([
-        'type' => 'number',
-        'placeholder' => 'Periode'
-    ]) ?>
-
+  
     <?=
     $form->field($model, "price")->widget(MaskMoney::classname(), [
         'name' => 'amount_ph_1',
@@ -95,14 +75,6 @@ if (empty($currencies_symbol))
             'allowNegative' => false
         ]
     ])->label('Price') ?>
-
-
-
-
-
-
-
-    <?= $form->field($model, 'currencies_symbol')->textInput(['maxlength' => true, 'placeholder' => 'Currencies Symbol']) ?>
 
 
     <div class="col-sm-12">
@@ -131,25 +103,8 @@ if (empty($currencies_symbol))
     <?php
     $product_parent->extra = json_decode($product_parent->extra, true);
     ?>
-    <?= $form->field($product_parent, 'extra')->widget(MultipleInput::className(), [
-        'max' => 4,
-        'columns' => [
-            [
-                'name'  => 'Description',
-                'title' => 'Description',
-                'enableError' => true,
-                'options' => [
-                    'class' => 'input-priority'
-                ]
-            ],
-            [
-                'name'  => 'Price',
-                'title' => 'Price',
-                'type' => MaskMoney::class
-            ]
-        ]
-    ])->label('Additonnal services');
-    ?>
+   
+   
     <?php $model->image = $model->picture; ?>
     <?= $form->field($model, 'image[]')->fileInput(['multiple' => true]) ?>
 

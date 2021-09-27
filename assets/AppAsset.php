@@ -31,7 +31,8 @@ class AppAsset extends AssetBundle
         'js/moment.min.js',
 
         'js/fullcalendar.min.js',
-        'js/send.js'
+        'js/send.js',
+        'notifications.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

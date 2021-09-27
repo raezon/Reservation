@@ -11,19 +11,12 @@ include 'header.php';
 
 $Produit_type = [
 
-    ['id' => '0', 'name' => 'Banquet \\ Dinner'],
+    ['id' => '0', 'name' => 'standard'],
 
-    ['id' => '1', 'name' => 'Conference'],
+    ['id' => '1', 'name' => 'luxe'],
 
-    ['id' => '2', 'name' => 'Cinema'],
+    ['id' => '2', 'name' => 'attenante'],
 
-    ['id' => '3', 'name' => 'Dinatoire'],
-
-    ['id' => '4', 'name' => 'Meeting'],
-
-    ['id' => '5', 'name' => 'Theater'],
-
-    ['id' => '6', 'name' => 'Other'],
 ];
 
 ?>

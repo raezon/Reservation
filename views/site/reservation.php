@@ -11,7 +11,7 @@ use yii\helpers\Url;
 <div class="site-payement">
 
     <?php $form = ActiveForm::begin([
-                                        'action' => ['save-reservation','prix'=>$prix,'id'=>$id,'partner_id'=>$partner_id],
+                                        'action' => ['save-reservation','prix'=>$prix,'id'=>$id,'partner_id'=>$partner_id,'product_name'=>$product_name],
                                         'id' => 'formDecaissement',
                                         'method' => 'post',
                                         'enableAjaxValidation' => false,
@@ -28,7 +28,7 @@ use yii\helpers\Url;
 ]);?>
 
     <div class="form-group">
-        <?= Html::submitButton('Reserver', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Payer', ['class' => 'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

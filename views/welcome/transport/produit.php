@@ -31,11 +31,8 @@ $i=0;
 
           ['id' => '1', 'name' => "Bus"],
 
-          ['id' => '2', 'name' => "Mini Bus"],
+          ['id' => '2', 'name' => "Voiture"],
 
-          ['id' => '3', 'name' => "Coach"],
-
-          ['id'=>  '4' ,'name' => 'Other']
 
         ];
                   $i=$i+2;

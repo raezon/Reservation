@@ -154,18 +154,11 @@ class ProductItemController extends Controller
       $product_parent = ProductParent::find()->andwhere(['id' => $model->product_id])->One();
       $model3=new \app\models\forms\ServicesAndPriceForm();
       $product_parent_old = $product_parent;
-
-      if ($model->loadAll(Yii::$app->request->post()) && $model3->load(Yii::$app->request->post())) {
+    
+      if ($model->loadAll(Yii::$app->request->post()) or $model3->load(Yii::$app->request->post())) {
+        
          $string_data = '';
-         if ($product->partner_category == 7) {
-            $array_langues['Arabic'] = $model->Arabic;
-            $array_langues['Frensh'] = $model->Frensh;
-            $array_langues['English'] = $model->English;
-            $array_langues['Deutsh'] = $model->Deutsh;
-            $array_langues['Japenesse'] = $model->Japenesse;
 
-            $model->languages = json_encode($array_langues, true);
-         }
          if ($product->partner_category == 3) {
             $jsonData = array();
 
@@ -186,240 +179,14 @@ class ProductItemController extends Controller
          } else {
             $model->number_of_agent = 0;
          }
-         if ($product->partner_category == 1) {
-            $services = json_encode($model->services);
-            $services_facilities = $model->services_F;
 
-            $services_possiblity = $model->extra_p;
-            $services_transport = $model->extra_t;
-
-            if (empty($model->area))
-               $model->area = "0";
-            $array_type_room_rental[0]["area"] = $model->area;
-            if (empty($model->caution))
-               $model->caution = "0";
-            $array_type_room_rental[0]["caution"] = $model->caution;
-            if (empty($model->event_cake))
-               $model->event_cake = "0";
-            $array_type_room_rental[0]["event_cake"] = $model->event_cake;
-            if (empty($model->drink))
-               $model->drink = "0";
-            $array_type_room_rental[0]["drink"] = $model->drink;
-            if (empty($model->External_food))
-               $model->External_food = "0";
-            $array_type_room_rental[0]["External_food"] = $model->External_food;
-            if (empty($model->External_Catering))
-               $model->External_Catering = "0";
-            $array_type_room_rental[0]["External_Catering"] = $model->External_Catering;
-            if (empty($model->Internal_Catering))
-               $model->Internal_Catering = "0";
-            $array_type_room_rental[0]["Internal_Catering"] = $model->Internal_Catering;
-            if (empty($model->Without_guarantee))
-               $model->Without_guarantee = "0";
-            $array_type_room_rental[0]["Without_guarantee"] = $model->Without_guarantee;
-            if (empty($model->Minimum_consumption_Price))
-               $model->Minimum_consumption_Price = "0";
-            $array_type_room_rental[0]["Minimum_consumption_Price"] = $model->Minimum_consumption_Price;
-            if (empty($model->Wifi))
-               $model->Wifi = "0";
-            $array_type_room_rental[0]["Wifi"] = $model->Wifi;
-            if (empty($model->Board))
-               $model->Board = "0";
-            $array_type_room_rental[0]["Board"] = $model->Board;
-            if (empty($model->System_Sound))
-               $model->System_Sound = "0";
-            $array_type_room_rental[0]["System_Sound"] = $model->System_Sound;
-            if (empty($model->Video_projector))
-               $model->Video_projector = "0";
-            $array_type_room_rental[0]["Video_projector"] = $model->Video_projector;
-            if (empty($model->Micro))
-               $model->Micro = "0";
-            $array_type_room_rental[0]["Micro"] = $model->Micro;
-            if (empty($model->To_bring_back_cake_of_the_event))
-               $model->To_bring_back_cake_of_the_event = "0";
-            $array_type_room_rental[0]["To_bring_back_cake_of_the_event"] = $model->To_bring_back_cake_of_the_event;
-            if (empty($model->To_bring_back_drinks))
-               $model->To_bring_back_drinks = "0";
-            $array_type_room_rental[0]["To_bring_back_drinks"] = $model->To_bring_back_drinks;
-            if (empty($model->Parking_lot))
-               $model->Parking_lot = "0";
-            if (empty($model->Parking_lot_field))
-               $model->Parking_lot_field = "0";
-            $array_type_room_rental[0]["Parking_lot"]["name"] = $model->Parking_lot;
-            $array_type_room_rental[0]["Parking_lot"]["field"] = $model->Parking_lot_field;
-            if (empty($model->Subway))
-               $model->Subway = "0";
-            if (empty($model->Subway_field))
-               $model->Subway_field = "0";
-            $array_type_room_rental[0]["Subway"]["name"] = $model->Subway;
-            $array_type_room_rental[0]["Subway"]["field"] = $model->Subway_field;
-            if (empty($model->Train))
-               $model->Train = "0";
-            if (empty($model->Train_field))
-               $model->Train_field = "0";
-            $array_type_room_rental[0]["Train"]["name"] = $model->Train;
-            $array_type_room_rental[0]["Train"]["field"] = $model->Train_field;
-            if (empty($model->Bus))
-               $model->Bus = "0";
-            if (empty($model->Bus_field))
-               $model->Bus_field = "0";
-            $array_type_room_rental[0]["Bus"]["name"] = $model->Bus;
-            $array_type_room_rental[0]["Bus"]["field"] = $model->Bus_field;
-            if($services_facilities){
-               $array_type_room_rental[0][0]["services_facilities"]['name'] = $services_facilities[0]['Description'];
-            $array_type_room_rental[0][1]["services_facilities"]['name'] = $services_facilities[1]['Description'];
-            $array_type_room_rental[0][2]["services_facilities"]['name'] = $services_facilities[2]['Description'];
-            $array_type_room_rental[0][3]["services_facilities"]['name'] = $services_facilities[3]['Description'];
-            $array_type_room_rental[0][4]["services_facilities"]['name'] = $services_facilities[0]['Description2'];
-            $array_type_room_rental[0][5]["services_facilities"]['name'] = $services_facilities[1]['Description2'];
-            $array_type_room_rental[0][6]["services_facilities"]['name'] = $services_facilities[2]['Description2'];
-            $array_type_room_rental[0][7]["services_facilities"]['name'] = $services_facilities[3]['Description2'];
-            }
-            if($services_possiblity){
-                //possiblity array extra
-            $array_type_room_rental[0][0]["services_possiblity"]['Possibility_check_name'] = $services_possiblity[0]['Possibility_check_name'];
-            $array_type_room_rental[0][1]["services_possiblity"]['Possibility_check_name'] = $services_possiblity[1]['Possibility_check_name'];
-            $array_type_room_rental[0][2]["services_possiblity"]['Possibility_check_name'] = $services_possiblity[2]['Possibility_check_name'];
-            $array_type_room_rental[0][3]["services_possiblity"]['Possibility_check_name'] = $services_possiblity[3]['Possibility_check_name'];;
-            $array_type_room_rental[0][4]["services_possiblity"]['Possibility_check_name'] = $services_possiblity[0]['Possibility_check_name2'];
-            $array_type_room_rental[0][5]["services_possiblity"]['Possibility_check_name'] = $services_possiblity[1]['Possibility_check_name2'];
-            $array_type_room_rental[0][6]["services_possiblity"]['Possibility_check_name'] = $services_possiblity[2]['Possibility_check_name2'];
-            $array_type_room_rental[0][7]["services_possiblity"]['Possibility_check_name'] = $services_possiblity[3]['Possibility_check_name2'];;;
-            }
-            if($services_transport){
-                //services transport extra
-            $array_type_room_rental[0][0]["services_transport"]['Transportation_name'] = $services_transport[0]['Transportation_name'];
-            $array_type_room_rental[0][0]["services_transport"]['route number'] = $services_transport[0]['route number'];
-            $array_type_room_rental[0][1]["services_transport"]['Transportation_name'] = $services_transport[1]['Transportation_name'];
-            $array_type_room_rental[0][1]["services_transport"]['route number'] = $services_transport[1]['route number'];
-            $array_type_room_rental[0][2]["services_transport"]['Transportation_name'] = $services_transport[2]['Transportation_name'];
-            $array_type_room_rental[0][2]["services_transport"]['route number'] = $services_transport[2]['route number'];
-            $array_type_room_rental[0][3]["services_transport"]['Transportation_name'] = $services_transport[3]['Transportation_name'];
-            $array_type_room_rental[0][3]["services_transport"]['route number'] = $services_transport[3]['route number'];
-            $array_type_room_rental[0][4]["services_transport"]['Transportation_name'] = $services_transport[4]['Transportation_name'];
-            $array_type_room_rental[0][4]["services_transport"]['route number'] = $services_transport[4]['route number'];
-            $array_type_room_rental[0][5]["services_transport"]['Transportation_name'] = $services_transport[5]['Transportation_name'];
-            $array_type_room_rental[0][5]["services_transport"]['route number'] = $services_transport[5]['route number'];
-            $array_type_room_rental[0][6]["services_transport"]['Transportation_name'] = $services_transport[6]['Transportation_name'];
-            $array_type_room_rental[0][6]["services_transport"]['route number'] = $services_transport[6]['route number'];
-            $array_type_room_rental[0][7]["services_transport"]['Transportation_name'] = $services_transport[7]['Transportation_name'];
-            $array_type_room_rental[0][7]["services_transport"]['route number'] = $services_transport[7]['route number'];
-            }
-            // $array_type_room_rental[]=$array_type_room_rental;
-            $array_type_room_rental_compressed = json_encode($array_type_room_rental, true);
-            $model->product_type = $array_type_room_rental_compressed;
-            //
-            $ouvertureFermuture=array();
-            $ouvertureFermutureAll=array();
-            $periodeValueIndex=['period1','period2','period3','period4','period5','period6'];
-            $periodeNameIndex=['From','To','Banquet \ Dinner','Cinema','Cocktail','Conference','Meeting','Theater'];
-            $index=0;
-            $informationConcerningRoom[0]=$model3->minRentalPeriode;
-            $informationConcerningRoom[1]=$model3->maxRentalPeriode;
-            $informationConcerningRoom[2]=$model3->minNumberGuest;
-            $informationConcerningRoom[3]=$model3->maxSeats;
-            $informationConcerningRoom[4]=json_encode($model3->closedDay,true);
-            $informationConcerningRoom[5]=$model3->weekendSurcharge;
-            $informationConcerningRoom[6]=$model3->deposit;
-            $informationConcerningRoom[7]=$model3->advancePayment;
-            //I need to do cleansing of the overtureFermuture json array
-            $ouverture=$model3->ouvertureFermuture;
-            $dayIncrement=true;
-            for($i=0;$i<6;$i++){
-              for($j=1;$j<=8;$j++){
-                //cleansing of the date two cases
-                if($ouverture[$j-1][$periodeValueIndex[$i]]){
-                
-                  if(strlen($ouverture[$j-1][$periodeValueIndex[$i]])==3 && $j-1==0 ){
-                    
-                    $ouverture[$j-1][$periodeValueIndex[$i]] = $ouverture[$j-1][$periodeValueIndex[$i]][0] . ":" . substr($ouverture[$j-1][$periodeValueIndex[$i]], 1)."AM";
-                    if($dayIncrement==false){
-                      $datetime = date("g:iA", strtotime($ouverture[$j-1][$periodeValueIndex[$i]] ));
-                      $datetime = new \DateTime($datetime);
-                      $datetime->modify('+1 day');
-                      $ouverture[$j-1][$periodeValueIndex[$i]]  = $datetime->format('H:i:s');
-                    
-                    }else{
-                      $ouverture[$j-1][$periodeValueIndex[$i]]  = date("g:iA", strtotime($ouverture[$j-1][$periodeValueIndex[$i]] ));
-                    }
-                  }
-                  if(strlen($ouverture[$j-1][$periodeValueIndex[$i]])==4 && $j-1==0)
-                  {
-                    $twodigitime=substr($ouverture[$j-1][$periodeValueIndex[$i]],0,2);
-                    $twodigitime=(int)$twodigitime;
-          
-                    if($twodigitime>=13 && $dayIncrement)
-                       $dayIncrement=false;
-                    
-                    if($dayIncrement==false && $twodigitime<13){
-                  
-                    $datetime = date("g:iA", strtotime($ouverture[$j-1][$periodeValueIndex[$i]] ));
-                    $datetime = new \DateTime($datetime);
-                    $datetime->modify('+1 day');
-                    $ouverture[$j-1][$periodeValueIndex[$i]]  = $datetime->format('H:i:s');
-                    $ouverture[$j-1][$periodeValueIndex[$i]].="AM";
-                    }
-                    if($dayIncrement==true && $twodigitime>=13){
-                      $ouverture[$j-1][$periodeValueIndex[$i]] = substr($ouverture[$j-1][$periodeValueIndex[$i]],0,2) . ":" . substr($ouverture[$j-1][$periodeValueIndex[$i]], 2);
-                      $ouverture[$j-1][$periodeValueIndex[$i]]  = date("g:iA", strtotime($ouverture[$j-1][$periodeValueIndex[$i]] ));
-                    }
-                    if($twodigitime>=13){
-                    $ouverture[$j-1][$periodeValueIndex[$i]] = substr($ouverture[$j-1][$periodeValueIndex[$i]],0,2) . ":" . substr($ouverture[$j-1][$periodeValueIndex[$i]], 2);
-                    $ouverture[$j-1][$periodeValueIndex[$i]] =date("g:iA", strtotime($ouverture[$j-1][$periodeValueIndex[$i]] ));
-                    }
-                   
-                  }
-                }
-                if($j<8)
-                if($ouverture[$j][$periodeValueIndex[$i]] ){
-                  if(strlen($ouverture[$j][$periodeValueIndex[$i]])==3 && $j==1){
-                  
-                    $ouverture[$j][$periodeValueIndex[$i]] = $ouverture[$j][$periodeValueIndex[$i]][0]. ":" . substr($ouverture[$j][$periodeValueIndex[$i]], 1)."AM";
-                    if($dayIncrement==false){
-                      $datetime = date("g:iA", strtotime($ouverture[$j][$periodeValueIndex[$i]]  ));
-                      $datetime = new \DateTime($datetime);
-                      $datetime->modify('+1 day');
-                      $ouverture[$j][$periodeValueIndex[$i]]  = $datetime->format('H:i:s');
-                      $ouverture[$j][$periodeValueIndex[$i]].="AM";
-                
-                    }else{
-                      $ouverture[$j][$periodeValueIndex[$i]]  = date("g:iA", strtotime($ouverture[$j-1][$periodeValueIndex[$i]] ));
-                    }
-                   // echo $datetime->format('Y-m-d H:i:s');
-                   // die();
-                 
-                  }
-                  if(strlen($ouverture[$j][$periodeValueIndex[$i]])==4 && $j==1)
-                  {
-                    if($dayIncrement==true)
-                      $dayIncrement=false;
-        
-                    $ouverture[$j][$periodeValueIndex[$i]] = substr($ouverture[$j][$periodeValueIndex[$i]],0,2) . ":" . substr($ouverture[$j][$periodeValueIndex[$i]], 2);
-                    $ouverture[$j][$periodeValueIndex[$i]] =date("g:iA", strtotime($ouverture[$j][$periodeValueIndex[$i]] ));
-                  }
-        
-                }
-                $ouvertureFermuture[$periodeNameIndex[$j-1]]=$ouverture[$j-1][$periodeValueIndex[$i]];
-              }
-              $ouvertureFermutureAll[]=$ouvertureFermuture;
-              $ouvertureFermuture=array();
-             
-            } 
+           
          
-        
-           /* echo "<pre>"; 
-            echo json_encode($ouvertureFermuture, JSON_PRETTY_PRINT);
-            echo "</pre>"; */
-            //die();
-            $informationConcerningRoom[8]=$ouvertureFermutureAll;
-            $informationConcerningRoom[9]=$model3->fullDay;
-        
-            $model->checkbox = json_encode($informationConcerningRoom,true);
-            $model->price = 0.0;
-         }
-         $product_parent->extra = json_encode($product_parent->extra, true);
+            $model->product_type = "";
 
 
+         
+ 
          $product_parent->name = $product_parent->name;
 
 
@@ -435,10 +202,15 @@ class ProductItemController extends Controller
          else
             $product_parent->min = "empty";
 
-         $product_parent->update();
-     
-         if (!($_FILES['ServicesAndPriceForm']["name"]["imageFile"] == "")) {
+         if($product_parent->update()){
 
+         }else{
+            print_r($product_parent->errors);
+            die();
+         }
+         $model->picture=$model->picture;
+         if (!($_FILES['ServicesAndPriceForm']["name"]["imageFile"] == "")) {
+            die();
             $length = sizeof($_FILES['ServicesAndPriceForm']["name"]["imageFile"]);
 
             $array_image = array();
@@ -449,7 +221,6 @@ class ProductItemController extends Controller
                $type = $_FILES['ServicesAndPriceForm']["type"]["imageFile"][$k];
                $name = $_FILES['ServicesAndPriceForm']["tmp_name"]["imageFile"][$k];
                $extension = explode(".", $e);
-
                $array_image[] = 'products' . $model->name . $k . $timestamp . '.' . $extension[1];
                $extension = explode(".", $e);
                $previous_array_image = $array_image;
@@ -464,12 +235,10 @@ class ProductItemController extends Controller
                }
             }
 
-
             if ($extension[1] == 'jpg') {
                if (file_exists('img/products/' . $model->picture))
                   unlink('img/products/' . $model->picture);
             }
-
             if ($extension == "png") {
                $image = imagecreatefrompng($target);
                $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
@@ -481,26 +250,27 @@ class ProductItemController extends Controller
                imagejpeg($bg, $target . ".jpg", $quality);
                imagedestroy($bg);
                if (move_uploaded_file($bg, $target)) {
-
                   $fp = fopen($target, "r");
                }
             }
-
             if (move_uploaded_file($name, $target) && $extension[1] = "jpg") {
 
                $fp = fopen($target, "r");
             }
          }
          $model->status = 0;
-         if ($model->saveAll()) {
+         $model->picture=$model->picture;
+         if ($model->update()) {
+           
          } else {
-            echo "ggg";
-            print_r($model->getErrors());
+            echo "<pre>";
+            print_r($model->errors);
             die();
          }
 
          return $this->redirect(['view', 'id' => $model->id]);
       } else {
+
          return $this->render('update', [
             'model' => $model,
             'product_parent' => $product_parent

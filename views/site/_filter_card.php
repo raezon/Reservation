@@ -142,7 +142,7 @@ $totalPrice= $model1->totalPrice($model1->description, $model1->partner_category
             
             ?>
             <p class="card-text"><?= '<h5 style="font-size:24px"><b>' . 
-            $totalPrice.'Dzd</b></h5>' ?></p>
+            $model1->price.'Dzd</b></h5>' ?></p>
             <p class="card-text" style="text-decoration:underline">
               Tax included</p>
             <a class="btn  shadow  bg-purple" href="<?= Url::to(['site/detail', 'amount' => $model1->price, 'product_id' => $model1->product_id, 'id' => $model1->id, 'deliveryPrice' => $deliveryPrice]) ?>"><span style="color:cornsilk">Detail</span></a>

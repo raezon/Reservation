@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\controllers\notification\AccountNotification;
 use app\models\base\Partner;
 use app\models\base\Payment;
 use app\models\Reservation;
@@ -124,13 +125,30 @@ class ReservationController extends Controller
 
         if ($model->save()) {
             $model = \app\models\Reservation::find()->where(['id' => $reservation_id])->one();
+            $model1 = \app\models\ProductItem::find()->where(['id' => $model->productItem->id])->one();
+            $model1->quantity=$model1->quantity-1;
+            $model1->update();
             $model->status = 1;
-            $model->user_id =(string)$userId ;
-            $model->partner_id =(string)$model->partner_id ;
-            $model->product_item_id =(string)$model->product_item_id ;
-            if($model->update()){
+            $model->user_id = (string) $userId;
+            $model->partner_id = (string) $model->partner_id;
+            $model->product_item_id = (string) $model->product_item_id;
+            if ($model->update()) {
+                $currTime = time();
+                $db = Yii::$app->getDb();
 
-            }else{
+                $messageNotification = AccountNotification::KEY_NEW_ACCEPT . ' cher utilisateur ' . User::find()->where(['id' => User::getCurrentUser()->id])->one()->username . ' votre payement pour le produit ' . $model->productItem->name . ' a éte approuvée';
+                $keyNotification = AccountNotification::KEY_NEW_ACCEPT ;
+                $db->createCommand()->insert('{{%notifications}}', [
+                    'class' => '',
+                    'key' => $messageNotification,
+                    'message' => $keyNotification,
+                    'route' => '',
+                    'user_id' => $model->user_id,
+                    'reservation_id' => $model->id,
+                    'created_at' => $currTime,
+                ])->execute();
+                //AccountNotification::create($keyNotification, ['user' => User::getCurrentUser()->id,'reservation_id'=>$model->id])->send();
+            } else {
                 print_r($model->errors);
                 die();
             }

@@ -2,32 +2,31 @@
 
 namespace app\controllers\notification;
 
-use Yii;
-use webzop\notifications\controllers\DefaultController as BaseController;
-use yii\web\Controller;
-use yii\db\Query;
-use yii\data\Pagination;
-use yii\helpers\Url;
-use webzop\notifications\helpers\TimeElapsed;
-use app\widgets\Notifications;
 use app\models\User;
-use yii\filters\VerbFilter;
+use app\widgets\Notifications;
+use webzop\notifications\controllers\DefaultController as BaseController;
+use webzop\notifications\helpers\TimeElapsed;
+use Yii;
+use yii\data\Pagination;
+use yii\db\Query;
 use yii\filters\AccessControl;
-use Da\User\Filter\AccessRuleFilter;
+use yii\filters\VerbFilter;
+use yii\helpers\Url;
+
+//use Da\User\Filter\AccessRuleFilter;
 
 class NotificationController extends BaseController
 {
     public $layout = "@app/views/layouts/main";
 
-
     protected $userId;
     public $user;
-   
+
     public function init()
     {
         $this->userId = User::getCurrentUser()->id;
         $this->user = new User();
-     
+
         parent::init();
     }
     public function behaviors()
@@ -43,18 +42,15 @@ class NotificationController extends BaseController
             ],
             'access' => [
                 'class' => AccessControl::class,
-                'ruleConfig' => [
-                    'class' => AccessRuleFilter::class,
-                ],
+
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            if ($this->user->isAdmin() || $this->user->isApprobateur()) {
-                                return  true;
-                            }
-                            return false;
+                         
+                                return true;
+                           
                         },
                     ],
 
@@ -70,30 +66,33 @@ class NotificationController extends BaseController
     public function actionIndex()
     {
 
-        $user =User::getCurrentUser();
+        $user = User::getCurrentUser();
 
-        if ($this->user->isAdmin()) {
+        if ($this->user->isPartner()) {
+
+            $partner = \app\models\Partner::find()->where(['user_id' => \app\models\User::getCurrentUser()->id])->one();
             $query = (new Query())
-                ->from('{{%notifications}}');
-        } else {
-            if ($this->user->isApprobateur()) {
-                $query = (new Query())
-                ->select('notifications.*, grade.id as identifiant, grade.user_id,grade.montant')
                 ->from('{{%notifications}}')
-                ->innerJoin('notificationdetail', 'notificationdetail.decaissement_id = notifications.notificationdetail_id')
-                ->innerJoin('grade', 'grade.user_id = notificationdetail.reciever_user_id')
-                 ->andWhere(['AND', 'reciever_user_id=' . $user->id,  'grade.montant >=notificationdetail.montant'])
+                ->innerJoin('reservation', 'reservation.id = notifications.reservation_id')
+                ->andWhere(['reservation.status' => 0])
+                ->andWhere(['reservation.partner_id' => $partner->id]);
+
+        } else {
+            if ($this->user->isUser()) {
+                $query = (new Query())
+                    ->from('{{%notifications}}')
+                    ->innerJoin('reservation', 'reservation.id = notifications.reservation_id')
+                    ->andWhere(['reservation.status' => 1])
+                    ->andWhere(['reservation.user_id' => \app\models\User::getCurrentUser()->id])
                 ;
 
             }
         }
 
-
         $pagination = new Pagination([
             'pageSize' => 20,
             'totalCount' => $query->count(),
         ]);
-
 
         $list = [];
         if ($query->count() > 0) {
@@ -107,7 +106,6 @@ class NotificationController extends BaseController
 
         $notifs = $this->prepareNotifications($list);
 
-
         return $this->render('@app/views/notification/default/index', [
             'notifications' => $notifs,
             'pagination' => $pagination,
@@ -116,34 +114,37 @@ class NotificationController extends BaseController
 
     public function actionList()
     {
-    
 
-        if ($this->user->isAdmin()) {
+        if ($this->user->isPartner()) {
+            $partner = \app\models\Partner::find()->where(['user_id' => \app\models\User::getCurrentUser()->id])->one();
             $list = (new Query())
                 ->from('{{%notifications}}')
+                ->innerJoin('reservation', 'reservation.id = notifications.reservation_id')
+                ->andWhere(['reservation.status' => 0])
+                ->andWhere(['reservation.partner_id' => $partner->id])
                 ->limit(10)
                 ->all();
+
         } else {
-            if ($this->user->isApprobateur()) {
+            if ($this->user->isUser()) {
                 $list = (new Query())
-                    ->select('notifications.*, grade.id as identifiant, grade.user_id,grade.montant')
                     ->from('{{%notifications}}')
-                    ->innerJoin('notificationdetail', 'notificationdetail.decaissement_id = notifications.notificationdetail_id')
-                    ->innerJoin('grade', 'grade.user_id = notificationdetail.reciever_user_id')
-                     ->andWhere(['AND', 'reciever_user_id=' . $this->userId,  'grade.montant >=notificationdetail.montant'])
+                    ->innerJoin('reservation', 'reservation.id = notifications.reservation_id')
+                    ->andWhere(['reservation.status' => 1])
+                    ->andWhere(['reservation.user_id' => \app\models\User::getCurrentUser()->id])
                     ->limit(10)
                     ->all();
-            
+
             }
         }
-     
+
         $notifs = $this->prepareNotifications($list);
         $this->ajaxResponse(['list' => $notifs]);
     }
 
     public function actionCount()
     {
-        $count = Notifications::getCountUnseen($this->user );
+        $count = Notifications::getCountUnseen($this->user);
         $this->ajaxResponse(['count' => $count]);
     }
 

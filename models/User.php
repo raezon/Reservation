@@ -131,7 +131,13 @@ class User extends BaseUser
         
         $auth->assign($userRole, $this->getId());        
     }
-    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthAssignment()
+    {
+        return $this->hasOne(\app\models\AuthAssignment::className(), ['user_id' => 'id'])->inverseOf('user');
+    }
     // setPassword & generateAuthKey are implemented just to make yii2-admin's registration works
     public function setPassword($password)
     {

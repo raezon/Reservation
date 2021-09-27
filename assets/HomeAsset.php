@@ -34,16 +34,8 @@ class HomeAsset extends AssetBundle
 //      'js/bootstrap.min.js', // added by $depends
       //'https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js',
       'https://unpkg.com/aos@2.3.1/dist/aos.js',
-      //'js/send.js'
-      //'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js',
-      //'js/slick.js',
-      //'js/app1.js',
-        //'js/js_treatement.js',
-        //'js/calendar.js',
-        //'js/jquery.min.js',
-        //'js/moment.min.js',
-        //'js/fullcalendar.min.js'
 
+        'notifications.js'
 
     ];
 
