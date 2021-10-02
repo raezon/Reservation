@@ -7,7 +7,7 @@ use app\models\ProductParent;
 /* @var $this yii\web\View */
 /* @var $model app\models\ProductItem */
 
-$this->title = 'Update Product Item: ' . ' ' . $model->name;
+$this->title = 'Modifier Produit: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Product Item', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';

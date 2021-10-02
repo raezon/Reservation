@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
     'viewParams' => [
         'class' => 'QuestionsPartner', 
         'relID' => 'questions-partner', 
-        'value' => \yii\helpers\Json::encode($model->questionsPartners),
+        //'value' => \yii\helpers\Json::encode($model->questionsPartners),
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
@@ -40,40 +40,19 @@ use yii\widgets\ActiveForm;
     <?= $form->errorSummary($model); ?>
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Nom'])->label('Nom') ?>
 
 
+<?= $form->field($model, 'address')->textInput(['maxlength' => true, 'placeholder' => 'Address']) ?>
 
-    <?= $form->field($model, 'tel')->textInput(['maxlength' => true, 'placeholder' => 'Tel']) ?>
+<?= $form->field($model, 'state')->textInput(['maxlength' => true, 'placeholder' => 'Wilaya'])->label('Wilaya') ?>
 
-    <?= $form->field($model, 'fax')->textInput(['maxlength' => true, 'placeholder' => 'Fax']) ?>
+<?= $form->field($model, 'tel')->textInput(['maxlength' => true, 'placeholder' => 'Tel']) ?>
 
-    <?= $form->field($model, 'web_site')->textInput(['maxlength' => true, 'placeholder' => 'Web Site']) ?>
-      <?= $form->field($model, 'address')->textInput(['maxlength' => true, 'placeholder' => 'Address']) ?>
+<?= $form->field($model, 'fax')->textInput(['maxlength' => true, 'placeholder' => 'Fax']) ?>
 
-    <?= $form->field($model, 'country')->textInput(['maxlength' => true, 'placeholder' => 'Country']) ?>
 
-    <?= $form->field($model, 'city')->textInput(['maxlength' => true, 'placeholder' => 'City']) ?>
-
-   
-
-    
-
-    <?= $form->field($model, 'postal_code')->textInput(['maxlength' => true, 'placeholder' => 'Postal Code']) ?>
-
-    <?= $form->field($model, 'keywords')->textInput(['maxlength' => true, 'placeholder' => 'Keywords']) ?>
-
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'placeholder' => 'Email']) ?>
-
-    <?= $form->field($model, 'picture')->textInput(['maxlength' => true, 'placeholder' => 'Picture']) ?>
-
- 
-
-    
-
+<?= $form->field($model, 'email')->textInput(['maxlength' => true, 'placeholder' => 'Email']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

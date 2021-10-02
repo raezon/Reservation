@@ -85,13 +85,13 @@ class ProductItem extends BaseProductItem
             [
                 [[
                     'vegan', 'Vegetarian', 'Organic', 'Gluten_free', 'Halal', 'Cacher', 'Without_porc', 'image', 'partner_category',
-                ], 'safe'],
+                'picutre'], 'safe'],
               
-                [['picture'], 'safe'],
+           
                 [['name', 'temp', 'description', 'people_number', 'quantity', 'periode', 'price', 'currencies_symbol', 'status', 'product_id'], 'required'],
                 [['partner_category', 'people_number', 'number_of_agent', 'quantity', 'periode', 'status', 'product_id'], 'integer'],
                 [['price'], 'number'],
-                [['description', 'languages', 'currencies_symbol', 'picture', 'image', 'checkbox'], 'string', 'max' => 3000],
+                [['description', 'languages', 'currencies_symbol',  'image', 'checkbox'], 'string', 'max' => 3000],
 
             ];
     }

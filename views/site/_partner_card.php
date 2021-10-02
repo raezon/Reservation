@@ -18,7 +18,7 @@ Yii::setAlias('@productImgUrl','uploads/bien');
           $path=Yii::getAlias('@productImgUrl').'/'.'hotel.jpg';
           break;
         case '2':
-          $path=Yii::getAlias('@productImgUrl').'/'.'vitrine.jpg';
+          $path=Yii::getAlias('@productImgUrl').'/'.'vitrine.jfif';
           break;
         case '3':
           $path=Yii::getAlias('@productImgUrl').'/'.'restaurant.jpg';
@@ -31,22 +31,16 @@ Yii::setAlias('@productImgUrl','uploads/bien');
           # code...
           break;
       }
-
-     
       
-
         echo  Html::img($path,['width'=>'auto','height'=>150]);
     	
     	 ?>
         <div class="card-body">
 
-        <h4 class="card-title"><?= Html::encode('Vitrine') ?></h4>
+        <h4 class="card-title"><?= Html::encode($model1->name) ?></h4>
 
-          <a class="btn btn-info shadow" href="<?=Url::to(['site/product', 'id' => $model1->id])?>">Voir Produit</a>
+          <a class="btn btn-info shadow" href="<?=Url::to(['site/filter-bien', 'category'=>$model1->partner_category,'id'=>$model1->id])?>">Voir Produit</a>
              
-             
-
-
         </div>
 
     </div>

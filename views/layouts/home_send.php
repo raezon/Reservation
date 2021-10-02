@@ -35,11 +35,11 @@ foreach ($categories as $category) {
 }
 //sessions 
 
-$model1->category = $_SESSION['category'];
+/*/$model1->category = $_SESSION['category'];
 $model1->date_depart = $_SESSION['date_depart'];
 $model1->date_arriver = $_SESSION['date_arriver'];
 $model1->nbr_persson = $_SESSION['nbr_persson'];
-$model1->place = $_SESSION['place'];
+$model1->place = $_SESSION['place'];*/
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -65,27 +65,6 @@ $model1->place = $_SESSION['place'];
     <?php $this->head() ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://static.jcoc611.com/hosted/js/InputAffix.1.1.1.min.js"></script>
-    <script type="text/javascript">
-        var category = '<?php echo ($_SESSION["category"] + 1); ?>'
-        var filter = '<?php echo $_SESSION["category"]; ?>'
-
-        document.getElementById("location").src = "http://clicangoevent.com/web/img/logos/locationhover.png"
-        document.getElementById("locationText").style.color = "#fcb502";
-
-
-        function hover(id) {
-
-            document.getElementById(id).src = "http://clicangoevent.com/web/img/logos/" + id + "hover.png"
-            document.getElementById(id + "Text").style.color = "#fcb502";
-
-
-        }
-
-        function unhover(id) {
-            document.getElementById(id).src = "http://clicangoevent.com/web/img/logos/" + id + ".png"
-            document.getElementById(id + "Text").style.color = "#ffffff";
-        }
-    </script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">

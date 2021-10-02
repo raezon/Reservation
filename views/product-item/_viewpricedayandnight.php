@@ -37,14 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         $gridColumn = [
             ['attribute' => 'id', 'visible' => false],
-            [
-                'attribute' => 'partnerCategory.name',
-                'label' => 'Partner Category',
-            ],
+
             [
                 'attribute' => 'product_id',
                 'format' => 'html',
-                'label' => 'Name society',
+                'label' => 'Nom bien',
                 'value' => function ($model) {
                     $product_parent = ProductParent::find()->andwhere(['id' => $model->product_id])->One();
                     return $product_parent->name;
@@ -59,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $product_parent->description;
                 },
             ],
-            'name',
+          
             [
                 'attribute' => 'temp',
                 'label' => 'Produit nom',
@@ -70,63 +67,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             ],
-            'people_number',
-
-
             [
-                'attribute' => 'number_of_agent',
-
-                'label' => 'Number Of Agent',
-                'value' => $model->number_of_agent
+                'attribute' => 'people_number',
+                'label' => 'Nombre perssone ',
 
 
             ],
+
             'quantity',
-            'periode',
             [
                 'attribute' => 'price',
                 'format' => 'html',
                 'label' => 'Price ',
                 'value' => function ($model) {
-                    $price = $model->price . '' . $model->currencies_symbol;
+                    $price = $model->price . '' .'Dzd';
                     return $price;
                 },
-
-            ],
-            'currencies_symbol',
-            [
-                'attribute' => 'languages',
-                'format' => 'html',
-                'value' => function ($model) {
-                    $food_type_array = "";
-                    $product_parent = ProductParent::find()->andwhere(['id' => $model->product_id])->One();
-                    if ($product_parent->partner_category == '7') {
-                        $array_type_caters = json_decode($model->languages, true);
-                        if (array_key_exists('Arabic', $array_type_caters)) {
-                            if ($array_type_caters['Arabic'] != '0')
-                                $food_type_array .= $array_type_caters['Arabic'] . "<br>";
-                        }
-                        if (array_key_exists('Frensh"', $array_type_caters)) {
-                            if ($array_type_caters['Frensh"'] != '0')
-                                $food_type_array .= $array_type_caters['Frensh'] . "<br>";
-                        }
-                        if (array_key_exists("English", $array_type_caters)) {
-                            if ($array_type_caters['English'] != '0')
-                                $food_type_array .= $array_type_caters['English'] . "<br>";
-                        }
-                        if (array_key_exists("Deutsh", $array_type_caters)) {
-                            if ($array_type_caters['Deutsh'] != '0')
-                                $food_type_array .= $array_type_caters['Deutsh'] . "<br>";
-                        }
-                        if (array_key_exists("Japenesse", $array_type_caters)) {
-                            if ($array_type_caters['Japenesse'] != '0')
-                                $food_type_array .= $array_type_caters['Japenesse'] . "<br>";
-                        }
-                        return $food_type_array;
-                    }
-                    return "empty";
-                },
-
 
             ],
             [
@@ -155,39 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
 
             ],
-            [
-                'attribute' => 'product_id',
-                'format' => 'html',
-                'label' => 'extra',
-                'value' => function ($model) {
-
-                    $product_parent = ProductParent::find()->andwhere(['id' => $model])->One();
-                    $array_extra = "";
-                    $i = 0;
-                    $array_type_caterss = json_decode($product_parent->extra, true);
-                    if (!is_array($array_type_caterss))
-                        $array_type_caterss = array();
-
-                    foreach ($array_type_caterss as $array_type_caters) {
-
-                        if (array_key_exists('Description', $array_type_caters)) {
-                            if ($array_type_caters['Description'] != '0')
-                                $array_extra .= 'Description :' . $array_type_caters['Description'] . ",";
-                        }
-                        if (array_key_exists('Quantity', $array_type_caters)) {
-                            if ($array_type_caters['Quantity'] != '0')
-                                $array_extra .= $array_type_caters['Quantity'] . "<br>";
-                        }
-                        if (array_key_exists("Price", $array_type_caters)) {
-                            if ($array_type_caters['Price'] != '0')
-                                $array_extra .= "Price :" . $array_type_caters['Price'] . "<br>";
-                        }
-                        $i++;
-                    }
-
-                    return $array_extra;
-                },
-            ]
+           
 
         ];
         echo DetailView::widget([

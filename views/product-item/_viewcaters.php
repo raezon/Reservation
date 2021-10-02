@@ -40,13 +40,9 @@ $this->params['breadcrumbs'][] = $this->title;
         $gridColumn = [
             ['attribute' => 'id', 'visible' => false],
             [
-                'attribute' => 'partnerCategory.name',
-                'label' => 'Partner Category',
-            ],
-            [
                 'attribute' => 'product_id',
                 'format' => 'html',
-                'label' => 'Name society',
+                'label' => 'Nom du bien',
                 'value' => function ($model) {
                     $product_parent = ProductParent::find()->andwhere(['id' => $model->product_id])->One();
                     return $product_parent->name;
@@ -62,55 +58,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
-                'attribute' => 'product_id',
-                'format' => 'html',
-                'label' => 'Kind of food',
-                'value' => function ($model) {
-                    $product_parent = ProductParent::find()->andwhere(['id' => $model->product_id])->One();
-                    return $product_parent->kind_of_food;
-                },
-            ],
-            [
-                'attribute' => 'product_id',
-                'format' => 'html',
-                'label' => 'Min',
-                'value' => function ($model) {
-                    $product_parent = ProductParent::find()->andwhere(['id' => $model->product_id])->One();
-                    return $product_parent->min;
-                },
+                'attribute' => 'product_type',
+                'label' => 'Repat Nom',
+
+
             ],
             [
                 'attribute' => 'name',
-                'label' => 'Meal',
+                'label' => 'Repat',
                 'value' => function ($model) {
-                    return $model->name . ':' . $model->description;
+                    return $model->name;
                 },
             ],
             [
                 'attribute' => 'temp',
-                'label' => 'Cold/Hot Dish',
+                'label' => 'chaud/froid',
             ],
-            [
-                'attribute' => 'product_type',
-                'label' => 'Product Name',
 
-
-            ],
             'people_number',
-            'number_of_agent',
             'quantity',
-            'periode',
             [
                 'attribute' => 'price',
                 'format' => 'html',
                 'label' => 'Price',
                 'value' => function ($model) {
-                    $price = $model->price . '' . $model->currencies_symbol;
+                    $price = $model->price . '' . 'Dzd';
                     return $price;
                 },
 
             ],
-            'currencies_symbol',
+           
             [
                 'attribute' => 'picture',
                 'format' => 'html',
@@ -181,37 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
 
             ],
-            [
-                'attribute' => 'product_id',
-                'format' => 'html',
-                'label' => 'extra',
-                'value' => function ($model) {
-                    $product_parent = ProductParent::find()->andwhere(['id' => $model])->One();
-                    $array_extra = "";
-                    $i = 0;
-                    $array_type_caterss = json_decode($product_parent->extra, true);
-                    if (!is_array($array_type_caterss))
-                        $array_type_caterss = array();
-                    foreach ($array_type_caterss as $array_type_caters) {
-
-                        if (array_key_exists('Description', $array_type_caters)) {
-                            if ($array_type_caters['Description'] != '0')
-                                $array_extra .= 'Description :' . $array_type_caters['Description'] . ",";
-                        }
-                        if (array_key_exists('Quantity', $array_type_caters)) {
-                            if ($array_type_caters['Quantity'] != '0')
-                                $array_extra .= $array_type_caters['Quantity'] . "<br>";
-                        }
-                        if (array_key_exists("Price", $array_type_caters)) {
-                            if ($array_type_caters['Price'] != '0')
-                                $array_extra .= "Price :" . $array_type_caters['Price'] . "<br>";
-                        }
-                        $i++;
-                    }
-
-                    return $array_extra;
-                },
-            ]
+          
 
         ];
         echo DetailView::widget([

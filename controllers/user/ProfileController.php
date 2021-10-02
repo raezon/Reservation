@@ -48,7 +48,7 @@ class ProfileController extends BaseProfileController
     public function actionIndex()
     {
 
-        $this->layout = 'main2';
+        //$this->layout = 'main2';
         //        $model = $this->finder->findProfileById(\Yii::$app->user->getId());
         //
         //        if ($model === null) {
@@ -72,7 +72,7 @@ class ProfileController extends BaseProfileController
      */
     public function actionShow($id)
     {
-        $this->layout = 'main2';
+       // $this->layout = 'main2';
         $model = $this->finder->findProfileById($id);
 
         if ($model === null) {
@@ -92,11 +92,18 @@ class ProfileController extends BaseProfileController
      */
     public function actionUpdate($id)
     {
-        $this->layout = 'main2';
+       // $this->layout = 'main2';
         //$model = $this->finder->findProfileById($id);
         $model = Partner::find()->where(['user_id' => User::getCurrentUser()->id])->one();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['show', 'id' => $model->user_id]);
+        if ($model->load(Yii::$app->request->post())) {
+           
+            if( $model->save()){
+                return $this->redirect(['show', 'id' => $model->user_id]);
+            }else{
+                print_r($model->errors);
+                die();
+            }
+
         } else {
             return $this->render('update', [
                 'model' => $model,

@@ -30,21 +30,17 @@ use  app\views\welcome\widgets\NavStep;
         
 
     <div> <!-- EN -->
-      <p>To complete your registration, please tick the boxes below: </p>
+      <p>Pour finaliser votre inscription, merci de cocher les cases ci-dessous :
+</p>
        <?= $form->field($model5, "condition1" ,['options' =>  ['class' => 'checkbox',
-                                        'checkbox-success','style'=>'margin-top:55px;']])->checkbox(['value'=>"valid", 'uncheckValue'=>"unvalide"] ,false)->label("I certify that the service or the property is completely legal and has all the necessary authorizations that I can provide and present on request. CLICANGO EVENT,
-                                            reserves the right to verify all the information provided for this registration"); ?> 
+                                        'checkbox-success','style'=>'margin-top:55px;']])->checkbox(['value'=>"valid", 'uncheckValue'=>"unvalide"] ,false)->label("Je certifie que le service ou le bien est tout à fait légal et dispose de toutes les autorisations nécessaires que je peux fournir et présenter sur demande. CLICANGO EVENT, se réserve le droit de vérifier toutes les informations fournies pour cette inscription"); ?> 
        <label>
           
        </label>
      
   
     <?= $form->field($model5, "condition2" ,['options' =>  ['class' => 'checkbox',
-                                        'checkbox-success','style'=>'margin-top:55px;']])->checkbox(['value'=>"valid", 'uncheckValue'=>"unvalide"] ,false)->label(" I have read and accept the <span>General Conditions</span> of Service and the <span>Privacy Policy.
-
-      <label>In France, fees earned on platforms such as CLICANGO EVENT.com may be subject to tax and social obligations. It is
-        therefore your responsibility to submit to all necessary declarations with the competent authorities. For more
-        information, we invite you to browse the site of the <span>tax administration</span> and those of <span>social organizations."); ?>     
+                                        'checkbox-success','style'=>'margin-top:55px;']])->checkbox(['value'=>"valid", 'uncheckValue'=>"unvalide"] ,false)->label(" J'ai lu et j'accepte les conditions générales de service et la politique de confidentialité. En Algérie, les commissions perçues sur des plateformes telles que CLICANGO EVENT.com peuvent être soumises à des obligations fiscales et sociales. Il vous appartient donc de vous soumettre à toutes les déclarations nécessaires auprès des autorités compétentes. Pour plus d'informations, nous vous invitons à parcourir le site de l'administration fiscale et ceux des organismes sociaux."); ?>     
       
 
      

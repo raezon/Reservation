@@ -114,7 +114,7 @@ echo Nav::widget([
     'items' => [
 
         ['label' => 'Administration', 'linkOptions' => [], 'url' => ['/user/admin'], 'visible' => User::isAdmin()],
-    //    ['label' => 'Profile', 'linkOptions' => [], 'url' => ['/user/profile', 'id' => \Yii::$app->user->id], 'visible' => User::isUser()],
+        ['label' => 'Profile', 'linkOptions' => [], 'url' => ['/user/profile', 'id' => \Yii::$app->user->id], 'visible' => User::isUser()],
     //    ['label' => 'Profiles', 'linkOptions' => [], 'url' => ['/profile/index'], 'visible' => User::isAdmin()],
         ['label' => 'Modérateur', 'linkOptions' => [], 'url' => ['/partner/index'], 'visible' => User::isAdmin()],
        

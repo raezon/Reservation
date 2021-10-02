@@ -52,11 +52,11 @@ class ProductItem extends \yii\db\ActiveRecord
     {
         return
             [
-                [['vegan', 'Vegetarian', 'Organic', 'Gluten_free', 'Halal', 'Cacher', 'Without_porc', 'image', 'partner_category'], 'safe'],
+                [['vegan', 'Vegetarian', 'Organic', 'Gluten_free', 'Halal', 'Cacher', 'Without_porc', 'image', 'partner_category', 'picutre'], 'safe'],
                
                 [['name', 'temp', 'description', 'people_number',  'quantity', 'periode', 'price', 'currencies_symbol', 'languages', 'status', 'product_id'], 'required'],
                
-                [['picture'], 'safe'],
+         
             
                 [['people_number', 'number_of_agent', 'quantity', 'periode', 'status', 'product_id'], 'integer'],
                 [['price'], 'number'],

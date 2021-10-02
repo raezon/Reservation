@@ -221,6 +221,9 @@ $config = [
         'Filter' => [
             'class' => 'app\components\Filter'
         ],
+        'FilterBien' => [
+            'class' => 'app\components\FilterBien'
+        ],
         'FilterCater' => [
             'class' => 'app\components\FilterCater'
         ],

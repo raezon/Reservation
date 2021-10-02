@@ -47,14 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         $gridColumn = [
             ['attribute' => 'id', 'visible' => false],
-            [
-                'attribute' => 'partnerCategory.name',
-                'label' => 'Partner Category',
-            ],
+
             [
                 'attribute' => 'product_id',
                 'format' => 'html',
-                'label' => 'Name society',
+                'label' => 'Nom du bien',
                 'value' => function ($model) {
                     $product_parent = ProductParent::find()->andwhere(['id' => $model->product_id])->One();
                     return $product_parent->name;
@@ -84,39 +81,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                  }
             ],
-            [
-                'attribute' => 'temp',
-                'label' => 'Produit nom',
-                'value' => function ($model) {
-                    if ($model->partner_category != 6) {
-                            
-                        return $model->temp;
-                    }
-                    if ($model->partner_category == 6) {
-                        $temp=json_decode( $model->temp,true);
-                        return $temp[0];
-                    }
-             }
-            ],
+          
             [
                 'attribute' => 'description',
                 'label' => 'Description',
-
-
             ],
-            'people_number',
-
-
             [
-                'attribute' => 'number_of_agent',
-
-                'label' => 'Number Of Agent',
-                'value' => $model->number_of_agent
+                'attribute' => 'people_number',
+                'label' => 'Nombre perssone',
 
 
             ],
             'quantity',
-            'periode',
+          
             [
                 'attribute' => 'price',
                 'format' => 'html',
@@ -127,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
 
             ],
-            'currencies_symbol',
+      
             [
                 'attribute' => 'picture',
                 'format' => 'html',
@@ -135,59 +112,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     $img_name = (string)$model->picture;
                     $images = json_decode($model->picture, true);
+                    
                     $img_name = (string)$images[0];
                     return Html::img('img/products/' . $img_name, ['width' => 100, 'height' => 100]);
                 },
 
             ],
-            [
-                'attribute' => 'status',
-                'format' => 'html',
-                'label' => 'Status',
-                'value' => function ($model) {
-                    if ($model->status == "0") {
-                        $status = "not active";
-                    } else {
-                        $status = "active";
-                    }
-                    return $status;
-                },
 
-            ],
-            [
-                'attribute' => 'product_id',
-                'format' => 'html',
-                'label' => 'extra',
-                'value' => function ($model) {
-
-                    $product_parent = ProductParent::find()->andwhere(['id' => $model])->One();
-                    $array_extra = "";
-                    $i = 0;
-
-                    $array_type_caters = json_decode($product_parent->extra, true);
-                    if (!is_array($array_type_caters))
-                        $array_type_caters = array();
-
-                    foreach ($array_type_caters as $array_type_caters) {
-
-                        if (array_key_exists('Description', $array_type_caters)) {
-                            if ($array_type_caters['Description'] != '0')
-                                $array_extra .= 'Description :' . $array_type_caters['Description'] . ",";
-                        }
-                        if (array_key_exists('Quantity', $array_type_caters)) {
-                            if ($array_type_caters['Quantity'] != '0')
-                                $array_extra .= $array_type_caters['Quantity'] . "<br>";
-                        }
-                        if (array_key_exists("Price", $array_type_caters)) {
-                            if ($array_type_caters['Price'] != '0')
-                                $array_extra .= "Price :" . $array_type_caters['Price'] . "<br>";
-                        }
-                        $i++;
-                    }
-
-                    return $array_extra;
-                },
-            ]
 
         ];
         echo DetailView::widget([

@@ -59,8 +59,8 @@ echo Progress::widget([
           </div>
           <br>
           <div style="background:rgb(136, 235, 186) " class="jumbotron" >
-           <h1>Partner</h1>
-           <p>Congratulations! You've successfully registered...</p>
+           <h1>Moderateur</h1>
+           <p>Toutes nos félicitations! Vous vous êtes inscrit avec succès......</p>
 
           </div>
       </div>

@@ -13,7 +13,7 @@ class ProductParent extends BaseProductParent
     /**
      * @inheritdoc
      */
-    public $picutre;
+
     public $IBAN;
     public $BIC_SWIFT;
     public $Bank_name;
@@ -23,8 +23,8 @@ class ProductParent extends BaseProductParent
     {
         return
             [
-                [['partner_id', 'picutre', 'partner_category', 'name', ], 'required'],
-                [['kind_of_food', 'min', 'description', 'currencies_symbol','IBAN', 'BIC_SWIFT', 'Bank_name', 'Bank_country', 'File'], 'safe'],
+                [['partner_id', 'partner_category', 'name', ], 'required'],
+                [['kind_of_food', 'min', 'description', 'currencies_symbol','IBAN', 'BIC_SWIFT', 'Bank_name', 'Bank_country', 'File','picutre'], 'safe'],
                 [['extra'], 'safe'],
                 [['partner_id', 'partner_category'], 'integer'],
                 [['name', 'kind_of_food', 'extra'], 'string', 'max' => 255]

@@ -284,12 +284,16 @@ $this->params['breadcrumbs'][] = $this->title;
       ['attribute' => 'id', 'visible' => false],
       [
         'attribute' => 'partnerCategory.name',
-        'label' => 'Partner Category',
+        'label' => 'Nom du bien',
       ],
-      'name',
+      [
+        'attribute' => 'name',
+        'label' => 'Nom du produit',
+      ],
+  
       [
         'attribute' => 'temp',
-        'label' => 'Produit nom',
+        'label' => 'Type produit',
         'value' => function ($model) {
         
               $name=json_decode( $model->temp,true);
@@ -298,22 +302,13 @@ $this->params['breadcrumbs'][] = $this->title;
         }
 
       ],
-      [
-        'attribute' => 'description',
-        'label' => 'Produit options',
-        'value' => function ($model) {
-        
-          $name=json_decode( $model->description,true);
-          return $name[0];
-      
-}
-      ],
+
 
      
-      'number_of_agent',
+      'price',
       'quantity',
-      'periode',
-      'currencies_symbol',
+   
+     
       [
         'attribute' => 'picture',
         'format' => 'html',
@@ -327,189 +322,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
       ],
 
-      [
-        'label' => Yii::t('app', 'Area'),
-        'value' => $area . 'm²',
-        'format' => 'html',
-      ],
-     /*[
-        'label' => Yii::t('app', 'Caution'),
-        'value' => $caution . '' . $model->currencies_symbol
-      ],
-       [
-        'label' => Yii::t('app', 'Minimal Consomation'),
-        'value' => $minimal . '' . $model->currencies_symbol
-      ],*/
-      [
-        'label' => Yii::t('app', 'Rental information'),
-        'value' => $Rental_information,
-        'format' => 'raw',
-      ],
-      [
-        'attribute' => 'html',
-        'label' => Yii::t('app', 'Rental Facilities'),
-        'value' => $Facilities,
-        'format' => 'raw',
-      ],
-      [
-        'attribute' => 'html',
-        'label' => Yii::t('app', 'Transport'),
-        'value' => $transport,
-        'format' => 'raw',
 
-      ],
-
-      [
-        'attribute' => 'status',
-        'format' => 'html',
-        'label' => 'Status',
-        'value' => function ($model) {
-          if ($model->status == "0") {
-            $status = "not active";
-          } else {
-            $status = "active";
-          }
-          return $status;
-        },
-
-      ],
-      [
-        'attribute' => 'html',
-        'label' => Yii::t('app', 'Minimum rental period (in hour)'),
-        'value' => function($model){
-          $affichage="";
-          $checkbox=json_decode($model->checkbox,true);
-          $checkbox=$checkbox[0];
-         
-         
-        return  $checkbox;
-        },
-        'format' => 'raw',
-      ],
-      [
-        'attribute' => 'html',
-        'label' => Yii::t('app', 'Maximum rental period (in hour)'),
-        'value' => function($model){
-          $affichage="";
-          $checkbox=json_decode($model->checkbox,true);
-          $checkbox=$checkbox[1];
-         
-         
-        return  $checkbox;
-        },
-        'format' => 'raw',
-      ],
-      [
-        'attribute' => 'html',
-        'label' => Yii::t('app', 'Minimum number of guests to ordery'),
-        'value' => function($model){
-          $affichage="";
-          $checkbox=json_decode($model->checkbox,true);
-          $checkbox=$checkbox[2];
-         
-         
-        return  $checkbox;
-        },
-        'format' => 'raw',
-      ],
-       [
-        'attribute' => 'Maximum number of guests / accommodation capacity',
-        'format' => 'html',
-        'label' => 'Maximum number of guests / accommodation capacity',
-        'value' => function ($model) {
-         
-          return  $model->people_number;
-        },
-
-      ],
-      [
-        'attribute' => 'html',
-        'label' => Yii::t('app', 'Closed day'),
-        'value' => function($model){
-          $affichage="";
-          $checkbox=json_decode($model->checkbox,true);
-          $checkbox=$checkbox[4];
-         
-         
-        return  $checkbox;
-        },
-        'format' => 'raw',
-      ],
-      [
-        'attribute' => 'html',
-        'label' => Yii::t('app', 'Rental periods and the price by person for each period'),
-        'value' => function($model){
-          $affichage="";
-          $checkbox=json_decode($model->checkbox,true);
-          $checkbox=$checkbox[8];
-          $affichage.="<table style=''>";
-          $affichage.="
-          <thead>
-            <tr>
-              <th>From</th>
-              <th>To</th>
-              <th>Banquet \Dinner</th>
-              <th>Cinema</th>
-              <th>Cocktail</th>
-              <th>Conference</th>
-              <th>Meeting</th>
-              <th>Theater</th>
-            </tr>
-          </thead>";
-          $affichage.="<tbody >";
-          foreach($checkbox as $e){
-            $affichage.="<tr>";
-            $affichage.="<td>".$e['From']."</td>";
-            $affichage.="<td>".$e['To']."</td>";
-            $affichage.="<td>".$e['Banquet \ Dinner']." €</td>";
-            $affichage.="<td>".$e['Cinema']." €</td>";
-            $affichage.="<td>".$e['Cocktail']." €</td>";
-            $affichage.="<td>".$e['Conference']." €</td>";
-            $affichage.="<td>".$e['Meeting']." €</td>";
-            $affichage.="<td>".$e['Theater']." €</td>";
-            $affichage.="</tr>";
-          }
-          $affichage.="</tbody></table>";
-        return  $affichage;
-        },
-        'format' => 'raw',
-      ],
-
-      [
-        'attribute' => 'product_id',
-        'format' => 'html',
-        'label' => 'extra',
-        'value' => function ($model) {
-          $product_parent = ProductParent::find()->andwhere(['id' => $model])->One();
-          $array_extra = "";
-          $i = 0;
+ 
 
 
-          $array_type_caterss = json_decode($product_parent->extra, true);
-          if (!is_array($array_type_caterss))
-            $array_type_caterss = array();
 
 
-          foreach ($array_type_caterss as $array_type_caters) {
-
-            if (array_key_exists('Description', $array_type_caters)) {
-              if ($array_type_caters['Description'] != '0')
-                $array_extra .= 'Description :' . $array_type_caters['Description'] . ",";
-            }
-            if (array_key_exists('Quantity', $array_type_caters)) {
-              if ($array_type_caters['Quantity'] != '0')
-                $array_extra .= "Quantity :" . $array_type_caters['Quantity'] . ",";
-            }
-            if (array_key_exists("Price", $array_type_caters)) {
-              if ($array_type_caters['Price'] != '0')
-                $array_extra .= "Price :" . $array_type_caters['Price'] . "<br>";
-            }
-            $i++;
-          }
-
-          return $array_extra;
-        },
-      ]
 
     ];
     echo DetailView::widget([

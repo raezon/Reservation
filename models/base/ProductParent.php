@@ -29,12 +29,13 @@ class ProductParent extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-
+    public $picutre;
     public function rules()
     {
         return [
             [['partner_id', 'partner_category', 'name', ], 'required'],
-            [['kind_of_food', 'min', 'extra', 'currencies_symbol', 'description','IBAN', 'BIC_SWIFT', 'Bank_name', 'Bank_country', 'File'], 'safe'],
+
+            [['kind_of_food', 'min', 'extra', 'currencies_symbol', 'description','IBAN', 'BIC_SWIFT', 'Bank_name', 'Bank_country', 'File','picutre'], 'safe'],
             [['partner_id', 'partner_category'], 'integer'],
             [['name', 'kind_of_food', 'min', 'extra', 'currencies_symbol'], 'string', 'max' => 255],
         ];

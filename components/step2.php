@@ -47,6 +47,7 @@ class step2 extends Component
     $product_model->address = $address;
     $product_model->country = 'alger';
     $product_model->city = $city;
+     $product_model->state=$state;
     $product_model->postal_code = $postalCode;
     $product_model->category_id = $category_id;
     $product_model->companyAddress = "xxxx";
@@ -68,7 +69,7 @@ class step2 extends Component
     $product_model->created_at = $timestamp;
     $product_model->updated_at = $timestamp;
     if ($product_model->update()) {
-      echo "sucess update";
+     return true;
     } else {
       echo "UPDAT MODEL NOT SAVED partenaire in step2";
       print_r($product_model->getAttributes());

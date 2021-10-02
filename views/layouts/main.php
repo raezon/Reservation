@@ -61,7 +61,7 @@ AppAsset::register($this);
             
                 ],            
                 ['label' => 'Achats', 'url' => ['/reservation/index'], 'visible' =>  User::isUser()],
-                ['label' => 'Ordres', 'url' => ['/reservation/index'], 'visible' =>    User::isPartner()or User::isAdmin()],
+                ['label' => 'Ordres', 'url' => ['/reservation/index'], 'visible' =>    User::isPartner()],
                 ['label' => 'Payment', 'url' => ['/payment/index'], 'visible' => User::isAdmin() or User::isPartner()],
                 ['label' => 'Messagerie', 'linkOptions' => [], 'url' => ['/messagerie/index'], 'visible' =>    User::isAdmin()],
                 ['label' => 'About Us', 'url' => ['/site/about'], 'visible' => Yii::$app->user->isGuest],

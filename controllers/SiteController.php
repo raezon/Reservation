@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\Filter;
+use app\components\FilterBien;
 use app\components\FilterCater;
 use app\components\FilterHost;
 use app\components\FilterOther;
@@ -242,6 +243,27 @@ class SiteController extends Controller
             return 'pagination_page';
             // }
         }
+    }
+    public function actionFilterBien($category,$id)
+    {
+
+
+        $this->setBsVersion('4.x');
+        $request = Yii::$app->request;
+
+        $result = new FilterBien($category,$id);
+        $result = $result->filtrerBien();
+        $id = -2;
+        $case = $this->checkIfRedirect($request, $result, $id);
+        $_SESSION["deliveryPrice"] = $result[7];
+
+
+        $this->layout = 'home_send';
+        return $this->render('_send', [
+            'model1' => $result[0], 'category_searched' => $result[1], 'dataProvider' => $result[2],
+            'pages' => $result[3], 'searchModel' => $result[4], 'a' => 'a', 'qte_search' => 0, 'active' => $result[5], 'category' => $result[6],
+            'deliveryPrice' => $result[7],
+        ]);
     }
     public function actionFilter($price, $type_of_room, $space_for_rent, $accepts, $facilities, $transport, $parking, $active)
     {
@@ -910,8 +932,8 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 
             $now = new \DateTime();
-
-            $model->reservation_date = $now->format('Y-m-d H:i:s');
+            $model->start_reservation =$_SESSION['depart']  ;
+            $model->end_reservation = $_SESSION['arriver'];
             $model->file = UploadedFile::getInstance($model, 'file');
             $model->partner_id = $partner_id;
             if ($model->file != 'vide' and !empty($model->file)) {

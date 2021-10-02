@@ -14,8 +14,8 @@ if($product->partner_category=="6"){
 	$name=json_decode($model->name,true);
 	$name=$name[0];	
 }
-$this->title = 'Update Product Item: ' . ' ' .$name ;
-$this->params['breadcrumbs'][] = ['label' => 'Product Item', 'url' => ['index']];
+$this->title = ' Produit: ' . ' ' .$name ;
+$this->params['breadcrumbs'][] = ['label' => 'Produit', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

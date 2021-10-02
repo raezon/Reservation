@@ -107,7 +107,7 @@ StepAsset::register($this);
         <?php
         NavBar::begin([
             'brandLabel' => //'<img src="logo.png" style="display:inline; vertical-align: top; height:32px;">'.
-            'Welcome Partner!',
+            'Welcome Modérateur!',
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar-inverse navbar-fixed-top',
@@ -118,9 +118,7 @@ StepAsset::register($this);
         $category_id = Yii::$app->request->get('category_id');
         $page_id = Yii::$app->request->get('id');
         $category = \app\models\PartnerCategory::find()->where(['id' => $category_id])->one();
-        if ($category) {
-            $questionsList = QuestionsList::find()->where(['partner_category_id' => $category->id])->one();
-        }
+    
         // add login/logout button
         array_push($items, Yii::$app->user->isGuest ? (['label' => 'Login', 'url' => ['/user/security/login' /* or '/site/login'*/]]) : ('<li>'
             . Html::beginForm(['/site/logout'], 'post')

@@ -72,11 +72,9 @@ class step1 extends Component
     //dans le cas que le partenair exist dej
     if ($partenaire_existance) {
       if ($product_model->update()) {
-        if($test){
-          return true;
-        }
-        echo "sucess update partenair";
-        $this->create_date_partner();
+        
+       
+        return true;
 
       } else {
         if(!$test){

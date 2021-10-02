@@ -107,11 +107,6 @@ foreach ($categories as $category) {
       $count = 0;
     }
   }
-  /*if(empty($products1))
-        	$products=[];*/
-
-
-
 
   if ($count == 0) {
     // no Partner found in this Category
@@ -164,6 +159,7 @@ foreach ($categories as $category) {
 
       $carouselContent .= $this->render('_partner_page', [
         'model1' => $products,
+        'model'=>$productsparent,
         'partners' => $partners,
         'page' => $page,
         'perPage' => $perPage,
